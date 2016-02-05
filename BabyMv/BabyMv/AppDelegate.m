@@ -7,16 +7,23 @@
 //
 
 #import "AppDelegate.h"
+#import "BMMainTabBarController.h"
+
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) UINavigationController* navigationController;
+@property (nonatomic, strong) BMMainTabBarController* mainTabBarController;
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.mainTabBarController = [[BMMainTabBarController alloc] init];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.mainTabBarController];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = self.navigationController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
