@@ -59,6 +59,7 @@
     cell.titleLab.text = cur_video.Name;
     cell.detailLab.text = cur_video.Artist;
     cell.downimg.tag = 3000+indexPath.row;
+    [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
     if (cur_video.IsDowned) {
         [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
     }
