@@ -16,10 +16,11 @@
 #import "BMDataBaseManager.h"
 #import "BMDataCacheManager.h"
 #import "BMRequestManager.h"
+#import "BMMusicListVC.h"
 
 #import <UIButton+WebCache.h>
 
-@interface BMMusicVC ()
+@interface BMMusicVC ()<MYFocusViewDelegate>
 @property(nonatomic, strong)BMTopTabBar* musicToolbar;
 @property(nonatomic, strong)BMMusicTableView* tableView;
 @property(nonatomic, strong)MYFocusView* focusView;
@@ -35,6 +36,7 @@
 @property(nonatomic, strong)NSMutableArray* musicListArr;
 @property(nonatomic, strong)NSNumber* selectedCategoryId;
 @property(nonatomic, strong)UIView* waitingView;
+@property(nonatomic, strong)BMMusicListVC* musicListVC;
 @end
 
 @implementation BMMusicVC
@@ -53,6 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _musicListVC = [BMMusicListVC new];
     {
         UIView* customTitleView = [[UIView alloc] initWithFrame:CGRectMake(50, 5, VIEW_DEFAULT_WIDTH-100, 35)];
         UIView* baseView = customTitleView;
@@ -119,6 +122,7 @@
             if (_collectionArr.count) {
                 [_focusView removeFromSuperview];
                 _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
+                [_focusView setClickDelegate:self];
                 [_focusView loadScrollView];
                 _tableView.tableHeaderView = _focusView;
                 
@@ -171,6 +175,7 @@
     if (_collectionArr.count) {
         [_focusView removeFromSuperview];
         _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
+        [_focusView setClickDelegate:self];
         [_focusView loadScrollView];
         _tableView.tableHeaderView = _focusView;
         
@@ -239,7 +244,7 @@
         _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
         [_focusView removeFromSuperview];
         _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
-//        [_focusView setClickDelegate:self];
+        [_focusView setClickDelegate:self];
         [_focusView loadScrollView];
         _tableView.tableHeaderView = _focusView;
         
@@ -292,6 +297,14 @@
         [_waitingView removeFromSuperview];
         _waitingView=nil;
     }
+}
+#pragma mark - MyFocusView delegate collection Switch
+
+- (void)focusViewClicked:(UIButton *)sender {
+    NSUInteger index = sender.tag - 1000;
+    BMCollectionDataModel *collectModel = [_collectionArr objectAtIndex:index];
+    _musicListVC.currentCollectionData = collectModel;
+    [self.navigationController pushViewController:_musicListVC animated:YES];
 }
 
 @end

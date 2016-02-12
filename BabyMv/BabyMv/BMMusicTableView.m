@@ -9,9 +9,12 @@
 #import "BMMusicTableView.h"
 #import "BMTableViewCell.h"
 #import "BMDataModel.h"
+#import "BMDataBaseManager.h"
+#import "Toast+UIView.h"
 
+#import <AFHTTPRequestOperation.h>
 
-@interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource>
+@interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
 @property(nonatomic, strong)NSMutableArray* items;
 @end
 
@@ -47,14 +50,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BMTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[BMTableViewCell alloc] initCartoonCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-//        cell.cellDelegate = self;
+        cell = [[BMTableViewCell alloc] initMusicCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.cellDelegate = self;
     }
-    BMCollectionDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+    BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
 //    [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.picUrl] placeholderImage:[UIImage imageNamed:@"default"]];
     cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
     cell.titleLab.text = cur_video.Name;
     cell.detailLab.text = cur_video.Artist;
+    cell.downimg.tag = 3000+indexPath.row;
+    if (cur_video.IsDowned) {
+        [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+    }
     return cell;
 }
 
@@ -103,6 +110,32 @@
 //    [[BMAppDelegate sharedAppDelegate].mainViewController presentViewController:_video_play_view animated:NO completion:^{
 //        NSLog(@"view did load");
 //    }];
+}
+
+#pragma mark cell delegate
+
+- (void)download:(UIButton *)btn {
+    NSUInteger index = btn.tag-3000;
+    __block BMListDataModel* audio_info = self.items[index];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray*paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString*documentsDirectory =[paths objectAtIndex:0];
+        NSString *name = [NSString stringWithFormat:@"%@.mp3", audio_info.Rid];
+        NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
+        NSLog(@"musicPath--------%@", musicPath);
+        AFHTTPRequestOperation *operation1 = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:audio_info.Url]]];
+        operation1.outputStream = [NSOutputStream outputStreamToFileAtPath:musicPath append:NO];
+        [operation1 start];
+        [operation1 setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            time_t now;
+            time(&now);
+            audio_info.IsDowned      = @(YES);
+            audio_info.DownloadTime  = @([[NSDate date] timeIntervalSince1970]);
+            [[BMDataBaseManager sharedInstance] downLoadMusicList:audio_info];
+            [btn setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+    });
 }
 
 @end

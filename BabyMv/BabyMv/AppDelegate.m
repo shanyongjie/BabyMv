@@ -26,7 +26,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [BMDataBaseManager sharedInstance];
-    [BMRequestManager loadCategoryData];
+    NSArray* musicCateArr = [[BMDataBaseManager sharedInstance] getAllMusicCate];
+//    if (!musicCateArr.count) {
+        [BMRequestManager loadCategoryData];
+//    } else {
+//    }
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

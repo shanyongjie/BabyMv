@@ -20,6 +20,7 @@
 		0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */; };
 		0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */; };
 		0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */; };
+		0C98E3E51C6E0CA400EA39DD /* BMMusicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */; };
 		0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40921C663962009792DE /* BMTopTabBar.m */; };
 		0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40951C664259009792DE /* Toast+UIView.m */; };
 		0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40971C664259009792DE /* UIActionSheet+Sync.m */; };
@@ -73,6 +74,8 @@
 		0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataCacheManager.m; sourceTree = "<group>"; };
 		0C98E3E01C6D87E600EA39DD /* BMRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRequestManager.h; sourceTree = "<group>"; };
 		0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRequestManager.m; sourceTree = "<group>"; };
+		0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMMusicListVC.h; sourceTree = "<group>"; };
+		0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMusicListVC.m; sourceTree = "<group>"; };
 		0CDB40911C663962009792DE /* BMTopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMTopTabBar.h; path = CustomUI/BMTopTabBar.h; sourceTree = "<group>"; };
 		0CDB40921C663962009792DE /* BMTopTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMTopTabBar.m; path = CustomUI/BMTopTabBar.m; sourceTree = "<group>"; };
 		0CDB40941C664259009792DE /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
 				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
 				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
+				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
+				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
 			);
 			name = BMVIewController;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 				0C0F3DF21C64E0C1008773AC /* BMSettingVC.m in Sources */,
 				0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */,
 				8229C9AF1C63F4CC008C7CB6 /* main.m in Sources */,
+				0C98E3E51C6E0CA400EA39DD /* BMMusicListVC.m in Sources */,
 				0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */,
 				0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */,
 				0C0F3DD81C64DBF5008773AC /* BMMainTabBarController.m in Sources */,
