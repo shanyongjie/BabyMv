@@ -7,6 +7,8 @@
 //
 
 #import "BMSettingVC.h"
+#import "MacroDefinition.h"
+#import "BMTopTabBar.h"
 
 @interface BMSettingVC ()
 
@@ -17,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.title = @"设置";
 }
 
 - (void)didReceiveMemoryWarning {

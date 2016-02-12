@@ -13,6 +13,31 @@
 		0C0F3DF01C64E0C1008773AC /* BMMYVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DE91C64E0C1008773AC /* BMMYVC.m */; };
 		0C0F3DF11C64E0C1008773AC /* BMPlayingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */; };
 		0C0F3DF21C64E0C1008773AC /* BMSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */; };
+		0C2A51461C6787D600837228 /* BMTableViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51431C6787D600837228 /* BMTableViewCell.mm */; };
+		0C2A51471C6787D600837228 /* MYFocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51451C6787D600837228 /* MYFocusScrollView.m */; };
+		0C2A514A1C678C3500837228 /* BMMusicTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51491C678C3500837228 /* BMMusicTableView.m */; };
+		0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */; };
+		0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */; };
+		0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */; };
+		0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */; };
+		0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40921C663962009792DE /* BMTopTabBar.m */; };
+		0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40951C664259009792DE /* Toast+UIView.m */; };
+		0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40971C664259009792DE /* UIActionSheet+Sync.m */; };
+		0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB409B1C664259009792DE /* UIImage+Helper.m */; };
+		0CDB40A71C664259009792DE /* UITabBarController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */; };
+		0CDB40A81C664259009792DE /* UIView+UIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40A11C664259009792DE /* UIView+UIViewController.m */; };
+		0CDB40AA1C6643A1009792DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40A91C6643A1009792DE /* UIKit.framework */; };
+		0CDB40AC1C664400009792DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40AB1C664400009792DE /* Foundation.framework */; };
+		0CDB40AE1C66440A009792DE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40AD1C66440A009792DE /* CFNetwork.framework */; };
+		0CDB40B01C664413009792DE /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40AF1C664413009792DE /* CoreMedia.framework */; };
+		0CDB40B21C66441E009792DE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B11C66441E009792DE /* QuartzCore.framework */; };
+		0CDB40B41C664425009792DE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B31C664425009792DE /* AVFoundation.framework */; };
+		0CDB40B61C664432009792DE /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B51C664432009792DE /* CoreVideo.framework */; };
+		0CDB40B81C66443C009792DE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B71C66443C009792DE /* MediaPlayer.framework */; };
+		0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B91C664478009792DE /* libstdc++.6.tbd */; };
+		0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40BB1C664486009792DE /* libsqlite3.tbd */; };
+		0CDB40BE1C664496009792DE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40BD1C664496009792DE /* CoreGraphics.framework */; };
+		0CE607AB1C67245200F555EC /* BMHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE607AA1C67245200F555EC /* BMHistoryVC.m */; };
 		68F05269E1BA4F915819FA40 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC158319FA5C71184A8AF90 /* libPods.a */; };
 		8229C9AF1C63F4CC008C7CB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8229C9AE1C63F4CC008C7CB6 /* main.m */; };
 		8229C9B21C63F4CC008C7CB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8229C9B11C63F4CC008C7CB6 /* AppDelegate.m */; };
@@ -34,6 +59,46 @@
 		0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMPlayingVC.m; path = BMViewController/BMPlayingVC.m; sourceTree = "<group>"; };
 		0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMSettingVC.h; path = BMViewController/BMSettingVC.h; sourceTree = "<group>"; };
 		0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMSettingVC.m; path = BMViewController/BMSettingVC.m; sourceTree = "<group>"; };
+		0C2A51421C6787D600837228 /* BMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTableViewCell.h; sourceTree = "<group>"; };
+		0C2A51431C6787D600837228 /* BMTableViewCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMTableViewCell.mm; sourceTree = "<group>"; };
+		0C2A51441C6787D600837228 /* MYFocusScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYFocusScrollView.h; sourceTree = "<group>"; };
+		0C2A51451C6787D600837228 /* MYFocusScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYFocusScrollView.m; sourceTree = "<group>"; };
+		0C2A51481C678C3500837228 /* BMMusicTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMMusicTableView.h; sourceTree = "<group>"; };
+		0C2A51491C678C3500837228 /* BMMusicTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMusicTableView.m; sourceTree = "<group>"; };
+		0C2A514D1C67BAFC00837228 /* BMDataBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataBaseManager.h; sourceTree = "<group>"; };
+		0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataBaseManager.m; sourceTree = "<group>"; };
+		0C42D4591C6CE62D00B19DA5 /* BMDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataModel.h; sourceTree = "<group>"; };
+		0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataModel.m; sourceTree = "<group>"; };
+		0C98E3DD1C6D86F900EA39DD /* BMDataCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataCacheManager.h; sourceTree = "<group>"; };
+		0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataCacheManager.m; sourceTree = "<group>"; };
+		0C98E3E01C6D87E600EA39DD /* BMRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRequestManager.h; sourceTree = "<group>"; };
+		0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRequestManager.m; sourceTree = "<group>"; };
+		0CDB40911C663962009792DE /* BMTopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMTopTabBar.h; path = CustomUI/BMTopTabBar.h; sourceTree = "<group>"; };
+		0CDB40921C663962009792DE /* BMTopTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMTopTabBar.m; path = CustomUI/BMTopTabBar.m; sourceTree = "<group>"; };
+		0CDB40941C664259009792DE /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		0CDB40951C664259009792DE /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
+		0CDB40961C664259009792DE /* UIActionSheet+Sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Sync.h"; sourceTree = "<group>"; };
+		0CDB40971C664259009792DE /* UIActionSheet+Sync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Sync.m"; sourceTree = "<group>"; };
+		0CDB409A1C664259009792DE /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helper.h"; sourceTree = "<group>"; };
+		0CDB409B1C664259009792DE /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
+		0CDB409E1C664259009792DE /* UITabBarController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+Orientation.h"; sourceTree = "<group>"; };
+		0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+Orientation.m"; sourceTree = "<group>"; };
+		0CDB40A01C664259009792DE /* UIView+UIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIViewController.h"; sourceTree = "<group>"; };
+		0CDB40A11C664259009792DE /* UIView+UIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIViewController.m"; sourceTree = "<group>"; };
+		0CDB40A91C6643A1009792DE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0CDB40AB1C664400009792DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0CDB40AD1C66440A009792DE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0CDB40AF1C664413009792DE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		0CDB40B11C66441E009792DE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0CDB40B31C664425009792DE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0CDB40B51C664432009792DE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		0CDB40B71C66443C009792DE /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0CDB40B91C664478009792DE /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		0CDB40BB1C664486009792DE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0CDB40BD1C664496009792DE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0CE607A71C66F37700F555EC /* MacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacroDefinition.h; sourceTree = "<group>"; };
+		0CE607A91C67245200F555EC /* BMHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMHistoryVC.h; sourceTree = "<group>"; };
+		0CE607AA1C67245200F555EC /* BMHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMHistoryVC.m; sourceTree = "<group>"; };
 		7DC158319FA5C71184A8AF90 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8229C9AA1C63F4CC008C7CB6 /* BabyMv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyMv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8229C9AE1C63F4CC008C7CB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -52,6 +117,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CDB40BE1C664496009792DE /* CoreGraphics.framework in Frameworks */,
+				0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */,
+				0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */,
+				0CDB40B81C66443C009792DE /* MediaPlayer.framework in Frameworks */,
+				0CDB40B61C664432009792DE /* CoreVideo.framework in Frameworks */,
+				0CDB40B41C664425009792DE /* AVFoundation.framework in Frameworks */,
+				0CDB40B21C66441E009792DE /* QuartzCore.framework in Frameworks */,
+				0CDB40B01C664413009792DE /* CoreMedia.framework in Frameworks */,
+				0CDB40AE1C66440A009792DE /* CFNetwork.framework in Frameworks */,
+				0CDB40AC1C664400009792DE /* Foundation.framework in Frameworks */,
+				0CDB40AA1C6643A1009792DE /* UIKit.framework in Frameworks */,
 				68F05269E1BA4F915819FA40 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,18 +138,60 @@
 		0C0F3DE31C64E0A3008773AC /* BMVIewController */ = {
 			isa = PBXGroup;
 			children = (
-				0C0F3DE41C64E0C1008773AC /* BMCartoonVC.h */,
-				0C0F3DE51C64E0C1008773AC /* BMCartoonVC.m */,
 				0C0F3DE61C64E0C1008773AC /* BMMusicVC.h */,
 				0C0F3DE71C64E0C1008773AC /* BMMusicVC.m */,
-				0C0F3DE81C64E0C1008773AC /* BMMYVC.h */,
-				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
+				0C0F3DE41C64E0C1008773AC /* BMCartoonVC.h */,
+				0C0F3DE51C64E0C1008773AC /* BMCartoonVC.m */,
 				0C0F3DEA1C64E0C1008773AC /* BMPlayingVC.h */,
 				0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */,
+				0C0F3DE81C64E0C1008773AC /* BMMYVC.h */,
+				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
 				0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */,
 				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
+				0CE607A91C67245200F555EC /* BMHistoryVC.h */,
+				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
+				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
+				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
 			);
 			name = BMVIewController;
+			sourceTree = "<group>";
+		};
+		0C2A514C1C67BA7600837228 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				0C2A514D1C67BAFC00837228 /* BMDataBaseManager.h */,
+				0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */,
+				0C42D4591C6CE62D00B19DA5 /* BMDataModel.h */,
+				0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */,
+				0C98E3DD1C6D86F900EA39DD /* BMDataCacheManager.h */,
+				0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */,
+				0C98E3E01C6D87E600EA39DD /* BMRequestManager.h */,
+				0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */,
+			);
+			name = DataBase;
+			sourceTree = "<group>";
+		};
+		0CDB40901C663910009792DE /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				0C2A51421C6787D600837228 /* BMTableViewCell.h */,
+				0C2A51431C6787D600837228 /* BMTableViewCell.mm */,
+				0C2A51441C6787D600837228 /* MYFocusScrollView.h */,
+				0C2A51451C6787D600837228 /* MYFocusScrollView.m */,
+				0CDB40941C664259009792DE /* Toast+UIView.h */,
+				0CDB40951C664259009792DE /* Toast+UIView.m */,
+				0CDB40961C664259009792DE /* UIActionSheet+Sync.h */,
+				0CDB40971C664259009792DE /* UIActionSheet+Sync.m */,
+				0CDB409A1C664259009792DE /* UIImage+Helper.h */,
+				0CDB409B1C664259009792DE /* UIImage+Helper.m */,
+				0CDB409E1C664259009792DE /* UITabBarController+Orientation.h */,
+				0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */,
+				0CDB40A01C664259009792DE /* UIView+UIViewController.h */,
+				0CDB40A11C664259009792DE /* UIView+UIViewController.m */,
+				0CDB40911C663962009792DE /* BMTopTabBar.h */,
+				0CDB40921C663962009792DE /* BMTopTabBar.m */,
+			);
+			name = CustomUI;
 			sourceTree = "<group>";
 		};
 		8229C9A11C63F4CC008C7CB6 = {
@@ -105,6 +223,9 @@
 				8229C9B91C63F4CC008C7CB6 /* Assets.xcassets */,
 				8229C9BB1C63F4CC008C7CB6 /* LaunchScreen.storyboard */,
 				8229C9BE1C63F4CC008C7CB6 /* Info.plist */,
+				0CE607A71C66F37700F555EC /* MacroDefinition.h */,
+				0C2A514C1C67BA7600837228 /* DataBase */,
+				0CDB40901C663910009792DE /* CustomUI */,
 				0C0F3DE31C64E0A3008773AC /* BMVIewController */,
 				8229C9AD1C63F4CC008C7CB6 /* Supporting Files */,
 			);
@@ -131,6 +252,17 @@
 		FAF0172E45261123001A15DC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CDB40BD1C664496009792DE /* CoreGraphics.framework */,
+				0CDB40BB1C664486009792DE /* libsqlite3.tbd */,
+				0CDB40B91C664478009792DE /* libstdc++.6.tbd */,
+				0CDB40B71C66443C009792DE /* MediaPlayer.framework */,
+				0CDB40B51C664432009792DE /* CoreVideo.framework */,
+				0CDB40B31C664425009792DE /* AVFoundation.framework */,
+				0CDB40B11C66441E009792DE /* QuartzCore.framework */,
+				0CDB40AF1C664413009792DE /* CoreMedia.framework */,
+				0CDB40AD1C66440A009792DE /* CFNetwork.framework */,
+				0CDB40AB1C664400009792DE /* Foundation.framework */,
+				0CDB40A91C6643A1009792DE /* UIKit.framework */,
 				7DC158319FA5C71184A8AF90 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -170,7 +302,7 @@
 				TargetAttributes = {
 					8229C9A91C63F4CC008C7CB6 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = N7DAZQJSDG;
+						DevelopmentTeam = M38358YX5R;
 					};
 				};
 			};
@@ -258,14 +390,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */,
+				0C2A51471C6787D600837228 /* MYFocusScrollView.m in Sources */,
 				0C0F3DEF1C64E0C1008773AC /* BMMusicVC.m in Sources */,
 				8229C9B21C63F4CC008C7CB6 /* AppDelegate.m in Sources */,
 				0C0F3DEE1C64E0C1008773AC /* BMCartoonVC.m in Sources */,
+				0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */,
+				0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */,
 				0C0F3DF11C64E0C1008773AC /* BMPlayingVC.m in Sources */,
+				0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */,
+				0CDB40A81C664259009792DE /* UIView+UIViewController.m in Sources */,
 				0C0F3DF21C64E0C1008773AC /* BMSettingVC.m in Sources */,
+				0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */,
 				8229C9AF1C63F4CC008C7CB6 /* main.m in Sources */,
+				0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */,
+				0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */,
 				0C0F3DD81C64DBF5008773AC /* BMMainTabBarController.m in Sources */,
 				0C0F3DF01C64E0C1008773AC /* BMMYVC.m in Sources */,
+				0C2A51461C6787D600837228 /* BMTableViewCell.mm in Sources */,
+				0C2A514A1C678C3500837228 /* BMMusicTableView.m in Sources */,
+				0CDB40A71C664259009792DE /* UITabBarController+Orientation.m in Sources */,
+				0CE607AB1C67245200F555EC /* BMHistoryVC.m in Sources */,
+				0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,11 +523,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -391,11 +539,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

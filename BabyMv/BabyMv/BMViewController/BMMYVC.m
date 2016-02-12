@@ -7,6 +7,8 @@
 //
 
 #import "BMMYVC.h"
+#import "MacroDefinition.h"
+#import "BMTopTabBar.h"
 
 @interface BMMYVC ()
 
@@ -17,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.title = @"我的";
 }
 
 - (void)didReceiveMemoryWarning {

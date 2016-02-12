@@ -8,10 +8,16 @@
 
 #import "AppDelegate.h"
 #import "BMMainTabBarController.h"
+#import "BMDataBaseManager.h"
+#import "MacroDefinition.h"
+
+#import "BMRequestManager.h"
+
+
+#import "UIImage+Helper.h"
 
 
 @interface AppDelegate ()
-@property (nonatomic, strong) UINavigationController* navigationController;
 @property (nonatomic, strong) BMMainTabBarController* mainTabBarController;
 @end
 
@@ -19,10 +25,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [BMDataBaseManager sharedInstance];
+    [BMRequestManager loadCategoryData];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.mainTabBarController];
+    [self setDefaultAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = self.navigationController;
+    self.window.rootViewController = self.mainTabBarController;
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -47,6 +55,63 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void) setDefaultAppearance
+{
+    
+    //ios7
+    if (NSProtocolFromString(@"UIAppearance") != nil) {
+        id navAppearance = [UINavigationBar appearanceWhenContainedIn:[UINavigationController class],nil];
+        id barButtonAppearance = [UIBarButtonItem appearanceWhenContainedIn:[BMMainTabBarController class],nil];
+        if ([[UIDevice currentDevice].systemVersion floatValue] >= 7) {
+            [navAppearance setBarTintColor:NavBarYellow];
+            [navAppearance setTintColor:[UIColor whiteColor]];
+            [navAppearance setBarStyle:UIBarStyleBlack];
+            [navAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
+            [barButtonAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [UIFont systemFontOfSize:15],UITextAttributeFont,nil]
+                                               forState:UIControlStateNormal];
+            [[UIImageView appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:[UIColor whiteColor]];
+            [[UISegmentedControl appearance] setTintColor:RGB(0x476294,1)];
+            
+#endif
+            
+            if ([UITableView instancesRespondToSelector:@selector(sectionIndexBackgroundColor)]) {
+                id tableAppearance = [UITableView appearance];
+                [tableAppearance setSectionIndexMinimumDisplayRowCount:3];
+                [tableAppearance setSectionIndexBackgroundColor:[UIColor clearColor]];
+                [tableAppearance setSectionIndexTrackingBackgroundColor:[UIColor colorWithWhite:0 alpha:0.1f]];
+            }
+        }
+        else {
+            [navAppearance setTintColor:NavBarYellow];
+            [navAppearance setBackgroundImage:[UIImage imageNamed:@"lxTop_Bg"] forBarMetrics:UIBarMetricsDefault];
+            [navAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [UIColor whiteColor],UITextAttributeTextColor,
+                                                   [UIFont boldSystemFontOfSize:19],UITextAttributeFont,
+                                                   nil]];
+            [barButtonAppearance setTitleTextAttributes:
+             @{UITextAttributeTextColor:[UIColor whiteColor],
+               UITextAttributeFont:[UIFont systemFontOfSize:15],
+               UITextAttributeTextShadowColor:[UIColor clearColor]}
+                                               forState:UIControlStateNormal];
+            [barButtonAppearance setTitleTextAttributes:
+             @{UITextAttributeTextColor:[UIColor grayColor],
+               UITextAttributeTextShadowColor:[UIColor clearColor]}
+                                               forState:UIControlStateHighlighted];
+            [barButtonAppearance setBackgroundImage:[UIImage createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            
+            
+        }
+        if ([UIDevice currentDevice].systemVersion.intValue != 7) {
+            [barButtonAppearance setBackButtonBackgroundImage:[[UIImage imageNamed:@"btn_backarrow"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 11, 0, 0) resizingMode:UIImageResizingModeStretch]forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [barButtonAppearance setBackButtonBackgroundImage:[[[UIImage imageNamed:@"btn_backarrow"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 11, 0, 0) resizingMode:UIImageResizingModeStretch] imageWithAlignmentRectInsets:UIEdgeInsetsMake(-2, 0, -2, 0)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        }
+        
+        [barButtonAppearance setBackButtonTitlePositionAdjustment:UIOffsetMake(3, 0) forBarMetrics:UIBarMetricsDefault];
+    }
 }
 
 @end
