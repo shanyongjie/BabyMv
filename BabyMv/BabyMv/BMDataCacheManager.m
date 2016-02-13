@@ -105,12 +105,13 @@
 -(NSArray *)musicCollectionWithCateId:(NSNumber *)cateId {
     return _musicCate2CollectionDic[cateId];
 }
-+(void)setMusicCollection:(NSArray *)arr {
-    [[BMDataCacheManager sharedInstance] setMusicCollectionArr:arr];
++(void)setMusicCollection:(NSArray *)arr cateId:(NSNumber *)cateId{
+    [[BMDataCacheManager sharedInstance] setMusicCollectionArr:arr cateId:cateId];
 }
--(void)setMusicCollectionArr:(NSArray *)arr {
-    NSNumber* cateId = ((BMCollectionDataModel *)arr[0]).CateId;
-    self.musicCate2CollectionDic[cateId] = arr;
+-(void)setMusicCollectionArr:(NSArray *)arr cateId:(NSNumber *)cateId {
+    NSMutableArray *oldData = [NSMutableArray arrayWithArray:self.musicCate2CollectionDic[cateId]];
+    [oldData addObjectsFromArray:arr];
+    self.musicCate2CollectionDic[cateId] = oldData;
 }
 
 +(NSArray *)musicListWithCollectionId:(NSNumber *)collectionId {
@@ -119,12 +120,13 @@
 -(NSArray *)musicListWithCollectionId:(NSNumber *)collectionId {
     return _musicCollection2ListDic[collectionId];
 }
-+(void)setMusicList:(NSArray *)arr {
-    [[BMDataCacheManager sharedInstance] setMusicListArr:arr];
++(void)setMusicList:(NSArray *)arr collectionId:(NSNumber *)collectionId {
+    [[BMDataCacheManager sharedInstance] setMusicListArr:arr collectionId:collectionId];
 }
--(void)setMusicListArr:(NSArray *)arr {
-    NSNumber* collectionId = ((BMListDataModel *)arr[0]).CollectionId;
-    self.musicCollection2ListDic[collectionId] = arr;
+-(void)setMusicListArr:(NSArray *)arr collectionId:(NSNumber *)collectionId {
+    NSMutableArray *oldData = [NSMutableArray arrayWithArray:self.musicCollection2ListDic[collectionId]];
+    [oldData addObjectsFromArray:arr];
+    self.musicCollection2ListDic[collectionId] = oldData;
 }
 
 +(NSArray *)cartoonCate {
@@ -147,12 +149,13 @@
 -(NSArray *)cartoonCollectionWithCateId:(NSNumber *)cateId {
     return _cartoonCate2CollectionDic[cateId];
 }
-+(void)setCartoonCollection:(NSArray *)arr {
-    [[BMDataCacheManager sharedInstance] setCartoonCollectionArr:arr];
++(void)setCartoonCollection:(NSArray *)arr cateId:(NSNumber *)cateId {
+    [[BMDataCacheManager sharedInstance] setCartoonCollectionArr:arr cateId:cateId];
 }
--(void)setCartoonCollectionArr:(NSArray *)arr {
-    NSNumber* cateId = ((BMCollectionDataModel *)arr[0]).CateId;
-    self.cartoonCate2CollectionDic[cateId] = arr;
+-(void)setCartoonCollectionArr:(NSArray *)arr cateId:(NSNumber *)cateId {
+    NSMutableArray *oldData = [NSMutableArray arrayWithArray:self.cartoonCate2CollectionDic[cateId]];
+    [oldData addObjectsFromArray:arr];
+    self.cartoonCate2CollectionDic[cateId] = oldData;
 }
 
 +(NSArray *)cartoonListWithCollectionId:(NSNumber *)collectionId {
@@ -161,12 +164,13 @@
 -(NSArray *)cartoonListWithCollectionId:(NSNumber *)collectionId {
     return _cartoonCollection2ListDic[collectionId];
 }
-+(void)setCartoonList:(NSArray *)arr {
-    [[BMDataCacheManager sharedInstance] setCartoonListArr:arr];
++(void)setCartoonList:(NSArray *)arr collectionId:(NSNumber *)collectionId {
+    [[BMDataCacheManager sharedInstance] setCartoonListArr:arr collectionId:collectionId];
 }
--(void)setCartoonListArr:(NSArray *)arr {
-    NSNumber* collectionId = ((BMListDataModel *)arr[0]).CollectionId;
-    self.cartoonCollection2ListDic[collectionId] = arr;
+-(void)setCartoonListArr:(NSArray *)arr collectionId:(NSNumber *)collectionId {
+    NSMutableArray *oldData = [NSMutableArray arrayWithArray:self.cartoonCollection2ListDic[collectionId]];
+    [oldData addObjectsFromArray:arr];
+    self.cartoonCollection2ListDic[collectionId] = oldData;
 }
 
 //+(NSArray *)currentMusicList {

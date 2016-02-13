@@ -85,6 +85,22 @@
 }
 
 #pragma mark - 分类
+-(NSArray *)getAllCateIds {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    __block NSMutableSet* resSet = [NSMutableSet new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select Rid from MusicCate"];
+        while ([resultSet next]) {
+            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            if (![resSet containsObject:numId]) {
+                [resSet addObject:numId];
+                [resArr addObject:numId];
+            }
+        }
+    }];
+    return resArr;
+}
+
 -(NSArray *)getAllMusicCate {
     __block NSMutableArray *resArr = [NSMutableArray new];
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
@@ -117,19 +133,6 @@
     return result;
 }
 
--(BOOL)addMusicCate:(BMDataModel *) cate {
-    __block BOOL result = YES;;
-    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"replace into MusicCate(Name, Artist, Url, Rid) values (?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Rid];
-        if ([db hadError])
-        {
-            NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-            result = NO;
-        }
-    }];
-    return result;
-}
-
 -(void)updateMusicCate:(BMDataModel *) cate {
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:@"update MusicCate set Name=?, Artist=?, Url=? where Rid = ?",cate.Name, cate.Artist, cate.Url, cate.Rid];
@@ -141,6 +144,22 @@
 }
 
 #pragma mark - 合集
+-(NSArray *)getAllCollectionIds {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    __block NSMutableSet* resSet = [NSMutableSet new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select Rid from MusicCollection"];
+        while ([resultSet next]) {
+            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            if (![resSet containsObject:numId]) {
+                [resSet addObject:numId];
+                [resArr addObject:numId];
+            }
+        }
+    }];
+    return resArr;
+}
+
 -(NSArray *)getAllMusicCollection {
     __block NSMutableArray *resArr = [NSMutableArray new];
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
@@ -151,6 +170,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
             cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
             cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
             [resArr addObject:cur_item];
@@ -164,7 +184,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCollectionDataModel* collection in arr) {
-            [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Rid) values (?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Rid];
+            [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, CateId, Rid) values (?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.CateId, collection.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -173,29 +193,6 @@
         }
     }];
     return result;
-}
-
--(BOOL)addMusicCollection:(BMCollectionDataModel *) collection {
-    __block BOOL result = YES;;
-    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Rid) values (?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Rid];
-        if ([db hadError])
-        {
-            NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-            result = NO;
-        }
-    }];
-    return result;
-}
-
--(void)updateMusicCollection:(BMCollectionDataModel *) collection {
-    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"update MusicCollection set Name=?, Artist=?, Url=? where Rid = ?",collection.Name, collection.Artist, collection.Url, collection.Rid];
-        if ([db hadError])
-        {
-            NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-        }
-    }];
 }
 
 -(void)favMusicCollection:(BMCollectionDataModel *) collection {
@@ -219,10 +216,33 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
             listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
             listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
             listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
             listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            [resArr addObject:listData];
+        }
+    }];
+    return resArr;
+}
+
+-(NSArray *)getMusicListByCollectionId:(NSNumber *)collectionId {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select * from MusicList where CollectionId=?", collectionId];
+        while ([resultSet next]) {
+            BMListDataModel* listData = [BMListDataModel new];
+            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Name = [resultSet stringForColumn:@"Name"];
+            listData.Artist = [resultSet stringForColumn:@"Artist"];
+            listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
+            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
+            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
+            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
+            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            [resArr addObject:listData];
         }
     }];
     return resArr;
@@ -242,21 +262,9 @@
     return result;
 }
 
--(BOOL)addMusicList:(BMListDataModel *)list {
-    __block BOOL result = YES;;
-    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url) values (?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url];
-        if ([db hadError]) {
-            NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-            result = NO;
-        }
-    }];
-    return result;
-}
-
 -(void)updateMusicList:(BMListDataModel *)list {
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"update MusicList set CollectionId=?, Name=?, Artist=?, Url=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Rid];
+        [db executeUpdate:@"update MusicList set ListenCount=?, IsDowned=?, DownloadTime=?, LastListeningTime=? where Rid=?", list.ListenCount, list.IsDowned, list.DownloadTime, list.LastListeningTime, list.Rid];
         if ([db hadError]) {
             NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
         }

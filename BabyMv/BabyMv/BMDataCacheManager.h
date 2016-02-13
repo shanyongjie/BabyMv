@@ -19,10 +19,10 @@
 +(NSArray *)cartoonListWithCollectionId:(NSNumber *)collectionId;
 
 +(void)setMusicCate:(NSArray *)arr;
-+(void)setMusicCollection:(NSArray *)arr;
-+(void)setMusicList:(NSArray *)arr;
++(void)setMusicCollection:(NSArray *)arr cateId:(NSNumber *)cateId;
++(void)setMusicList:(NSArray *)arr collectionId:(NSNumber *)collectionId;
 +(void)setCartoonCate:(NSArray *)arr;
-+(void)setCartoonCollection:(NSArray *)arr;
-+(void)setCartoonList:(NSArray *)arr;
++(void)setCartoonCollection:(NSArray *)arr cateId:(NSNumber *)cateId;
++(void)setCartoonList:(NSArray *)arr collectionId:(NSNumber *)collectionId;
 
 @end

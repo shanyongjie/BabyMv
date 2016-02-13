@@ -9,9 +9,10 @@
 #import "AppDelegate.h"
 #import "BMMainTabBarController.h"
 #import "BMDataBaseManager.h"
-#import "MacroDefinition.h"
-
 #import "BMRequestManager.h"
+#import "BMDataCacheManager.h"
+#import "BMDataModel.h"
+#import "MacroDefinition.h"
 
 
 #import "UIImage+Helper.h"
@@ -26,11 +27,25 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [BMDataBaseManager sharedInstance];
-    NSArray* musicCateArr = [[BMDataBaseManager sharedInstance] getAllMusicCate];
-//    if (!musicCateArr.count) {
+    NSArray* musicCateArr       = [[BMDataBaseManager sharedInstance] getAllMusicCate];
+    NSArray* musicCollections   = [[BMDataBaseManager sharedInstance] getAllMusicCollection];
+    NSArray* musicLists = [[BMDataBaseManager sharedInstance] getAllMusicList];
+    if (musicCollections.count) {
+        for (BMCollectionDataModel* collectionData in musicCollections) {
+            [BMDataCacheManager setMusicCollection:@[collectionData] cateId:collectionData.CateId];
+        }
+    }
+    if (musicLists.count) {
+        for (BMListDataModel* listData in musicLists) {
+            [BMDataCacheManager setMusicList:@[listData] collectionId:listData.CollectionId];
+        }
+    }
+    if (!musicCateArr.count) {
         [BMRequestManager loadCategoryData];
-//    } else {
-//    }
+    } else {
+        [BMDataCacheManager setMusicCate:musicCateArr];
+    }
+    
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

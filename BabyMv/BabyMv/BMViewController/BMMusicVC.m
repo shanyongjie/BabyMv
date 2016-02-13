@@ -35,6 +35,7 @@
 @property(nonatomic, strong)NSMutableArray* collectionArr;
 @property(nonatomic, strong)NSMutableArray* musicListArr;
 @property(nonatomic, strong)NSNumber* selectedCategoryId;
+@property(nonatomic, strong)NSNumber* selectedCollectionId;
 @property(nonatomic, strong)UIView* waitingView;
 @property(nonatomic, strong)BMMusicListVC* musicListVC;
 @end
@@ -48,6 +49,7 @@
         _collectionArr = [NSMutableArray new];
         _musicListArr = [NSMutableArray new];
         _selectedCategoryId = @(-1);
+        _selectedCollectionId = @(-1);
     }
     return self;
 }
@@ -139,13 +141,24 @@
                     }
                 });
 
+                self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
+                _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
+                if (_musicListArr.count) {
+                    [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
+                    [self.tableView reloadData];
+                } else {
+                    [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId];
+                }
             } else{
                 [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId];
                 [self showLoadingPage:YES descript:nil];
             }
-        } else {
+        }
+//        else
+        {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_CATEGORY_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_COLLECTION_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_LIST_DATA_FINISHED object:nil];
         }
     }
 }
@@ -192,6 +205,14 @@
             }
         });
         
+        self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
+        _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
+        if (_musicListArr.count) {
+            [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
+            [self.tableView reloadData];
+        } else {
+            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId];
+        }
     } else{
         [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId];
         [self showLoadingPage:YES descript:nil];
@@ -261,6 +282,17 @@
             }
         });
 
+    }
+}
+
+-(void)loadListDataFinish:(NSNotification *)notify {
+    NSDictionary* userInfo = notify.object;
+    NSString* collectionId = userInfo[@"collectionId"];
+    self.selectedCollectionId = @([collectionId intValue]);
+    _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
+    if (_musicListArr.count) {
+        [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
+        [self.tableView reloadData];
     }
 }
 

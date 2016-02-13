@@ -93,7 +93,7 @@
 //            [BMDataCacheManager setCurrentMusicList:musicListArr];
             
             if ([[BMDataBaseManager sharedInstance] addMusicCollectionArr:musicCollectArr]) {
-                [BMDataCacheManager setMusicCollection:musicCollectArr];
+                [BMDataCacheManager setMusicCollection:musicCollectArr cateId:musicCate.Rid];
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_COLLECTION_DATA_FINISHED object:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -130,7 +130,7 @@
             }
             
             if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
-                [BMDataCacheManager setMusicList:musicListArr];
+                [BMDataCacheManager setMusicList:musicListArr collectionId:listData.Rid];
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_LIST_DATA_FINISHED object:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -150,6 +150,11 @@
                                                                               error:nil]:nil;
         NSArray* collectList = dic[@"CollectList"];
         NSArray* songList = dic[@"SongList"];
+        NSString* collectId = dic[@"CollectId"];
+        NSNumber* collectionId = @(0);
+        if (collectId.length) {
+            collectionId = @([collectId intValue]);
+        }
         NSMutableArray* musicCollectArr = [NSMutableArray new];
         NSMutableArray* musicListArr = [NSMutableArray new];
         if ([[NSNull null] isEqual:collectList] ||!collectList.count || [[NSNull null] isEqual:songList] ||!songList.count) {
@@ -163,7 +168,7 @@
         }
         for (NSDictionary* musicDic in songList) {
             BMListDataModel* musicList = [BMListDataModel parseData:musicDic];
-            musicList.CollectionId = musicCateId;
+            musicList.CollectionId = collectionId;
             [musicListArr addObject:musicList];
         }
         
@@ -174,8 +179,11 @@
             } else {
                 dic = @{@"musicCateId":musicCateId};
             }
-            [BMDataCacheManager setMusicCollection:musicCollectArr];
+            [BMDataCacheManager setMusicCollection:musicCollectArr cateId:musicCateId];
             [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_COLLECTION_DATA_FINISHED object:dic];
+        }
+        if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
+            [BMDataCacheManager setMusicList:musicListArr collectionId:collectionId];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
@@ -205,7 +213,7 @@
         
         if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
             NSDictionary* dic = @{@"collectionId":collectionId};
-            [BMDataCacheManager setMusicList:musicListArr];
+            [BMDataCacheManager setMusicList:musicListArr collectionId:collectionId];
             [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_LIST_DATA_FINISHED object:dic];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

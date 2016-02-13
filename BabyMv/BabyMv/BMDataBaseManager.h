@@ -15,20 +15,18 @@
 @interface BMDataBaseManager : NSObject
 +(instancetype)sharedInstance;
 
+-(NSArray *)getAllCateIds;
 -(NSArray *)getAllMusicCate;
 -(BOOL)addMusicCateArr:(NSArray *) arr;
--(BOOL)addMusicCate:(BMDataModel *) cate;
 -(void)updateMusicCate:(BMDataModel *) cate;
 
+-(NSArray *)getAllCollectionIds;
 -(NSArray *)getAllMusicCollection;
 -(BOOL)addMusicCollectionArr:(NSArray *) arr;
--(BOOL)addMusicCollection:(BMCollectionDataModel *) collection;
--(void)updateMusicCollection:(BMCollectionDataModel *) collection;
 -(void)favMusicCollection:(BMCollectionDataModel *) collection;
 
 -(NSArray *)getAllMusicList;
 -(BOOL)addMusicListArr:(NSArray *)arr;
--(BOOL)addMusicList:(BMListDataModel *)list;
 -(void)updateMusicList:(BMListDataModel *)list;
 -(void)downLoadMusicList:(BMListDataModel *)list;
 -(void)listenMusicList:(BMListDataModel *)list;
