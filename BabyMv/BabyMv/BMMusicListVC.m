@@ -34,7 +34,8 @@
         ViewAddCons(baseView, @"V:|[tableView]|", nil, map);
     }
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listDataLoadFinished:) name:LOAD_LIST_DATA_FINISHED object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listDataLoadFinished:) name:LOAD_MUSIC_LIST_DATA_FINISHED object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listDataLoadFinished:) name:LOAD_CARTOON_LIST_DATA_FINISHED object:nil];
     }
 }
 
@@ -45,7 +46,7 @@
         [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
         [self.tableView reloadData];
     } else{
-        [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCollectionData.Rid];
+        [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCollectionData.Rid requestType:MyRequestTypeMusic];
         [self showLoadingPage:YES descript:nil];
     }
 }

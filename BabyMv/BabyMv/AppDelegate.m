@@ -41,11 +41,12 @@
         }
     }
     if (!musicCateArr.count) {
-        [BMRequestManager loadCategoryData];
+        [BMRequestManager loadCategoryData:MyRequestTypeMusic];
     } else {
         [BMDataCacheManager setMusicCate:musicCateArr];
     }
     
+    [BMRequestManager loadCategoryData:MyRequestTypeCartoon];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

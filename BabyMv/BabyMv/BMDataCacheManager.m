@@ -136,7 +136,7 @@
     return _cartoonCate;
 }
 +(void)setCartoonCate:(NSArray *)arr {
-    [[BMDataCacheManager sharedInstance] setMusicCateArr:arr];
+    [[BMDataCacheManager sharedInstance] setCartoonCateArr:arr];
 }
 -(void)setCartoonCateArr:(NSArray *)arr {
     [self.cartoonCate removeAllObjects];

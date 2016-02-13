@@ -7,7 +7,6 @@
 //
 
 #import "BMTableViewCell.h"
-#import "MacroDefinition.h"
 
 
 @interface BMTableViewCell ()
@@ -23,6 +22,23 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(instancetype)initWithCellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier {
+    switch (cellType) {
+        case MyTableViewTypeMusic:
+            return [self initMusicCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            break;
+        case MyTableViewTypeMusicDown:
+            return [self initMusicDownloadCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            break;
+        case MyTableViewTypeCartoon:
+            return [self initCartoonCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            break;
+        default:
+            return nil;
+            break;
+    }
 }
 
 - (instancetype)initMusicCellWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -83,7 +99,7 @@
 - (instancetype)initCartoonCellWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _img = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 90, 50)];
+        _img = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 90, 50)];
         _img.layer.borderWidth = 1;
         _img.layer.borderColor = [UIColor blackColor].CGColor;
 

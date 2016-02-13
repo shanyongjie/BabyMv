@@ -10,6 +10,21 @@
 #define MacroDefinition_h
 
 
+typedef enum : NSUInteger {
+    MyTableViewTypeMusic,
+    MyTableViewTypeMusicDown,
+    MyTableViewTypeCartoon,
+} MyTableViewType;
+
+typedef enum : NSUInteger {
+    MyRequestTypeMusic,
+    MyRequestTypeCartoon,
+} MyRequestType;
+
+
+
+
+
 #define IPA_VER @"BabyMv_ip_1.0.0.0_dbg.ipa"
 
 #define CARTOON_CATE            [NSString stringWithFormat:@"http://coollisten.duapp.com/?type=getNewVideoCate&ver=%@", IPA_VER]
@@ -77,10 +92,13 @@ viewName.tag = TAG;                                         \
 #define VIEW_DEFAULT_HEIGHT     (self.view.bounds.size.height)
 
 
-#define LOAD_CATEGORY_DATA_FINISHED  @"LOAD_CATEGORY_DATA_FINISHED"
-#define LOAD_COLLECTION_DATA_FINISHED  @"LOAD_COLLECTION_DATA_FINISHED"
-#define LOAD_LIST_DATA_FINISHED  @"LOAD_LIST_DATA_FINISHED"
+#define LOAD_MUSIC_CATEGORY_DATA_FINISHED  @"LOAD_MUSIC_CATEGORY_DATA_FINISHED"
+#define LOAD_MUSIC_COLLECTION_DATA_FINISHED  @"LOAD_MUSIC_COLLECTION_DATA_FINISHED"
+#define LOAD_MUSIC_LIST_DATA_FINISHED  @"LOAD_MUSIC_LIST_DATA_FINISHED"
 
+#define LOAD_CARTOON_CATEGORY_DATA_FINISHED  @"LOAD_CARTOON_CATEGORY_DATA_FINISHED"
+#define LOAD_CARTOON_COLLECTION_DATA_FINISHED  @"LOAD_CARTOON_COLLECTION_DATA_FINISHED"
+#define LOAD_CARTOON_LIST_DATA_FINISHED  @"LOAD_CARTOON_LIST_DATA_FINISHED"
 
 
 

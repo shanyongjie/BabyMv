@@ -34,3 +34,14 @@
 
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
+
+@interface BMCartoonCollectionDataModel : BMCollectionDataModel
++(instancetype)parseData:(NSDictionary *)dicData;
+@end
+
+@interface BMCartoonListDataModel : BMListDataModel
+@property(nonatomic, strong)NSString* PicUrl;
+
++(instancetype)parseData:(NSDictionary *)dicData;
+@end
+

@@ -26,6 +26,7 @@
         self.delegate = self;
         self.dataSource = self;
         self.items = [NSMutableArray new];
+        self.myType = MyTableViewTypeMusic;
     }
     return self;
 }
@@ -48,19 +49,29 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BMTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    NSString* cellReuseId = @"musicCell";
+    switch (self.myType) {
+        case MyTableViewTypeMusicDown:
+            cellReuseId = @"musicCellDownload";
+            break;
+        case MyTableViewTypeCartoon:
+            cellReuseId = @"cartoonCell";
+            break;
+        default:
+            break;
+    }
+    BMTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseId];
     if (!cell) {
-        cell = [[BMTableViewCell alloc] initMusicCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[BMTableViewCell alloc] initWithCellType:self.myType reuseIdentifier:cellReuseId];
         cell.cellDelegate = self;
     }
     BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
-//    [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.picUrl] placeholderImage:[UIImage imageNamed:@"default"]];
     cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
     cell.titleLab.text = cur_video.Name;
     cell.detailLab.text = cur_video.Artist;
     cell.downimg.tag = 3000+indexPath.row;
     [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
-    if (cur_video.IsDowned) {
+    if ([cur_video.IsDowned intValue]) {
         [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
     }
     return cell;
@@ -69,7 +80,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60;
 }
-//
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 30;
 }
@@ -79,6 +90,16 @@
 //}
 //
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            break;
+        case MyTableViewTypeMusicDown:
+            break;
+        case MyTableViewTypeCartoon:
+            break;
+        default:
+            break;
+    }
 //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
 //    //    view.backgroundColor = [UIColor darkGrayColor];
 //    UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];
@@ -111,11 +132,33 @@
 //    [[BMAppDelegate sharedAppDelegate].mainViewController presentViewController:_video_play_view animated:NO completion:^{
 //        NSLog(@"view did load");
 //    }];
+    
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            break;
+        case MyTableViewTypeMusicDown:
+            break;
+        case MyTableViewTypeCartoon:
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark cell delegate
 
 - (void)download:(UIButton *)btn {
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            break;
+        case MyTableViewTypeMusicDown:
+            break;
+        case MyTableViewTypeCartoon:
+            break;
+        default:
+            break;
+    }
+
     NSUInteger index = btn.tag-3000;
     __block BMListDataModel* audio_info = self.items[index];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -139,4 +182,20 @@
     });
 }
 
+-(void)deleteMusic:(UIButton *)btn {
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            break;
+        case MyTableViewTypeMusicDown:
+            break;
+        case MyTableViewTypeCartoon:
+            break;
+        default:
+            break;
+    }
+
+}
+
 @end
+
+

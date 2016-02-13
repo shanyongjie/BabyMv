@@ -27,7 +27,6 @@
     if (!dicData) {
         return nil;
     }
-    [super parseData:dicData];
     BMCollectionDataModel* model = [BMCollectionDataModel new];
     model.Rid = dicData[@"collectId"];
     model.Name = dicData[@"collectName"];
@@ -48,8 +47,8 @@
     BMListDataModel* model = [BMListDataModel new];
     model.Rid = dicData[@"Rid"];
     model.Name = dicData[@"AudioName"];
-    model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
     model.Artist = dicData[@"Artist"];
+    model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
     model.CollectionId = nil;
     model.ListenCount = nil;
     model.IsDowned = nil;
@@ -58,3 +57,41 @@
     return model;
 }
 @end
+
+@implementation BMCartoonCollectionDataModel
++(instancetype)parseData:(NSDictionary *)dicData {
+    if (!dicData) {
+        return nil;
+    }
+    BMCartoonCollectionDataModel* model = [BMCartoonCollectionDataModel new];
+    model.Rid = dicData[@"MvId"];
+    model.Name = dicData[@"MvName"];
+    model.Artist = dicData[@"Artist"];
+    model.Url = [dicData[@"MvPic"] isEqual:[NSNull null]]?@"":dicData[@"MvPic"];
+    model.CateId = nil;
+    model.IsFaved = nil;
+    model.FavedTime = nil;
+    return model;
+}
+@end
+
+@implementation BMCartoonListDataModel
++(instancetype)parseData:(NSDictionary *)dicData {
+    if (!dicData) {
+        return nil;
+    }
+    BMCartoonListDataModel* model = [BMCartoonListDataModel new];
+    model.Rid = dicData[@"Rid"];
+    model.Name = dicData[@"ChapterName"];
+    model.Artist = dicData[@"Artist"];
+    model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
+    model.PicUrl = [dicData[@"ChapterPic"] isEqual:[NSNull null]]?@"":dicData[@"ChapterPic"];;
+    model.CollectionId = nil;
+    model.ListenCount = nil;
+    model.IsDowned = nil;
+    model.DownloadTime = nil;
+    model.LastListeningTime = nil;
+    return model;
+}
+@end
+

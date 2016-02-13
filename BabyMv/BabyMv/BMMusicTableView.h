@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MacroDefinition.h"
 
 @interface BMMusicTableView : UITableView
+@property(nonatomic, assign)MyTableViewType myType;
 -(void)setItems:(NSMutableArray *)items;
 @end
+

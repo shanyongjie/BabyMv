@@ -15,6 +15,7 @@
 @interface BMDataBaseManager : NSObject
 +(instancetype)sharedInstance;
 
+#pragma mark - music
 -(NSArray *)getAllCateIds;
 -(NSArray *)getAllMusicCate;
 -(BOOL)addMusicCateArr:(NSArray *) arr;
@@ -31,4 +32,22 @@
 -(void)downLoadMusicList:(BMListDataModel *)list;
 -(void)listenMusicList:(BMListDataModel *)list;
 
+#pragma mark - cartoon
+-(NSArray *)getAllCartoonCateIds;
+-(NSArray *)getAllCartoonCate;
+-(BOOL)addCartoonCateArr:(NSArray *) arr;
+-(void)updateCartoonCate:(BMDataModel *) cate;
+
+-(NSArray *)getAllCartoonCollectionIds;
+-(NSArray *)getAllCartoonCollection;
+-(BOOL)addCartoonCollectionArr:(NSArray *) arr;
+-(void)favCartoonCollection:(BMCollectionDataModel *) collection;
+
+-(NSArray *)getAllCartoonList;
+-(BOOL)addCartoonListArr:(NSArray *)arr;
+-(void)updateCartoonList:(BMListDataModel *)list;
+-(void)downLoadCartoonList:(BMListDataModel *)list;
+-(void)openCartoonList:(BMListDataModel *)list;
+
 @end
+

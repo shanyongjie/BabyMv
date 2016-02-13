@@ -120,45 +120,13 @@
                         break;
                 }
             }
-            _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
-            if (_collectionArr.count) {
-                [_focusView removeFromSuperview];
-                _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
-                [_focusView setClickDelegate:self];
-                [_focusView loadScrollView];
-                _tableView.tableHeaderView = _focusView;
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    for (NSUInteger index = 0; index < _collectionArr.count; index++) {
-                        BMCollectionDataModel* cur_mv = [_collectionArr objectAtIndex:index];
-                        UIButton *btn = (UIButton *)[_focusView viewWithTag:(1000 + index)];
-                        [btn sd_setImageWithURL:[NSURL URLWithString:cur_mv.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
-                        UILabel *label = (UILabel *)[_focusView viewWithTag:(2000 + index)];
-                        label.text = cur_mv.Name;
-                        CGSize textSize = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake(label.frame.size.width+30, 11) lineBreakMode:NSLineBreakByTruncatingTail];
-                        CGRect frame = CGRectMake(label.frame.origin.x - (textSize.width-label.frame.size.width)/2, label.frame.origin.y, textSize.width, label.frame.size.height);
-                        label.frame = frame;
-                    }
-                });
-
-                self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
-                _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
-                if (_musicListArr.count) {
-                    [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
-                    [self.tableView reloadData];
-                } else {
-                    [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId];
-                }
-            } else{
-                [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId];
-                [self showLoadingPage:YES descript:nil];
-            }
+            [self LoadCollectionAndListData];
         }
 //        else
         {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_CATEGORY_DATA_FINISHED object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_COLLECTION_DATA_FINISHED object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_LIST_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_MUSIC_CATEGORY_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_MUSIC_COLLECTION_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_MUSIC_LIST_DATA_FINISHED object:nil];
         }
     }
 }
@@ -178,12 +146,7 @@
 }
 */
 
--(void)topBarButtonClick:(int)index {
-    if (index>1004 || _musicCateArr.count<5) {
-        return;
-    }
-    BMDataModel* cate = _musicCateArr[index-1000];
-    self.selectedCategoryId = cate.Rid;
+-(void)LoadCollectionAndListData {
     _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
     if (_collectionArr.count) {
         [_focusView removeFromSuperview];
@@ -211,13 +174,21 @@
             [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
             [self.tableView reloadData];
         } else {
-            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId];
+            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeMusic];
         }
     } else{
-        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId];
+        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeMusic];
         [self showLoadingPage:YES descript:nil];
     }
+}
 
+-(void)topBarButtonClick:(int)index {
+    if (index>1004 || _musicCateArr.count<5) {
+        return;
+    }
+    BMDataModel* cate = _musicCateArr[index-1000];
+    self.selectedCategoryId = cate.Rid;
+    [self LoadCollectionAndListData];
 }
 
 - (void)loadCategoryDataFinish:(NSNotification *) notify {
@@ -248,7 +219,7 @@
                     break;
             }
         }
-        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId];
+        [self LoadCollectionAndListData];
     }
 }
 
@@ -281,7 +252,6 @@
                 label.frame = frame;
             }
         });
-
     }
 }
 

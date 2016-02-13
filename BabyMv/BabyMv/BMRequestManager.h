@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MacroDefinition.h"
 
 @interface BMRequestManager : NSObject
 +(instancetype)sharedInstance;
-+(void)loadCategoryData;
--(void)loadListDataWithCollectionId:(NSNumber *)collectionId;
--(void)loadCollectionDataWithCategoryId:(NSNumber *)musicCateId;
++(void)loadCategoryData:(MyRequestType)requestType;
+-(void)loadListDataWithCollectionId:(NSNumber *)collectionId requestType:(MyRequestType)requestType;
+-(void)loadCollectionDataWithCategoryId:(NSNumber *)musicCateId requestType:(MyRequestType)requestType;
 @end
