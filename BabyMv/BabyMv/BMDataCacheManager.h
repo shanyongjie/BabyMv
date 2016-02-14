@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class BMListDataModel;
+@class BMCartoonListDataModel;
+
 @interface BMDataCacheManager : NSObject
 +(void)resetCache;
 +(NSArray *)musicCate;
@@ -25,4 +29,8 @@
 +(void)setCartoonCollection:(NSArray *)arr cateId:(NSNumber *)cateId;
 +(void)setCartoonList:(NSArray *)arr collectionId:(NSNumber *)collectionId;
 
++(void)updateMusicListDataDownLoadStatus:(BMListDataModel *)listData;
++(void)updateCartoonListDataDownLoadStatus:(BMCartoonListDataModel *)listData;
 @end
+
+

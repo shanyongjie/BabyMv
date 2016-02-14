@@ -11,10 +11,7 @@
 #import "BMTopTabBar.h"
 
 @interface BMSettingView : UITableView <UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic, strong)UITableView* settingListView;
 @property (nonatomic, assign)BOOL         bShowFeedback;
-
 @end
 
 @interface BMSettingVC ()

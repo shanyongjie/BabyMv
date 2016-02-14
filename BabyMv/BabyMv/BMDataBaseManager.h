@@ -32,9 +32,10 @@
 
 -(NSArray *)getDownloadedMusicList;
 -(NSArray *)getAllMusicList;
+-(NSArray *)getMusicListByCollectionId:(NSNumber *) collectionId;
 -(BOOL)addMusicListArr:(NSArray *)arr;
 -(void)updateMusicList:(BMListDataModel *)list;
--(void)downLoadMusicList:(BMListDataModel *)list;
+-(BOOL)downLoadMusicList:(BMListDataModel *)list;
 -(void)listenMusicList:(BMListDataModel *)list;
 
 #pragma mark - cartoon
@@ -52,9 +53,10 @@
 
 -(NSArray *)getDownloadedCartoonList;
 -(NSArray *)getAllCartoonList;
+-(NSArray *)getCartoonListByCollectionId:(NSNumber *) collectionId;
 -(BOOL)addCartoonListArr:(NSArray *)arr;
 -(void)updateCartoonList:(BMCartoonListDataModel *)list;
--(void)downLoadCartoonList:(BMCartoonListDataModel *)list;
+-(BOOL)downLoadCartoonList:(BMCartoonListDataModel *)list;
 -(void)openCartoonList:(BMCartoonListDataModel *)list;
 
 @end

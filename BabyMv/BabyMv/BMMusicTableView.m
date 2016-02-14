@@ -10,6 +10,7 @@
 #import "BMTableViewCell.h"
 #import "BMDataModel.h"
 #import "BMDataBaseManager.h"
+#import "BMDataCacheManager.h"
 #import "Toast+UIView.h"
 
 #import <AFHTTPRequestOperation.h>
@@ -286,15 +287,28 @@
 }
 
 -(void)deleteMusic:(UIButton *)btn {
+    NSUInteger index = btn.tag-3000;
     switch (self.myType) {
         case MyTableViewTypeMusic:
             break;
         case MyTableViewTypeCartoon:
             break;
-        case MyTableViewTypeMusicDown:
+        case MyTableViewTypeMusicDown: {
+            BMListDataModel* audio_info = self.items[index];
+            audio_info.IsDowned = @(0);
+            [BMDataCacheManager updateMusicListDataDownLoadStatus:audio_info];
+            [self.items removeObject:audio_info];
+            [self reloadData];
+        }
             break;
-        case MyTableViewTypeCartoonDown:
+        case MyTableViewTypeCartoonDown: {
+            BMCartoonListDataModel* cartoonListData = self.items[index];
+            cartoonListData.IsDowned = @(0);
+            [BMDataCacheManager updateCartoonListDataDownLoadStatus:cartoonListData];
+            [self.items removeObject:cartoonListData];
+            [self reloadData];
             break;
+        }
         case MyTableViewTypeFavorite:
             break;
         case MyTableViewTypeHistory:

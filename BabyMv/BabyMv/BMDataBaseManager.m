@@ -337,13 +337,16 @@
     }];
 }
 
--(void)downLoadMusicList:(BMListDataModel *)list {
+-(BOOL)downLoadMusicList:(BMListDataModel *)list {
+    __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:@"update MusicList set IsDowned=?, DownloadTime=? where Rid=?", list.IsDowned, list.DownloadTime, list.Rid];
         if ([db hadError]) {
             NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+            result = NO;
         }
     }];
+    return result;
 }
 
 -(void)listenMusicList:(BMListDataModel *)list {
@@ -598,13 +601,16 @@
     }];
 }
 
--(void)downLoadCartoonList:(BMCartoonListDataModel *)list {
+-(BOOL)downLoadCartoonList:(BMCartoonListDataModel *)list {
+    __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:@"update CartoonList set IsDowned=?, DownloadTime=? where Rid=?", list.IsDowned, list.DownloadTime, list.Rid];
         if ([db hadError]) {
             NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+            result = NO;
         }
     }];
+    return result;
 }
 
 -(void)openCartoonList:(BMCartoonListDataModel *)list {

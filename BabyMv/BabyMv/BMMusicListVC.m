@@ -76,6 +76,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+#warning some data from cache, other form DB, that's a question
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
@@ -163,10 +164,12 @@
     }
     if ([collectionId intValue] == currentCollectionId) {
         if (self.vcType == MyListVCTypeMusic) {
-            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:@(currentCollectionId)]];
+//            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:@(currentCollectionId)]];    //这样就拿不到数据？！
+            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
         }
         if (self.vcType == MyListVCTypeCartoon) {
-            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:@(currentCollectionId)]];
+//            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:@(currentCollectionId)]];    //这样就拿不到数据？！
+            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
         }
         if (_listData.count) {
             [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];

@@ -8,7 +8,7 @@
 
 #import "BMDataCacheManager.h"
 #import "BMDataModel.h"
-
+#import "BMDataBaseManager.h"
 
 //@interface BMTopMusicModel : NSObject
 //@property(nonatomic, strong)BMDataModel* cateData;
@@ -172,6 +172,26 @@
     [oldData addObjectsFromArray:arr];
     self.cartoonCollection2ListDic[collectionId] = oldData;
 }
+
+
++(void)updateMusicListDataDownLoadStatus:(BMListDataModel *)listData {
+    [[BMDataCacheManager sharedInstance] updateMusicListDataDownLoadStatus:listData];
+}
+-(void)updateMusicListDataDownLoadStatus:(BMListDataModel *)listData {
+    if ([[BMDataBaseManager sharedInstance] downLoadMusicList:listData]) {
+        self.musicCollection2ListDic[listData.CollectionId] = [[BMDataBaseManager sharedInstance] getMusicListByCollectionId:listData.CollectionId];
+    }
+}
+
++(void)updateCartoonListDataDownLoadStatus:(BMCartoonListDataModel *)listData {
+    [[BMDataCacheManager sharedInstance] updateCartoonListDataDownLoadStatus:listData];
+}
+-(void)updateCartoonListDataDownLoadStatus:(BMCartoonListDataModel *)listData {
+    if ([[BMDataBaseManager sharedInstance] downLoadCartoonList:listData]) {
+        self.cartoonCollection2ListDic[listData.CollectionId] = [[BMDataBaseManager sharedInstance] getCartoonListByCollectionId:listData.CollectionId];
+    }
+}
+
 
 //+(NSArray *)currentMusicList {
 //    return [[BMDataCacheManager sharedInstance] currentMusicList];
