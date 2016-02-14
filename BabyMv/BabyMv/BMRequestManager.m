@@ -123,6 +123,7 @@
                 [musicListArr addObject:musicList];
             }
             
+            // 根据musicCateId来确定需要刷新的vc
             if ([[BMDataBaseManager sharedInstance] addMusicCollectionArr:musicCollectArr]) {
                 NSDictionary* dic = nil;
                 if (musicListArr.count) {
@@ -164,6 +165,7 @@
                 [cartoonListArr addObject:cartoonList];
             }
             
+            // 根据cartoonCateId来确定需要刷新的vc
             if ([[BMDataBaseManager sharedInstance] addCartoonCollectionArr:cartoonCollectArr]) {
                 NSDictionary* dic = nil;
                 if (cartoonListArr.count) {
@@ -221,6 +223,7 @@
                 [musicListArr addObject:music];
             }
             if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
+                // 根据collectionId来确定需要刷新的vc
                 NSDictionary* dic = @{@"collectionId":collectionId};
                 [BMDataCacheManager setMusicList:musicListArr collectionId:collectionId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_MUSIC_LIST_DATA_FINISHED object:dic];
@@ -236,6 +239,7 @@
                 [musicListArr addObject:cartoon];
             }
             if ([[BMDataBaseManager sharedInstance] addCartoonListArr:musicListArr]) {
+                // 根据collectionId来确定需要刷新的vc
                 NSDictionary* dic = @{@"collectionId":collectionId};
                 [BMDataCacheManager setCartoonList:musicListArr collectionId:collectionId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_CARTOON_LIST_DATA_FINISHED object:dic];

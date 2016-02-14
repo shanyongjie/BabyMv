@@ -155,23 +155,11 @@
 #pragma mark cell delegate
 
 - (void)download:(UIButton *)btn {
-    switch (self.myType) {
-        case MyTableViewTypeMusic:
-            break;
-        case MyTableViewTypeMusicDown:
-            break;
-        case MyTableViewTypeCartoon:
-            break;
-        default:
-            break;
-    }
-
     NSUInteger index = btn.tag-3000;
     __block BMListDataModel* audio_info = self.items[index];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray*paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-        NSString*documentsDirectory =[paths objectAtIndex:0];
-        NSString *name = [NSString stringWithFormat:@"%@.mp3", audio_info.Rid];
+        NSString*documentsDirectory = DOWNLOAD_DIR;
+        NSString *name = [NSString stringWithFormat:@"%@.%@", audio_info.Rid, [audio_info.Url pathExtension]];
         NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
         NSLog(@"musicPath--------%@", musicPath);
         AFHTTPRequestOperation *operation1 = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:audio_info.Url]]];
@@ -182,7 +170,15 @@
             time(&now);
             audio_info.IsDowned      = @(YES);
             audio_info.DownloadTime  = @([[NSDate date] timeIntervalSince1970]);
-            [[BMDataBaseManager sharedInstance] downLoadMusicList:audio_info];
+            
+            if (self.myType == MyTableViewTypeMusic && [audio_info isKindOfClass:[BMListDataModel class]]) {
+                [[BMDataBaseManager sharedInstance] downLoadMusicList:audio_info];
+            }
+            if (self.myType == MyTableViewTypeCartoon && [audio_info isKindOfClass:[BMCartoonListDataModel class]]) {
+                BMCartoonListDataModel* cartoonListData = (BMCartoonListDataModel *)audio_info;
+                [[BMDataBaseManager sharedInstance] downLoadCartoonList:cartoonListData];
+            }
+
             [btn setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         }];

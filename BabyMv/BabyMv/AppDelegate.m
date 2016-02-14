@@ -98,6 +98,12 @@
     } else {
         [BMDataCacheManager setCartoonCate:cartoonCateArr];
     }
+    
+    //新建下载目录
+    BOOL dirExist = NO;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:DOWNLOAD_DIR isDirectory:&dirExist]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:DOWNLOAD_DIR withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
 }
 
 -(void) setDefaultAppearance

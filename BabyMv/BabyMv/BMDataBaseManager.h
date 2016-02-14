@@ -11,6 +11,8 @@
 @class BMDataModel;
 @class BMCollectionDataModel;
 @class BMListDataModel;
+@class BMCartoonCollectionDataModel;
+@class BMCartoonListDataModel;
 
 @interface BMDataBaseManager : NSObject
 +(instancetype)sharedInstance;
@@ -41,13 +43,13 @@
 -(NSArray *)getAllCartoonCollectionIds;
 -(NSArray *)getAllCartoonCollection;
 -(BOOL)addCartoonCollectionArr:(NSArray *) arr;
--(void)favCartoonCollection:(BMCollectionDataModel *) collection;
+-(void)favCartoonCollection:(BMCartoonCollectionDataModel *) collection;
 
 -(NSArray *)getAllCartoonList;
 -(BOOL)addCartoonListArr:(NSArray *)arr;
--(void)updateCartoonList:(BMListDataModel *)list;
--(void)downLoadCartoonList:(BMListDataModel *)list;
--(void)openCartoonList:(BMListDataModel *)list;
+-(void)updateCartoonList:(BMCartoonListDataModel *)list;
+-(void)downLoadCartoonList:(BMCartoonListDataModel *)list;
+-(void)openCartoonList:(BMCartoonListDataModel *)list;
 
 @end
 

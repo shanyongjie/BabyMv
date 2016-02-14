@@ -29,6 +29,7 @@ typedef enum : NSUInteger {
 
 
 
+#define DOWNLOAD_DIR  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"download"]
 
 
 #define IPA_VER @"BabyMv_ip_1.0.0.0_dbg.ipa"

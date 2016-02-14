@@ -141,22 +141,17 @@
 		0C0F3DE31C64E0A3008773AC /* BMVIewController */ = {
 			isa = PBXGroup;
 			children = (
-				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
-				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
-				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
-				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
 				0C0F3DE61C64E0C1008773AC /* BMMusicVC.h */,
 				0C0F3DE71C64E0C1008773AC /* BMMusicVC.m */,
 				0C0F3DE41C64E0C1008773AC /* BMCartoonVC.h */,
 				0C0F3DE51C64E0C1008773AC /* BMCartoonVC.m */,
 				0C0F3DEA1C64E0C1008773AC /* BMPlayingVC.h */,
 				0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */,
-				0C0F3DE81C64E0C1008773AC /* BMMYVC.h */,
-				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
-				0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */,
-				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
-				0CE607A91C67245200F555EC /* BMHistoryVC.h */,
-				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
+				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
+				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
+				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
+				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
+				0C82A9831C704DEE004883C2 /* Others */,
 			);
 			name = BMVIewController;
 			sourceTree = "<group>";
@@ -176,9 +171,24 @@
 			name = DataBase;
 			sourceTree = "<group>";
 		};
+		0C82A9831C704DEE004883C2 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				0C0F3DE81C64E0C1008773AC /* BMMYVC.h */,
+				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
+				0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */,
+				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
+				0CE607A91C67245200F555EC /* BMHistoryVC.h */,
+				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
 		0CDB40901C663910009792DE /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				0CDB40911C663962009792DE /* BMTopTabBar.h */,
+				0CDB40921C663962009792DE /* BMTopTabBar.m */,
 				0C2A51421C6787D600837228 /* BMTableViewCell.h */,
 				0C2A51431C6787D600837228 /* BMTableViewCell.mm */,
 				0C2A51441C6787D600837228 /* MYFocusScrollView.h */,
@@ -193,8 +203,6 @@
 				0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */,
 				0CDB40A01C664259009792DE /* UIView+UIViewController.h */,
 				0CDB40A11C664259009792DE /* UIView+UIViewController.m */,
-				0CDB40911C663962009792DE /* BMTopTabBar.h */,
-				0CDB40921C663962009792DE /* BMTopTabBar.m */,
 			);
 			name = CustomUI;
 			sourceTree = "<group>";
@@ -230,8 +238,8 @@
 				8229C9BE1C63F4CC008C7CB6 /* Info.plist */,
 				0CE607A71C66F37700F555EC /* MacroDefinition.h */,
 				0C2A514C1C67BA7600837228 /* DataBase */,
-				0CDB40901C663910009792DE /* CustomUI */,
 				0C0F3DE31C64E0A3008773AC /* BMVIewController */,
+				0CDB40901C663910009792DE /* CustomUI */,
 				8229C9AD1C63F4CC008C7CB6 /* Supporting Files */,
 			);
 			path = BabyMv;
