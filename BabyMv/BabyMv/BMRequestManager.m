@@ -102,9 +102,9 @@
             NSArray* collectList = dic[@"CollectList"];
             NSArray* songList = dic[@"SongList"];
             NSString* collectId = dic[@"CollectId"];
-            NSNumber* collectionId = @(0);
+            NSNumber* collectionId = [NSNumber numberWithInt:0];
             if (collectId.length) {
-                collectionId = @([collectId intValue]);
+                collectionId = [NSNumber numberWithInt:[collectId intValue]];
             }
             NSMutableArray* musicCollectArr = [NSMutableArray new];
             NSMutableArray* musicListArr = [NSMutableArray new];
@@ -144,9 +144,9 @@
             NSArray* collectList = dic[@"dataList"];
             NSArray* cartoonList = dic[@"VideoList"];
             NSString* collectId = dic[@"MvId"];
-            NSNumber* collectionId = @(0);
+            NSNumber* collectionId = [NSNumber numberWithInt:0];
             if (collectId.length) {
-                collectionId = @([collectId intValue]);
+                collectionId = [NSNumber numberWithInt:[collectId intValue]];
             }
             NSMutableArray* cartoonCollectArr = [NSMutableArray new];
             NSMutableArray* cartoonListArr = [NSMutableArray new];

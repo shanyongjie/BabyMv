@@ -46,8 +46,8 @@
         _cartoonCateArr = [NSMutableArray new];
         _cartoonCollectionArr = [NSMutableArray new];
         _cartoonListArr = [NSMutableArray new];
-        _selectedCategoryId = @(-1);
-        _selectedCollectionId = @(-1);
+        _selectedCategoryId = [NSNumber numberWithInt:-1];
+        _selectedCollectionId = [NSNumber numberWithInt:-1];
     }
     return self;
 }
@@ -118,7 +118,7 @@
 -(void)LoadCategoryAndCollectionAndListData {
     _cartoonCateArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCate]];
     if (_cartoonCateArr.count>=4) {
-        if ([self.selectedCategoryId isEqualToNumber:@(-1)]) {
+        if ([self.selectedCategoryId isEqualToNumber:[NSNumber numberWithInt:-1]]) {
             self.selectedCategoryId = ((BMDataModel *)_cartoonCateArr[0]).Rid;
         }
         for (int index = 0; index < _cartoonCateArr.count; ++index) {

@@ -105,7 +105,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         FMResultSet* resultSet = [db executeQuery:@"select Rid from MusicCate"];
         while ([resultSet next]) {
-            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            NSNumber* numId = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             if (![resSet containsObject:numId]) {
                 [resSet addObject:numId];
                 [resArr addObject:numId];
@@ -121,7 +121,7 @@
         FMResultSet* query_result = [db executeQuery:@"select * from MusicCate order by Rid asc"];
         while ([query_result next]) {
             BMDataModel* cur_item = [[BMDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
@@ -164,13 +164,13 @@
         FMResultSet* query_result = [db executeQuery:@"select * from MusicCollection where IsFaved=1 order by Rid asc"];
         while ([query_result next]) {
             BMCollectionDataModel* cur_item = [[BMCollectionDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
-            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
-            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
-            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -195,7 +195,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         FMResultSet* resultSet = [db executeQuery:@"select Rid from MusicCollection"];
         while ([resultSet next]) {
-            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            NSNumber* numId = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             if (![resSet containsObject:numId]) {
                 [resSet addObject:numId];
                 [resArr addObject:numId];
@@ -211,13 +211,13 @@
         FMResultSet* query_result = [db executeQuery:@"select * from MusicCollection order by Rid asc"];
         while ([query_result next]) {
             BMCollectionDataModel* cur_item = [[BMCollectionDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
-            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
-            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
-            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -257,15 +257,15 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from MusicList where IsDowned=1 order by Rid asc"];
         while ([resultSet next]) {
             BMListDataModel* listData = [BMListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
@@ -278,15 +278,15 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from MusicList order by Rid asc"];
         while ([resultSet next]) {
             BMListDataModel* listData = [BMListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
@@ -299,15 +299,15 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from MusicList where CollectionId=?", collectionId];
         while ([resultSet next]) {
             BMListDataModel* listData = [BMListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
@@ -366,7 +366,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         FMResultSet* resultSet = [db executeQuery:@"select Rid from CartoonCate"];
         while ([resultSet next]) {
-            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            NSNumber* numId = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             if (![resSet containsObject:numId]) {
                 [resSet addObject:numId];
                 [resArr addObject:numId];
@@ -382,7 +382,7 @@
         FMResultSet* query_result = [db executeQuery:@"select * from CartoonCate order by Rid asc"];
         while ([query_result next]) {
             BMDataModel* cur_item = [[BMDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
@@ -425,13 +425,13 @@
         FMResultSet* query_result = [db executeQuery:@"select * from CartoonCollection where IsFaved=1 order by Rid asc"];
         while ([query_result next]) {
             BMCartoonCollectionDataModel* cur_item = [[BMCartoonCollectionDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
-            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
-            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
-            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -456,7 +456,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         FMResultSet* resultSet = [db executeQuery:@"select Rid from CartoonCollection"];
         while ([resultSet next]) {
-            NSNumber* numId = @([resultSet intForColumn:@"Rid"]);
+            NSNumber* numId = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             if (![resSet containsObject:numId]) {
                 [resSet addObject:numId];
                 [resArr addObject:numId];
@@ -472,13 +472,13 @@
         FMResultSet* query_result = [db executeQuery:@"select * from CartoonCollection order by Rid asc"];
         while ([query_result next]) {
             BMCartoonCollectionDataModel* cur_item = [[BMCartoonCollectionDataModel alloc] init];
-            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
-            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
-            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
-            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -518,16 +518,16 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from CartoonList where IsDowned=1 order by Rid asc"];
         while ([resultSet next]) {
             BMCartoonListDataModel* listData = [BMCartoonListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
@@ -540,16 +540,16 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from CartoonList order by Rid asc"];
         while ([resultSet next]) {
             BMCartoonListDataModel* listData = [BMCartoonListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
@@ -562,16 +562,16 @@
         FMResultSet* resultSet = [db executeQuery:@"select * from CartoonList where CollectionId=?", collectionId];
         while ([resultSet next]) {
             BMCartoonListDataModel* listData = [BMCartoonListDataModel new];
-            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
-            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
-            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
-            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
-            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
-            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
             [resArr addObject:listData];
         }
     }];
