@@ -13,6 +13,8 @@
 #import "Toast+UIView.h"
 
 #import <AFHTTPRequestOperation.h>
+#import <UIButton+WebCache.h>
+
 
 @interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
 @property(nonatomic, strong)NSMutableArray* items;
@@ -73,6 +75,11 @@
     [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
     if ([cur_video.IsDowned intValue]) {
         [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+    }
+    if (MyTableViewTypeCartoon == self.myType) {
+        BMCartoonListDataModel* cur_cartoon = [self.items objectAtIndex:indexPath.row];
+        [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_cartoon.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+
     }
     return cell;
 }

@@ -35,7 +35,7 @@
 @property(nonatomic, strong)NSNumber* selectedCategoryId;
 @property(nonatomic, strong)NSNumber* selectedCollectionId;
 @property(nonatomic, strong)UIView* waitingView;
-@property(nonatomic, strong)BMMusicListVC* musicListVC;
+@property(nonatomic, strong)BMMusicListVC* cartoonListVC;
 @end
 
 @implementation BMCartoonVC
@@ -55,7 +55,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _musicListVC = [BMMusicListVC new];
+    _cartoonListVC = [BMMusicListVC new];
+    _cartoonListVC.vcType = MyListVCTypeCartoon;
     {
         UIView* customTitleView = [[UIView alloc] initWithFrame:CGRectMake(50, 5, VIEW_DEFAULT_WIDTH-100, 35)];
         UIView* baseView = customTitleView;
@@ -78,6 +79,7 @@
     {
         UIView* baseView = self.view;
         InitViewX(BMMusicTableView, tableView, baseView, 0);
+        tableView.myType = MyTableViewTypeCartoon;
         NSDictionary* map = NSDictionaryOfVariableBindings(tableView);
         
         ViewAddCons(baseView, @"H:|[tableView]|", nil, map);
@@ -89,32 +91,7 @@
     }
     
     {
-        _cartoonCateArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCate]];
-        if (_cartoonCateArr.count>=4) {
-            if ([self.selectedCategoryId isEqualToNumber:@(-1)]) {
-                self.selectedCategoryId = ((BMDataModel *)_cartoonCateArr[0]).Rid;
-            }
-            for (int index = 0; index < _cartoonCateArr.count; ++index) {
-                BMDataModel* cate = _cartoonCateArr[index];
-                switch (index) {
-                    case 0:
-                        [_Btn1 setTitle:cate.Name];
-                        break;
-                    case 1:
-                        [_Btn2 setTitle:cate.Name];
-                        break;
-                    case 2:
-                        [_Btn3 setTitle:cate.Name];
-                        break;
-                    case 3:
-                        [_Btn4 setTitle:cate.Name];
-                        break;
-                    default:
-                        break;
-                }
-            }
-            [self LoadCollectionAndListData];
-        }
+        [self LoadCategoryAndCollectionAndListData];
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_CARTOON_CATEGORY_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_CARTOON_COLLECTION_DATA_FINISHED object:nil];
@@ -137,44 +114,8 @@
     // Pass the selected object to the new view controller.
 }
 */
-
--(void)LoadCollectionAndListData {
-    _cartoonCollectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCollectionWithCateId:self.selectedCategoryId]];
-    if (_cartoonCollectionArr.count) {
-        [_focusView removeFromSuperview];
-        _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_cartoonCollectionArr.count];
-        [_focusView setClickDelegate:self];
-        [_focusView loadScrollView];
-        _tableView.tableHeaderView = _focusView;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (NSUInteger index = 0; index < _cartoonCollectionArr.count; index++) {
-                BMCollectionDataModel* cur_mv = [_cartoonCollectionArr objectAtIndex:index];
-                UIButton *btn = (UIButton *)[_focusView viewWithTag:(1000 + index)];
-                [btn sd_setImageWithURL:[NSURL URLWithString:cur_mv.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
-                UILabel *label = (UILabel *)[_focusView viewWithTag:(2000 + index)];
-                label.text = cur_mv.Name;
-                CGSize textSize = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake(label.frame.size.width+30, 11) lineBreakMode:NSLineBreakByTruncatingTail];
-                CGRect frame = CGRectMake(label.frame.origin.x - (textSize.width-label.frame.size.width)/2, label.frame.origin.y, textSize.width, label.frame.size.height);
-                label.frame = frame;
-            }
-        });
-        
-        self.selectedCollectionId = ((BMCollectionDataModel *)_cartoonCollectionArr[0]).Rid;
-        _cartoonListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.selectedCollectionId]];
-        if (_cartoonListArr.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_cartoonListArr]];
-            [self.tableView reloadData];
-        } else {
-            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeCartoon];
-        }
-    } else{
-        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeCartoon];
-        [self showLoadingPage:YES descript:nil];
-    }
-}
-
-- (void)loadCategoryDataFinish:(NSNotification *) notify {
+#pragma mark - 加载分类数据
+-(void)LoadCategoryAndCollectionAndListData {
     _cartoonCateArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCate]];
     if (_cartoonCateArr.count>=4) {
         if ([self.selectedCategoryId isEqualToNumber:@(-1)]) {
@@ -202,18 +143,10 @@
         [self LoadCollectionAndListData];
     }
 }
-
--(void)loadCollectionDataFinish:(NSNotification *)notify {
-    [self showLoadingPage:NO descript:nil];
-    NSDictionary* userInfo = notify.object;
-    NSArray* cartoonList = userInfo[@"cartoonList"];
-    NSString* currCateId = userInfo[@"cartoonCateId"];
-//    if (cartoonList.count) {
-//        [self.tableView setItems:[NSMutableArray arrayWithArray:musicList]];
-//        [self.tableView reloadData];
-//    }
-    if ([currCateId integerValue] == [self.selectedCategoryId integerValue]) {
-        _cartoonCollectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCollectionWithCateId:self.selectedCategoryId]];
+#pragma mark - 加载合集数据
+-(void)LoadCollectionAndListData {
+    _cartoonCollectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonCollectionWithCateId:self.selectedCategoryId]];
+    if (_cartoonCollectionArr.count) {
         [_focusView removeFromSuperview];
         _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_cartoonCollectionArr.count];
         [_focusView setClickDelegate:self];
@@ -232,28 +165,67 @@
                 label.frame = frame;
             }
         });
-        self.selectedCollectionId = ((BMCollectionDataModel *)_cartoonCollectionArr[0]).Rid;
-        _cartoonListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.selectedCollectionId]];
-        if (_cartoonListArr.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_cartoonListArr]];
-            [self.tableView reloadData];
-        } else {
-            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeCartoon];
-        }
+        self.selectedCollectionId = ((BMCartoonCollectionDataModel *)_cartoonCollectionArr[0]).Rid;
+        [self LoadListData];
+    } else{
+        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeCartoon];
+        [self showLoadingPage:YES descript:nil];
     }
 }
-
--(void)loadListDataFinish:(NSNotification *)notify {
-    NSDictionary* userInfo = notify.object;
-    NSString* collectionId = userInfo[@"collectionId"];
-    self.selectedCollectionId = @([collectionId intValue]);
+#pragma mark - 加载列表数据
+-(void)LoadListData {
     _cartoonListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.selectedCollectionId]];
     if (_cartoonListArr.count) {
         [self.tableView setItems:[NSMutableArray arrayWithArray:_cartoonListArr]];
         [self.tableView reloadData];
+    } else {
+        [self showLoadingPage:YES descript:nil];
+        [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeCartoon];
+    }
+}
+#pragma mark - 分类切换
+-(void)topBarButtonClick:(int)index {
+    if (index>1003 || _cartoonCateArr.count<4) {
+        return;
+    }
+    BMDataModel* cate = _cartoonCateArr[index-1000];
+    self.selectedCategoryId = cate.Rid;
+    [self LoadCollectionAndListData];
+}
+
+#pragma mark - 合集切换
+- (void)focusViewClicked:(UIButton *)sender {
+    NSUInteger index = sender.tag - 1000;
+    BMCartoonCollectionDataModel *collectModel = [_cartoonCollectionArr objectAtIndex:index];
+    _cartoonListVC.currentCartoonCollectionData = collectModel;
+    [self.navigationController pushViewController:_cartoonListVC animated:YES];
+}
+
+#pragma mark - 收到通知，加载分类、合集、列表数据
+- (void)loadCategoryDataFinish:(NSNotification *) notify {
+    [self LoadCategoryAndCollectionAndListData];
+}
+
+-(void)loadCollectionDataFinish:(NSNotification *)notify {
+    [self showLoadingPage:NO descript:nil];
+    NSDictionary* userInfo = notify.object;
+    NSArray* cartoonList = userInfo[@"cartoonList"];
+    NSString* currCateId = userInfo[@"cartoonCateId"];
+    if ([currCateId integerValue] == [self.selectedCategoryId integerValue]) {
+        [self LoadCollectionAndListData];
     }
 }
 
+-(void)loadListDataFinish:(NSNotification *)notify {
+    [self showLoadingPage:NO descript:nil];
+    NSDictionary* userInfo = notify.object;
+    NSString* collectionId = userInfo[@"collectionId"];
+    if ([self.selectedCollectionId intValue] == [collectionId intValue]) {
+        [self LoadListData];
+    }
+}
+
+#pragma mark - 显示加载菊花
 - (void)showLoadingPage:(BOOL)bShow descript:(NSString*)strDescript
 {
     if (bShow) {
@@ -287,15 +259,6 @@
         [_waitingView removeFromSuperview];
         _waitingView=nil;
     }
-}
-
--(void)topBarButtonClick:(int)index {
-    if (index>1003 || _cartoonCateArr.count<4) {
-        return;
-    }
-    BMDataModel* cate = _cartoonCateArr[index-1000];
-    self.selectedCategoryId = cate.Rid;
-    [self LoadCollectionAndListData];
 }
 
 @end

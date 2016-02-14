@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MacroDefinition.h"
 
 
 @class BMCollectionDataModel;
+@class BMCartoonCollectionDataModel;
 
 @interface BMMusicListVC : UIViewController
+@property(nonatomic, assign)MyListVCType vcType;
 @property(nonatomic, strong)BMCollectionDataModel* currentCollectionData;
+@property(nonatomic, strong)BMCartoonCollectionDataModel* currentCartoonCollectionData;
 @end

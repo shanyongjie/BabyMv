@@ -82,47 +82,15 @@
         UIView* baseView = self.view;
         InitViewX(BMMusicTableView, tableView, baseView, 0);
         NSDictionary* map = NSDictionaryOfVariableBindings(tableView);
-        
         ViewAddCons(baseView, @"H:|[tableView]|", nil, map);
         ViewAddCons(baseView, @"V:|[tableView]|", nil, map);
-        
         _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:8];
-//        [_focusView setClickDelegate:self];
         [_focusView loadScrollView];
         tableView.tableHeaderView = _focusView;
     }
     
     {
-        _musicCateArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCate]];
-        if (_musicCateArr.count>=5) {
-            if ([self.selectedCategoryId isEqualToNumber:@(-1)]) {
-                self.selectedCategoryId = ((BMDataModel *)_musicCateArr[0]).Rid;
-            }
-            for (int index = 0; index < _musicCateArr.count; ++index) {
-                BMDataModel* cate = _musicCateArr[index];
-                switch (index) {
-                    case 0:
-                        [_Btn1 setTitle:cate.Name];
-                        break;
-                    case 1:
-                        [_Btn2 setTitle:cate.Name];
-                        break;
-                    case 2:
-                        [_Btn3 setTitle:cate.Name];
-                        break;
-                    case 3:
-                        [_Btn4 setTitle:cate.Name];
-                        break;
-                    case 4:
-                        [_Btn5 setTitle:cate.Name];
-                        break;
-                    default:
-                        break;
-                }
-            }
-            [self LoadCollectionAndListData];
-        }
-//        else
+        [self LoadCategoryAndCollectionAndListData];
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_MUSIC_CATEGORY_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_MUSIC_COLLECTION_DATA_FINISHED object:nil];
@@ -145,53 +113,8 @@
     // Pass the selected object to the new view controller.
 }
 */
-
--(void)LoadCollectionAndListData {
-    _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
-    if (_collectionArr.count) {
-        [_focusView removeFromSuperview];
-        _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
-        [_focusView setClickDelegate:self];
-        [_focusView loadScrollView];
-        _tableView.tableHeaderView = _focusView;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (NSUInteger index = 0; index < _collectionArr.count; index++) {
-                BMCollectionDataModel* cur_mv = [_collectionArr objectAtIndex:index];
-                UIButton *btn = (UIButton *)[_focusView viewWithTag:(1000 + index)];
-                [btn sd_setImageWithURL:[NSURL URLWithString:cur_mv.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
-                UILabel *label = (UILabel *)[_focusView viewWithTag:(2000 + index)];
-                label.text = cur_mv.Name;
-                CGSize textSize = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake(label.frame.size.width+30, 11) lineBreakMode:NSLineBreakByTruncatingTail];
-                CGRect frame = CGRectMake(label.frame.origin.x - (textSize.width-label.frame.size.width)/2, label.frame.origin.y, textSize.width, label.frame.size.height);
-                label.frame = frame;
-            }
-        });
-        
-        self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
-        _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
-        if (_musicListArr.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
-            [self.tableView reloadData];
-        } else {
-            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeMusic];
-        }
-    } else{
-        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeMusic];
-        [self showLoadingPage:YES descript:nil];
-    }
-}
-
--(void)topBarButtonClick:(int)index {
-    if (index>1004 || _musicCateArr.count<5) {
-        return;
-    }
-    BMDataModel* cate = _musicCateArr[index-1000];
-    self.selectedCategoryId = cate.Rid;
-    [self LoadCollectionAndListData];
-}
-
-- (void)loadCategoryDataFinish:(NSNotification *) notify {
+#pragma mark - 加载分类数据
+-(void)LoadCategoryAndCollectionAndListData {
     _musicCateArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCate]];
     if (_musicCateArr.count>=5) {
         if ([self.selectedCategoryId isEqualToNumber:@(-1)]) {
@@ -223,17 +146,10 @@
     }
 }
 
--(void)loadCollectionDataFinish:(NSNotification *)notify {
-    [self showLoadingPage:NO descript:nil];
-    NSDictionary* userInfo = notify.object;
-    NSArray* musicList = userInfo[@"SongList"];
-    NSString* currCateId = userInfo[@"musicCateId"];
-    if (musicList.count) {
-        [self.tableView setItems:[NSMutableArray arrayWithArray:musicList]];
-        [self.tableView reloadData];
-    }
-    if ([currCateId integerValue] == [self.selectedCategoryId integerValue]) {
-        _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
+#pragma mark - 加载合集数据
+-(void)LoadCollectionAndListData {
+    _collectionArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicCollectionWithCateId:self.selectedCategoryId]];
+    if (_collectionArr.count) {
         [_focusView removeFromSuperview];
         _focusView = [[MYFocusView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 152) itemCounts:_collectionArr.count];
         [_focusView setClickDelegate:self];
@@ -252,20 +168,69 @@
                 label.frame = frame;
             }
         });
+        
+        self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
+        [self LoadListData];
+    } else{
+        [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeMusic];
+        [self showLoadingPage:YES descript:nil];
     }
 }
 
--(void)loadListDataFinish:(NSNotification *)notify {
-    NSDictionary* userInfo = notify.object;
-    NSString* collectionId = userInfo[@"collectionId"];
-    self.selectedCollectionId = @([collectionId intValue]);
+#pragma mark - 加载列表数据
+-(void)LoadListData {
     _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
     if (_musicListArr.count) {
         [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
         [self.tableView reloadData];
+    } else {
+        [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeMusic];
+        [self showLoadingPage:YES descript:nil];
     }
 }
 
+#pragma mark - 分类切换
+-(void)topBarButtonClick:(int)index {
+    if (index>1004 || _musicCateArr.count<5) {
+        return;
+    }
+    BMDataModel* cate = _musicCateArr[index-1000];
+    self.selectedCategoryId = cate.Rid;
+    [self LoadCollectionAndListData];
+}
+
+#pragma mark - 合集切换
+- (void)focusViewClicked:(UIButton *)sender {
+    NSUInteger index = sender.tag - 1000;
+    BMCollectionDataModel *collectModel = [_collectionArr objectAtIndex:index];
+    _musicListVC.currentCollectionData = collectModel;
+    [self.navigationController pushViewController:_musicListVC animated:YES];
+}
+
+#pragma mark - 收到通知，加载分类、合集、列表数据
+- (void)loadCategoryDataFinish:(NSNotification *) notify {
+    [self LoadCategoryAndCollectionAndListData];
+}
+
+-(void)loadCollectionDataFinish:(NSNotification *)notify {
+    [self showLoadingPage:NO descript:nil];
+    NSDictionary* userInfo = notify.object;
+    NSString* currCateId = userInfo[@"musicCateId"];
+    if ([currCateId integerValue] == [self.selectedCategoryId integerValue]) {
+        [self LoadCollectionAndListData];
+    }
+}
+
+-(void)loadListDataFinish:(NSNotification *)notify {
+    [self showLoadingPage:NO descript:nil];
+    NSDictionary* userInfo = notify.object;
+    NSString* collectionId = userInfo[@"collectionId"];
+    if ([self.selectedCollectionId intValue] == [collectionId intValue]) {
+        [self LoadListData];
+    }
+}
+
+#pragma mark - 显示加载菊花
 - (void)showLoadingPage:(BOOL)bShow descript:(NSString*)strDescript
 {
     if (bShow) {
@@ -299,14 +264,6 @@
         [_waitingView removeFromSuperview];
         _waitingView=nil;
     }
-}
-#pragma mark - MyFocusView delegate collection Switch
-
-- (void)focusViewClicked:(UIButton *)sender {
-    NSUInteger index = sender.tag - 1000;
-    BMCollectionDataModel *collectModel = [_collectionArr objectAtIndex:index];
-    _musicListVC.currentCollectionData = collectModel;
-    [self.navigationController pushViewController:_musicListVC animated:YES];
 }
 
 @end

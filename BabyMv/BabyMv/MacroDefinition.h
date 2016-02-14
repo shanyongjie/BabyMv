@@ -10,6 +10,12 @@
 #define MacroDefinition_h
 
 
+
+typedef enum : NSUInteger {
+    MyListVCTypeMusic,
+    MyListVCTypeCartoon,
+} MyListVCType;
+
 typedef enum : NSUInteger {
     MyTableViewTypeMusic,
     MyTableViewTypeMusicDown,

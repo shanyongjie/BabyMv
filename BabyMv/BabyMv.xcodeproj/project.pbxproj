@@ -141,6 +141,10 @@
 		0C0F3DE31C64E0A3008773AC /* BMVIewController */ = {
 			isa = PBXGroup;
 			children = (
+				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
+				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
+				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
+				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
 				0C0F3DE61C64E0C1008773AC /* BMMusicVC.h */,
 				0C0F3DE71C64E0C1008773AC /* BMMusicVC.m */,
 				0C0F3DE41C64E0C1008773AC /* BMCartoonVC.h */,
@@ -153,10 +157,6 @@
 				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
 				0CE607A91C67245200F555EC /* BMHistoryVC.h */,
 				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
-				0C2A51481C678C3500837228 /* BMMusicTableView.h */,
-				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
-				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
-				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
 			);
 			name = BMVIewController;
 			sourceTree = "<group>";
@@ -533,7 +533,7 @@
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv.m;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -549,7 +549,7 @@
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv.m;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

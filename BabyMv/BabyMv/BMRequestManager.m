@@ -75,6 +75,7 @@
     
 }
 
+#pragma mark 根据分类加载合集
 -(void)loadCollectionDataWithCategoryId:(NSNumber *)musicCateId requestType:(MyRequestType)requestType {
     NSString* url = nil;
     switch (requestType) {
@@ -96,6 +97,7 @@
         NSDictionary* dic = responseObject? [NSJSONSerialization JSONObjectWithData:responseObject
                                                                             options:0
                                                                               error:nil]:nil;
+        //都是shan，你这货，返回的关键字不一样，让我只能用两个if
         if (requestType == MyRequestTypeMusic) {
             NSArray* collectList = dic[@"CollectList"];
             NSArray* songList = dic[@"SongList"];
@@ -182,6 +184,7 @@
     }];
 }
 
+#pragma mark 根据合集加载合集
 -(void)loadListDataWithCollectionId:(NSNumber *)collectionId requestType:(MyRequestType)requestType {
     NSString* url = nil;
     switch (requestType) {
@@ -210,6 +213,7 @@
             return;
         }
         
+        //返回的key不一样，新增model类型
         if (requestType == MyRequestTypeMusic) {
             for (NSDictionary* musicDic in dataList) {
                 BMListDataModel* music = [BMListDataModel parseData:musicDic];

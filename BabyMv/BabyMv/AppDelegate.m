@@ -26,27 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [BMDataBaseManager sharedInstance];
-    NSArray* musicCateArr       = [[BMDataBaseManager sharedInstance] getAllMusicCate];
-    NSArray* musicCollections   = [[BMDataBaseManager sharedInstance] getAllMusicCollection];
-    NSArray* musicLists = [[BMDataBaseManager sharedInstance] getAllMusicList];
-    if (musicCollections.count) {
-        for (BMCollectionDataModel* collectionData in musicCollections) {
-            [BMDataCacheManager setMusicCollection:@[collectionData] cateId:collectionData.CateId];
-        }
-    }
-    if (musicLists.count) {
-        for (BMListDataModel* listData in musicLists) {
-            [BMDataCacheManager setMusicList:@[listData] collectionId:listData.CollectionId];
-        }
-    }
-    if (!musicCateArr.count) {
-        [BMRequestManager loadCategoryData:MyRequestTypeMusic];
-    } else {
-        [BMDataCacheManager setMusicCate:musicCateArr];
-    }
-    
-    [BMRequestManager loadCategoryData:MyRequestTypeCartoon];
+    [self loadCacheData];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -77,9 +57,51 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(void) loadCacheData {
+    //数据库初始化
+    [BMDataBaseManager sharedInstance];
+    //加载音频缓存
+    NSArray* musicCateArr       = [[BMDataBaseManager sharedInstance] getAllMusicCate];
+    NSArray* musicCollections   = [[BMDataBaseManager sharedInstance] getAllMusicCollection];
+    NSArray* musicLists         = [[BMDataBaseManager sharedInstance] getAllMusicList];
+    if (musicLists.count) {
+        for (BMListDataModel* listData in musicLists) {
+            [BMDataCacheManager setMusicList:@[listData] collectionId:listData.CollectionId];
+        }
+    }
+    if (musicCollections.count) {
+        for (BMCollectionDataModel* collectionData in musicCollections) {
+            [BMDataCacheManager setMusicCollection:@[collectionData] cateId:collectionData.CateId];
+        }
+    }
+    if (!musicCateArr.count) {
+        [BMRequestManager loadCategoryData:MyRequestTypeMusic];
+    } else {
+        [BMDataCacheManager setMusicCate:musicCateArr];
+    }
+    //加载视频缓存
+    NSArray* cartoonCateArr       = [[BMDataBaseManager sharedInstance] getAllCartoonCate];
+    NSArray* cartoonCollections   = [[BMDataBaseManager sharedInstance] getAllCartoonCollection];
+    NSArray* cartoonLists         = [[BMDataBaseManager sharedInstance] getAllCartoonList];
+    if (cartoonLists.count) {
+        for (BMCartoonListDataModel* listData in cartoonLists) {
+            [BMDataCacheManager setCartoonList:@[listData] collectionId:listData.CollectionId];
+        }
+    }
+    if (cartoonCollections.count) {
+        for (BMCartoonCollectionDataModel* collectionData in cartoonCollections) {
+            [BMDataCacheManager setCartoonCollection:@[collectionData] cateId:collectionData.CateId];
+        }
+    }
+    if (!cartoonCateArr.count) {
+        [BMRequestManager loadCategoryData:MyRequestTypeCartoon];
+    } else {
+        [BMDataCacheManager setCartoonCate:cartoonCateArr];
+    }
+}
+
 -(void) setDefaultAppearance
 {
-    
     //ios7
     if (NSProtocolFromString(@"UIAppearance") != nil) {
         id navAppearance = [UINavigationBar appearanceWhenContainedIn:[UINavigationController class],nil];

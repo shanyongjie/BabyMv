@@ -8,7 +8,6 @@
 
 #import "BMMusicListVC.h"
 #import "BMMusicTableView.h"
-#import "MacroDefinition.h"
 #import "BMDataModel.h"
 #import "BMDataCacheManager.h"
 #import "BMRequestManager.h"
@@ -22,12 +21,23 @@
 
 @implementation BMMusicListVC
 
+-(instancetype)init {
+    self = [super init];
+    if (self) {
+        _vcType = MyListVCTypeMusic;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     {
         UIView* baseView = self.view;
         InitViewX(BMMusicTableView, tableView, baseView, 0);
+        if (self.vcType == MyListVCTypeCartoon) {
+            tableView.myType = MyTableViewTypeCartoon;
+        }
         NSDictionary* map = NSDictionaryOfVariableBindings(tableView);
         
         ViewAddCons(baseView, @"H:|[tableView]|", nil, map);
@@ -40,15 +50,32 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = self.currentCollectionData.Name;
-    _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
-    if (_musicListData.count) {
-        [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
-        [self.tableView reloadData];
-    } else{
-        [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCollectionData.Rid requestType:MyRequestTypeMusic];
-        [self showLoadingPage:YES descript:nil];
+    if (self.vcType == MyListVCTypeMusic) {
+        self.navigationItem.title = self.currentCollectionData.Name;
+        _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
+        if (_musicListData.count) {
+            [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
+            [self.tableView reloadData];
+        } else{
+            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCollectionData.Rid requestType:MyRequestTypeMusic];
+            [self showLoadingPage:YES descript:nil];
+        }
+        return;
     }
+
+    if (self.vcType == MyListVCTypeCartoon) {
+        self.navigationItem.title = self.currentCartoonCollectionData.Name;
+        _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
+        if (_musicListData.count) {
+            [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
+            [self.tableView reloadData];
+        } else{
+            [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCartoonCollectionData.Rid requestType:MyRequestTypeCartoon];
+            [self showLoadingPage:YES descript:nil];
+        }
+        return;
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,10 +95,27 @@
 
 -(void)listDataLoadFinished:(NSNotification *)notify {
     [self showLoadingPage:NO descript:nil];
-    _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
-    if (_musicListData.count) {
-        [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
-        [self.tableView reloadData];
+    NSDictionary* userInfo = notify.object;
+    NSString* collectionId = userInfo[@"collectionId"];
+    
+    int currentCollectionId = 0;
+    if (self.vcType == MyListVCTypeMusic) {
+        currentCollectionId = [self.currentCollectionData.Rid intValue];
+    }
+    if (self.vcType == MyListVCTypeCartoon) {
+        currentCollectionId = [self.currentCartoonCollectionData.Rid intValue];
+    }
+    if ([collectionId intValue] == currentCollectionId) {
+        if (self.vcType == MyListVCTypeMusic) {
+            _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:@(currentCollectionId)]];
+        }
+        if (self.vcType == MyListVCTypeCartoon) {
+            _musicListData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:@(currentCollectionId)]];
+        }
+        if (_musicListData.count) {
+            [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListData]];
+            [self.tableView reloadData];
+        }
     }
 }
 

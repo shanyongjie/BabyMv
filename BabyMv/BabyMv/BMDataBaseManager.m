@@ -89,12 +89,12 @@
 }
 
 -(NSArray *)createDBStr {
-    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text)",
-             @"CREATE TABLE MusicCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0)",
-             @"CREATE TABLE MusicList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0)",
-             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text)",
-             @"CREATE TABLE CartoonCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0)",
-             @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0)"
+    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE MusicCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE MusicList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)"
              ];
 }
 
