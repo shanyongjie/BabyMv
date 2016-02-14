@@ -23,11 +23,14 @@
 -(BOOL)addMusicCateArr:(NSArray *) arr;
 -(void)updateMusicCate:(BMDataModel *) cate;
 
+-(NSArray *)getFavoriteMusicCollections;
+-(BOOL)IsMusicCollectionFaved:(NSNumber *) CollectionId;
 -(NSArray *)getAllCollectionIds;
 -(NSArray *)getAllMusicCollection;
 -(BOOL)addMusicCollectionArr:(NSArray *) arr;
 -(void)favMusicCollection:(BMCollectionDataModel *) collection;
 
+-(NSArray *)getDownloadedMusicList;
 -(NSArray *)getAllMusicList;
 -(BOOL)addMusicListArr:(NSArray *)arr;
 -(void)updateMusicList:(BMListDataModel *)list;
@@ -40,11 +43,14 @@
 -(BOOL)addCartoonCateArr:(NSArray *) arr;
 -(void)updateCartoonCate:(BMDataModel *) cate;
 
+-(NSArray *)getFavoriteCartoonCollections;
+-(BOOL)IsCartoonCollectionFaved:(NSNumber *) CollectionId;
 -(NSArray *)getAllCartoonCollectionIds;
 -(NSArray *)getAllCartoonCollection;
 -(BOOL)addCartoonCollectionArr:(NSArray *) arr;
 -(void)favCartoonCollection:(BMCartoonCollectionDataModel *) collection;
 
+-(NSArray *)getDownloadedCartoonList;
 -(NSArray *)getAllCartoonList;
 -(BOOL)addCartoonListArr:(NSArray *)arr;
 -(void)updateCartoonList:(BMCartoonListDataModel *)list;

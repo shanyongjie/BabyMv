@@ -13,13 +13,19 @@
 
 typedef enum : NSUInteger {
     MyListVCTypeMusic,
+    MyListVCTypeMusicDownload,
     MyListVCTypeCartoon,
+    MyListVCTypeCartoonDownload,
+    MyListVCTypeHistory,
 } MyListVCType;
 
 typedef enum : NSUInteger {
     MyTableViewTypeMusic,
     MyTableViewTypeMusicDown,
     MyTableViewTypeCartoon,
+    MyTableViewTypeCartoonDown,
+    MyTableViewTypeFavorite,
+    MyTableViewTypeHistory,
 } MyTableViewType;
 
 typedef enum : NSUInteger {
@@ -27,6 +33,10 @@ typedef enum : NSUInteger {
     MyRequestTypeCartoon,
 } MyRequestType;
 
+
+#define MYBTNWIDTH 93
+#define MWBTNHEIGHT 73
+#define XGAP ((VIEW_DEFAULT_WIDTH - MYBTNWIDTH*3)/4)
 
 
 #define DOWNLOAD_DIR  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"download"]
@@ -43,6 +53,13 @@ typedef enum : NSUInteger {
 #define MUSIC_LIST(mvId)        [NSString stringWithFormat:@"http://coollisten.duapp.com/?type=getAudioList&collectId=%@&ver=%@", mvId, IPA_VER]
 
 //#define FEEDBACK_URL [NSString stringWithFormat:@"http://coollisten.duapp.com/?type=statistic&source=xxxxx&rid=xxxxx"]
+
+#define INITBUTTONX(name, superView, TAG)        \
+UIButton* name = [UIButton new];  \
+self.name = name;   \
+name.translatesAutoresizingMaskIntoConstraints = NO;    \
+name.tag = TAG; \
+[superView addSubview:name];
 
 
 #define InitViewX(viewType, viewName, SUPERVIEW, TAG)              \

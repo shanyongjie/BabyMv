@@ -159,10 +159,10 @@
 		0C2A514C1C67BA7600837228 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
-				0C2A514D1C67BAFC00837228 /* BMDataBaseManager.h */,
-				0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */,
 				0C42D4591C6CE62D00B19DA5 /* BMDataModel.h */,
 				0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */,
+				0C2A514D1C67BAFC00837228 /* BMDataBaseManager.h */,
+				0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */,
 				0C98E3DD1C6D86F900EA39DD /* BMDataCacheManager.h */,
 				0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */,
 				0C98E3E01C6D87E600EA39DD /* BMRequestManager.h */,

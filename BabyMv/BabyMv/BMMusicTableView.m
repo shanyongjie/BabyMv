@@ -51,13 +51,25 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* cellReuseId = @"musicCell";
+    NSString* cellReuseId = @"Cell";
     switch (self.myType) {
-        case MyTableViewTypeMusicDown:
-            cellReuseId = @"musicCellDownload";
+        case MyTableViewTypeMusic:
+            cellReuseId = @"musicCell";
             break;
         case MyTableViewTypeCartoon:
             cellReuseId = @"cartoonCell";
+            break;
+        case MyTableViewTypeMusicDown:
+            cellReuseId = @"musicDownload";
+            break;
+        case MyTableViewTypeCartoonDown:
+            cellReuseId = @"cartoonDownload";
+            break;
+        case MyTableViewTypeFavorite:
+            cellReuseId = @"favoriteDownload";
+            break;
+        case MyTableViewTypeHistory:
+            cellReuseId = @"historyDownload";
             break;
         default:
             break;
@@ -67,19 +79,68 @@
         cell = [[BMTableViewCell alloc] initWithCellType:self.myType reuseIdentifier:cellReuseId];
         cell.cellDelegate = self;
     }
-    BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
-    cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
-    cell.titleLab.text = cur_video.Name;
-    cell.detailLab.text = cur_video.Artist;
-    cell.downimg.tag = 3000+indexPath.row;
-    [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
-    if ([cur_video.IsDowned intValue]) {
-        [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
-    }
-    if (MyTableViewTypeCartoon == self.myType) {
-        BMCartoonListDataModel* cur_cartoon = [self.items objectAtIndex:indexPath.row];
-        [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_cartoon.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
-
+    
+    switch (self.myType) {
+        case MyTableViewTypeMusic: {
+            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            cell.downimg.tag = 3000+indexPath.row;
+            [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            if ([cur_video.IsDowned intValue]) {
+                [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+            }
+            break;
+        }
+        case MyTableViewTypeMusicDown: {
+            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            cell.downimg.tag = 3000+indexPath.row;
+            break;
+        }
+        case MyTableViewTypeCartoon: {
+            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            cell.downimg.tag = 3000+indexPath.row;
+            [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            if ([cur_video.IsDowned intValue]) {
+                [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+            }
+            break;
+        }
+        case MyTableViewTypeCartoonDown: {
+            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            cell.downimg.tag = 3000+indexPath.row;
+            break;
+        }
+        case MyTableViewTypeFavorite: {
+            BMCollectionDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            cell.downimg.tag = 3000+indexPath.row;
+            break;
+        }
+        case MyTableViewTypeHistory: {
+            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            cell.downimg.tag = 3000+indexPath.row;
+            break;
+        }
+        default:
+            break;
     }
     return cell;
 }
@@ -89,7 +150,30 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            return 30;
+            break;
+        case MyTableViewTypeCartoon:
+            return 30;
+            break;
+        case MyTableViewTypeMusicDown:
+            return 30;
+            break;
+        case MyTableViewTypeCartoonDown:
+            return 30;
+            break;
+        case MyTableViewTypeFavorite:
+            return 30;
+            break;
+        case MyTableViewTypeHistory:
+            return 30;
+            break;
+        default:
+            break;
+            return 0.01;
+    }
+    return 0.01;
 }
 //
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -97,31 +181,41 @@
 //}
 //
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
+    //    view.backgroundColor = [UIColor darkGrayColor];
+    UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];
+    segview.backgroundColor = RGB(0xeeeeee, 1.0);
+    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, MAIN_WIDTH, 25)];
+    titleLab.font = [UIFont systemFontOfSize:11.5];
+    titleLab.backgroundColor = [UIColor whiteColor];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, MAIN_WIDTH, 0.5)];
+    lineView.backgroundColor = RGB(0xe4e4e4, 1.0);
+    [view addSubview:segview];
+    [view addSubview:titleLab];
+    [view addSubview:lineView];
     switch (self.myType) {
         case MyTableViewTypeMusic:
+        case MyTableViewTypeCartoon:
+            titleLab.text = @"最近更新";
             break;
         case MyTableViewTypeMusicDown:
+            titleLab.text = @"我下载的儿歌";
             break;
-        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown:
+            titleLab.text = @"我下载的动画";
+            break;
+        case MyTableViewTypeFavorite:
+            titleLab.frame = CGRectMake(XGAP, 5, MAIN_WIDTH-XGAP, 25);
+            titleLab.text = @"收藏";
+            break;
+        case MyTableViewTypeHistory:
+            titleLab.text = @"历史";
             break;
         default:
             break;
+            return nil;
     }
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
-//    //    view.backgroundColor = [UIColor darkGrayColor];
-//    UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];
-//    segview.backgroundColor = RGB(0xeeeeee, 1.0);
-//    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, MAIN_WIDTH, 25)];
-//    titleLab.font = [UIFont systemFontOfSize:11.5];
-//    titleLab.text = @"最近更新";
-//    titleLab.backgroundColor = [UIColor whiteColor];
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, MAIN_WIDTH, 0.5)];
-//    lineView.backgroundColor = RGB(0xe4e4e4, 1.0);
-//    [view addSubview:segview];
-//    [view addSubview:titleLab];
-//    [view addSubview:lineView];
-//    return view;
-    return nil;
+    return view;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -143,9 +237,15 @@
     switch (self.myType) {
         case MyTableViewTypeMusic:
             break;
+        case MyTableViewTypeCartoon:
+            break;
         case MyTableViewTypeMusicDown:
             break;
-        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown:
+            break;
+        case MyTableViewTypeFavorite:
+            break;
+        case MyTableViewTypeHistory:
             break;
         default:
             break;
@@ -189,14 +289,27 @@
     switch (self.myType) {
         case MyTableViewTypeMusic:
             break;
+        case MyTableViewTypeCartoon:
+            break;
         case MyTableViewTypeMusicDown:
             break;
-        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown:
+            break;
+        case MyTableViewTypeFavorite:
+            break;
+        case MyTableViewTypeHistory:
             break;
         default:
             break;
     }
+}
 
+- (void)cancelFav:(UIButton *)btn {
+    
+}
+
+- (void)deleteHistory:(UIButton *)btn {
+    
 }
 
 @end

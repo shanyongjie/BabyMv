@@ -12,6 +12,8 @@
 @protocol BMTableViewCellDelegate <NSObject>
 - (void)download:(UIButton *)btn;
 - (void)deleteMusic:(UIButton *)btn;
+- (void)cancelFav:(UIButton *)btn;
+- (void)deleteHistory:(UIButton *)btn;
 @end
 
 @interface BMTableViewCell : UITableViewCell

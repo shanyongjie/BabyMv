@@ -158,6 +158,37 @@
 }
 
 #pragma mark - music合集
+-(NSArray *)getFavoriteMusicCollections {
+    __block NSMutableArray *resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* query_result = [db executeQuery:@"select * from MusicCollection where IsFaved=1 order by Rid asc"];
+        while ([query_result next]) {
+            BMCollectionDataModel* cur_item = [[BMCollectionDataModel alloc] init];
+            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Name = [query_result stringForColumn:@"Name"];
+            cur_item.Artist = [query_result stringForColumn:@"Artist"];
+            cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
+            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
+            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            [resArr addObject:cur_item];
+        }
+        [query_result close];
+    }];
+    return resArr;
+}
+
+-(BOOL)IsMusicCollectionFaved:(NSNumber *) CollectionId {
+    __block BOOL IsFaved = NO;
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select IsFaved from MusicCollection where Rid=?", CollectionId];
+        while ([resultSet next]) {
+            IsFaved = [resultSet intForColumn:@"IsFaved"];
+        }
+    }];
+    return IsFaved;
+}
+
 -(NSArray *)getAllCollectionIds {
     __block NSMutableArray* resArr = [NSMutableArray new];
     __block NSMutableSet* resSet = [NSMutableSet new];
@@ -220,6 +251,27 @@
 }
 
 #pragma mark - music list
+-(NSArray *)getDownloadedMusicList {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select * from MusicList where IsDowned=1 order by Rid asc"];
+        while ([resultSet next]) {
+            BMListDataModel* listData = [BMListDataModel new];
+            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Name = [resultSet stringForColumn:@"Name"];
+            listData.Artist = [resultSet stringForColumn:@"Artist"];
+            listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
+            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
+            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
+            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
+            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            [resArr addObject:listData];
+        }
+    }];
+    return resArr;
+}
+
 -(NSArray *)getAllMusicList {
     __block NSMutableArray* resArr = [NSMutableArray new];
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
@@ -364,6 +416,37 @@
 }
 
 #pragma mark - cartoon合集
+-(NSArray *)getFavoriteCartoonCollections {
+    __block NSMutableArray *resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* query_result = [db executeQuery:@"select * from CartoonCollection where IsFaved=1 order by Rid asc"];
+        while ([query_result next]) {
+            BMCartoonCollectionDataModel* cur_item = [[BMCartoonCollectionDataModel alloc] init];
+            cur_item.Rid = @([query_result intForColumn:@"Rid"]);
+            cur_item.Name = [query_result stringForColumn:@"Name"];
+            cur_item.Artist = [query_result stringForColumn:@"Artist"];
+            cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.CateId = @([query_result intForColumn:@"CateId"]);
+            cur_item.IsFaved = @([query_result intForColumn:@"IsFaved"]);
+            cur_item.FavedTime = @([query_result unsignedLongLongIntForColumn:@"FavedTime"]);
+            [resArr addObject:cur_item];
+        }
+        [query_result close];
+    }];
+    return resArr;
+}
+
+-(BOOL)IsCartoonCollectionFaved:(NSNumber *) CollectionId {
+    __block BOOL IsFaved = NO;
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select IsFaved from CartoonCollection where Rid=?", CollectionId];
+        while ([resultSet next]) {
+            IsFaved = [resultSet intForColumn:@"IsFaved"];
+        }
+    }];
+    return IsFaved;
+}
+
 -(NSArray *)getAllCartoonCollectionIds {
     __block NSMutableArray* resArr = [NSMutableArray new];
     __block NSMutableSet* resSet = [NSMutableSet new];
@@ -426,6 +509,28 @@
 }
 
 #pragma mark - cartoon list
+-(NSArray *)getDownloadedCartoonList {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select * from CartoonList where IsDowned=1 order by Rid asc"];
+        while ([resultSet next]) {
+            BMCartoonListDataModel* listData = [BMCartoonListDataModel new];
+            listData.Rid = @([resultSet intForColumn:@"Rid"]);
+            listData.Name = [resultSet stringForColumn:@"Name"];
+            listData.Artist = [resultSet stringForColumn:@"Artist"];
+            listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
+            listData.CollectionId = @([resultSet intForColumn:@"CollectionId"]);
+            listData.ListenCount = @([resultSet intForColumn:@"ListenCount"]);
+            listData.IsDowned = @([resultSet intForColumn:@"IsDowned"]);
+            listData.DownloadTime = @([resultSet unsignedLongLongIntForColumn:@"DownloadTime"]);
+            listData.LastListeningTime = @([resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]);
+            [resArr addObject:listData];
+        }
+    }];
+    return resArr;
+}
+
 -(NSArray *)getAllCartoonList {
     __block NSMutableArray* resArr = [NSMutableArray new];
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {

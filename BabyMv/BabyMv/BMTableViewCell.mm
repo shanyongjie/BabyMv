@@ -27,13 +27,14 @@
 -(instancetype)initWithCellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier {
     switch (cellType) {
         case MyTableViewTypeMusic:
-            return [self initMusicCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-            break;
         case MyTableViewTypeMusicDown:
-            return [self initMusicDownloadCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        case MyTableViewTypeFavorite:
+        case MyTableViewTypeHistory:
+            return [self initMusicCellWithStyle:UITableViewCellStyleDefault cellType:cellType reuseIdentifier:reuseIdentifier];
             break;
         case MyTableViewTypeCartoon:
-            return [self initCartoonCellWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        case MyTableViewTypeCartoonDown:
+            return [self initCartoonCellWithStyle:UITableViewCellStyleDefault cellType:cellType reuseIdentifier:reuseIdentifier];
             break;
         default:
             return nil;
@@ -41,7 +42,7 @@
     }
 }
 
-- (instancetype)initMusicCellWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initMusicCellWithStyle:(UITableViewCellStyle)style cellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _indexLab = [[UILabel alloc] initWithFrame:CGRectMake(10, (54-15)/2, 32, 15)];
@@ -54,8 +55,19 @@
 //        _detailLab = @"合集  播放25万";
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11.5, 31.5, 31.5)];
-        [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
-        [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+        if (MyTableViewTypeMusic == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (MyTableViewTypeMusicDown == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (MyTableViewTypeFavorite == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(cancelFav:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (MyTableViewTypeHistory == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(deleteHistory:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         _currentPlayingSign = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 4, self.frame.size.height)];
         _currentPlayingSign.backgroundColor = RGB(0xf4ad00, 1.0);
@@ -73,30 +85,7 @@
     return self;
 }
 
-- (instancetype)initMusicDownloadCellWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        _indexLab = [[UILabel alloc] initWithFrame:CGRectMake(10, (54-15)/2, 32, 15)];
-        _indexLab.font = [UIFont systemFontOfSize:15];
-        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(42, 10, MAIN_BOUNDS_WIDTH - 42 -10-10-31.5, 15)];
-        _titleLab.font = [UIFont systemFontOfSize:15];
-        _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(42, 35, 100, 12)];
-        _detailLab.font = [UIFont systemFontOfSize:12];
-        _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11.5, 31.5, 31.5)];
-        [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
-        [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_indexLab];
-        [self.contentView addSubview:_titleLab];
-        [self.contentView addSubview:_detailLab];
-        [self.contentView addSubview:_downimg];
-        
-        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
-        [self.selectedBackgroundView setBackgroundColor:RGB(0xfff8e1, 1.0)];
-    }
-    return self;
-}
-
-- (instancetype)initCartoonCellWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initCartoonCellWithStyle:(UITableViewCellStyle)style cellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _img = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 90, 50)];
@@ -113,8 +102,13 @@
 //        _detailLab.text = @"合集  播放25万";
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11, 38, 38)];
-        [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
-        [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+        if (MyTableViewTypeCartoon == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (MyTableViewTypeCartoonDown == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         [self.contentView addSubview:_img];
         [self.contentView addSubview:_indexLab];
@@ -137,4 +131,22 @@
     }
 }
 
+- (void)cancelFav:(UIButton *)btn {
+    if ([_cellDelegate respondsToSelector:@selector(cancelFav:)]) {
+        [_cellDelegate cancelFav:btn];
+    }
+}
+
+- (void)deleteHistory:(UIButton *)btn {
+    if ([_cellDelegate respondsToSelector:@selector(deleteHistory:)]) {
+        [_cellDelegate deleteHistory:btn];
+    }
+}
+
+
 @end
+
+
+
+
+
