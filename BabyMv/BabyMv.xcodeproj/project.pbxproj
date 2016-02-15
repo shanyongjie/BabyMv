@@ -21,6 +21,8 @@
 		0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */; };
 		0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */; };
 		0C98E3E51C6E0CA400EA39DD /* BMMusicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */; };
+		0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */; };
+		0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */; };
 		0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40921C663962009792DE /* BMTopTabBar.m */; };
 		0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40951C664259009792DE /* Toast+UIView.m */; };
 		0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40971C664259009792DE /* UIActionSheet+Sync.m */; };
@@ -38,7 +40,6 @@
 		0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40B91C664478009792DE /* libstdc++.6.tbd */; };
 		0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40BB1C664486009792DE /* libsqlite3.tbd */; };
 		0CDB40BE1C664496009792DE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDB40BD1C664496009792DE /* CoreGraphics.framework */; };
-		0CE607AB1C67245200F555EC /* BMHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE607AA1C67245200F555EC /* BMHistoryVC.m */; };
 		68F05269E1BA4F915819FA40 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC158319FA5C71184A8AF90 /* libPods.a */; };
 		8229C9AF1C63F4CC008C7CB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8229C9AE1C63F4CC008C7CB6 /* main.m */; };
 		8229C9B21C63F4CC008C7CB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8229C9B11C63F4CC008C7CB6 /* AppDelegate.m */; };
@@ -76,6 +77,10 @@
 		0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRequestManager.m; sourceTree = "<group>"; };
 		0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMMusicListVC.h; sourceTree = "<group>"; };
 		0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMusicListVC.m; sourceTree = "<group>"; };
+		0CBF46821C719FBE006B2ED9 /* BMVlcVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMVlcVideoPlayViewController.h; sourceTree = "<group>"; };
+		0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMVlcVideoPlayViewController.mm; sourceTree = "<group>"; };
+		0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Orientation.h"; path = "CustomUI/UINavigationController+Orientation.h"; sourceTree = "<group>"; };
+		0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Orientation.m"; path = "CustomUI/UINavigationController+Orientation.m"; sourceTree = "<group>"; };
 		0CDB40911C663962009792DE /* BMTopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMTopTabBar.h; path = CustomUI/BMTopTabBar.h; sourceTree = "<group>"; };
 		0CDB40921C663962009792DE /* BMTopTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMTopTabBar.m; path = CustomUI/BMTopTabBar.m; sourceTree = "<group>"; };
 		0CDB40941C664259009792DE /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
@@ -100,8 +105,6 @@
 		0CDB40BB1C664486009792DE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0CDB40BD1C664496009792DE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0CE607A71C66F37700F555EC /* MacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacroDefinition.h; sourceTree = "<group>"; };
-		0CE607A91C67245200F555EC /* BMHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMHistoryVC.h; sourceTree = "<group>"; };
-		0CE607AA1C67245200F555EC /* BMHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMHistoryVC.m; sourceTree = "<group>"; };
 		7DC158319FA5C71184A8AF90 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8229C9AA1C63F4CC008C7CB6 /* BabyMv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyMv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8229C9AE1C63F4CC008C7CB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				0C2A51491C678C3500837228 /* BMMusicTableView.m */,
 				0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */,
 				0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */,
+				0CBF46821C719FBE006B2ED9 /* BMVlcVideoPlayViewController.h */,
+				0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */,
 				0C82A9831C704DEE004883C2 /* Others */,
 			);
 			name = BMVIewController;
@@ -178,8 +183,6 @@
 				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
 				0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */,
 				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
-				0CE607A91C67245200F555EC /* BMHistoryVC.h */,
-				0CE607AA1C67245200F555EC /* BMHistoryVC.m */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -199,10 +202,12 @@
 				0CDB40971C664259009792DE /* UIActionSheet+Sync.m */,
 				0CDB409A1C664259009792DE /* UIImage+Helper.h */,
 				0CDB409B1C664259009792DE /* UIImage+Helper.m */,
-				0CDB409E1C664259009792DE /* UITabBarController+Orientation.h */,
-				0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */,
 				0CDB40A01C664259009792DE /* UIView+UIViewController.h */,
 				0CDB40A11C664259009792DE /* UIView+UIViewController.m */,
+				0CDB409E1C664259009792DE /* UITabBarController+Orientation.h */,
+				0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */,
+				0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */,
+				0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */,
 			);
 			name = CustomUI;
 			sourceTree = "<group>";
@@ -410,11 +415,13 @@
 				0C0F3DEE1C64E0C1008773AC /* BMCartoonVC.m in Sources */,
 				0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */,
 				0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */,
+				0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */,
 				0C0F3DF11C64E0C1008773AC /* BMPlayingVC.m in Sources */,
 				0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */,
 				0CDB40A81C664259009792DE /* UIView+UIViewController.m in Sources */,
 				0C0F3DF21C64E0C1008773AC /* BMSettingVC.m in Sources */,
 				0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */,
+				0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */,
 				8229C9AF1C63F4CC008C7CB6 /* main.m in Sources */,
 				0C98E3E51C6E0CA400EA39DD /* BMMusicListVC.m in Sources */,
 				0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */,
@@ -424,7 +431,6 @@
 				0C2A51461C6787D600837228 /* BMTableViewCell.mm in Sources */,
 				0C2A514A1C678C3500837228 /* BMMusicTableView.m in Sources */,
 				0CDB40A71C664259009792DE /* UITabBarController+Orientation.m in Sources */,
-				0CE607AB1C67245200F555EC /* BMHistoryVC.m in Sources */,
 				0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

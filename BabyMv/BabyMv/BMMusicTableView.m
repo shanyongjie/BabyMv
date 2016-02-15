@@ -12,6 +12,8 @@
 #import "BMDataBaseManager.h"
 #import "BMDataCacheManager.h"
 #import "BMMusicListVC.h"
+#import "BMVlcVideoPlayViewController.h"
+
 #import "Toast+UIView.h"
 #import "UIView+UIViewController.h"
 #import <AFHTTPRequestOperation.h>
@@ -22,6 +24,7 @@
 @property(nonatomic, strong)NSMutableArray* items;
 @property(nonatomic, strong)BMMusicListVC* musicListVC;
 @property(nonatomic, strong)BMMusicListVC* cartoonListVC;
+@property(nonatomic, strong)BMVlcVideoPlayViewController* vlcPlayer;
 @end
 
 @implementation BMMusicTableView
@@ -234,6 +237,12 @@
         }
         case MyTableViewTypeCartoon:
         case MyTableViewTypeCartoonDown: {
+            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            _vlcPlayer = [[BMVlcVideoPlayViewController alloc] init];
+            [_vlcPlayer setVideoInfo:cur_video];
+#warning Oriention!!!
+            //only use presentViewController: animated: completion: method can generate new VC to control it's own Oriention!!!
+            [self.viewController.navigationController presentViewController:_vlcPlayer animated:YES completion:nil];
             break;
         }
         case MyTableViewTypeFavorite: {

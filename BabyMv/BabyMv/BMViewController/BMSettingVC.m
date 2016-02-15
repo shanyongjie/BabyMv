@@ -53,6 +53,15 @@
     [tableView setTableHeaderView:view];
 }
 
+#pragma mark - Orientation
+- (BOOL) shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
+
 @end
 
 

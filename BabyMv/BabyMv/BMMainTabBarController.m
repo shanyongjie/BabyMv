@@ -13,6 +13,8 @@
 #import "BMMYVC.h"
 #import "BMSettingVC.h"
 #import "AppDelegate.h"
+#import "UITabBarController+Orientation.h"
+#import "UINavigationController+Orientation.h"
 
 
 @interface BMMainTabBarController ()<UITabBarControllerDelegate>
@@ -64,7 +66,7 @@
     [self.myNAV.navigationBar setTranslucent:NO];
     self.settingNAV = [[UINavigationController alloc] initWithRootViewController:self.settingVC];
     [self.settingNAV.navigationBar setTranslucent:NO];
-
+    
     self.musicVC.tabBarItem.title = @"儿歌";
     self.cartoonVC.tabBarItem.title = @"动画";
     self.playingVC.tabBarItem.title = @"播放";
