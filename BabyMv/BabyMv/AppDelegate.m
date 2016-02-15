@@ -18,6 +18,11 @@
 #import "UIImage+Helper.h"
 
 
+
+#define SECONDS_PER_DAY (24*60*60)
+
+
+
 @interface AppDelegate ()
 @property (nonatomic, strong) BMMainTabBarController* mainTabBarController;
 @end
@@ -64,17 +69,27 @@
     NSArray* musicCateArr       = [[BMDataBaseManager sharedInstance] getAllMusicCate];
     NSArray* musicCollections   = [[BMDataBaseManager sharedInstance] getAllMusicCollection];
     NSArray* musicLists         = [[BMDataBaseManager sharedInstance] getAllMusicList];
-    if (musicLists.count) {
+    
+    BOOL needRequestNewData = NO;
+    if (musicCateArr.count) {
+        //数据库数据时效性设置，超时，获取最新数据替换原有数据
+#if DEBUG
+        needRequestNewData = ([((BMDataModel *)musicCateArr[0]).Time longLongValue] + 600 < [[NSDate date] timeIntervalSince1970])?YES:NO;
+#else
+        needRequestNewData = ([((BMDataModel *)musicCateArr[0]).Time longLongValue] + SECONDS_PER_DAY < [[NSDate date] timeIntervalSince1970])?YES:NO;
+#endif
+    }
+    if (musicLists.count && !needRequestNewData) {
         for (BMListDataModel* listData in musicLists) {
             [BMDataCacheManager setMusicList:@[listData] collectionId:listData.CollectionId];
         }
     }
-    if (musicCollections.count) {
+    if (musicCollections.count && !needRequestNewData) {
         for (BMCollectionDataModel* collectionData in musicCollections) {
             [BMDataCacheManager setMusicCollection:@[collectionData] cateId:collectionData.CateId];
         }
     }
-    if (!musicCateArr.count) {
+    if (!musicCateArr.count || needRequestNewData) {
         [BMRequestManager loadCategoryData:MyRequestTypeMusic];
     } else {
         [BMDataCacheManager setMusicCate:musicCateArr];
@@ -83,17 +98,17 @@
     NSArray* cartoonCateArr       = [[BMDataBaseManager sharedInstance] getAllCartoonCate];
     NSArray* cartoonCollections   = [[BMDataBaseManager sharedInstance] getAllCartoonCollection];
     NSArray* cartoonLists         = [[BMDataBaseManager sharedInstance] getAllCartoonList];
-    if (cartoonLists.count) {
+    if (cartoonLists.count && !needRequestNewData) {
         for (BMCartoonListDataModel* listData in cartoonLists) {
             [BMDataCacheManager setCartoonList:@[listData] collectionId:listData.CollectionId];
         }
     }
-    if (cartoonCollections.count) {
+    if (cartoonCollections.count && !needRequestNewData) {
         for (BMCartoonCollectionDataModel* collectionData in cartoonCollections) {
             [BMDataCacheManager setCartoonCollection:@[collectionData] cateId:collectionData.CateId];
         }
     }
-    if (!cartoonCateArr.count) {
+    if (!cartoonCateArr.count || needRequestNewData) {
         [BMRequestManager loadCategoryData:MyRequestTypeCartoon];
     } else {
         [BMDataCacheManager setCartoonCate:cartoonCateArr];
@@ -135,7 +150,7 @@
         }
         else {
             [navAppearance setTintColor:NavBarYellow];
-            [navAppearance setBackgroundImage:[UIImage imageNamed:@"lxTop_Bg"] forBarMetrics:UIBarMetricsDefault];
+            [navAppearance setBackgroundImage:[UIImage imageNamed:@"Top_Bg"] forBarMetrics:UIBarMetricsDefault];
             [navAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    [UIColor whiteColor],UITextAttributeTextColor,
                                                    [UIFont boldSystemFontOfSize:19],UITextAttributeFont,

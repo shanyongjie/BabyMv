@@ -1,8 +1,3 @@
-//
-//  UITabBarController+Orientation.m
-//  GuDong
-//
-//
 
 #import "UITabBarController+Orientation.h"
 

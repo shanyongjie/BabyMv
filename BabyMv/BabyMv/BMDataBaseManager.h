@@ -31,6 +31,7 @@
 -(void)favMusicCollection:(BMCollectionDataModel *) collection;
 
 -(NSArray *)getDownloadedMusicList;
+-(NSArray *)getListenMusicList;
 -(NSArray *)getAllMusicList;
 -(NSArray *)getMusicListByCollectionId:(NSNumber *) collectionId;
 -(BOOL)addMusicListArr:(NSArray *)arr;

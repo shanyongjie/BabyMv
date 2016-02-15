@@ -13,6 +13,7 @@
 @property(nonatomic, strong)NSString* Name;
 @property(nonatomic, strong)NSString* Artist;
 @property(nonatomic, strong)NSString* Url;
+@property(nonatomic, strong)NSNumber* Time;
 
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end

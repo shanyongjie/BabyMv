@@ -1,8 +1,3 @@
-//
-//  UIView+UIViewController.h
-//  GuDong
-//
-//
 
 #import <UIKit/UIKit.h>
 

@@ -1,8 +1,3 @@
-//
-//  UITabBarController+Orientation.h
-//  GuDong
-//
-//
 
 #import <UIKit/UIKit.h>
 

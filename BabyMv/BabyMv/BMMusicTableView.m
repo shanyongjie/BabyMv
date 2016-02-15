@@ -11,14 +11,17 @@
 #import "BMDataModel.h"
 #import "BMDataBaseManager.h"
 #import "BMDataCacheManager.h"
+#import "BMMusicListVC.h"
 #import "Toast+UIView.h"
-
+#import "UIView+UIViewController.h"
 #import <AFHTTPRequestOperation.h>
 #import <UIButton+WebCache.h>
 
 
 @interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
 @property(nonatomic, strong)NSMutableArray* items;
+@property(nonatomic, strong)BMMusicListVC* musicListVC;
+@property(nonatomic, strong)BMMusicListVC* cartoonListVC;
 @end
 
 @implementation BMMusicTableView
@@ -220,34 +223,39 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    BMVideoInfo* video_info = [_listArray objectAtIndex:indexPath.row];
-//    
-//    if([BMVideoPlayList sharedInstance].listID != video_info.mvId){
-//        [BMVideoPlayList sharedInstance].listID = video_info.mvId;
-//        [[BMVideoPlayList sharedInstance] setPlayList:_listArray];
-//    }
-//    
-//    [[BMVideoPlayList sharedInstance] setCurIndex:indexPath.row];
-//    
-//    BMVlcVideoPlayViewController* _video_play_view = [[BMVlcVideoPlayViewController alloc] initWithVideoInfo:video_info];
-//    
-//    [[BMAppDelegate sharedAppDelegate].mainViewController presentViewController:_video_play_view animated:NO completion:^{
-//        NSLog(@"view did load");
-//    }];
-    
     switch (self.myType) {
         case MyTableViewTypeMusic:
-            break;
-        case MyTableViewTypeCartoon:
-            break;
         case MyTableViewTypeMusicDown:
+        case MyTableViewTypeHistory: {
+            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
+            [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
             break;
-        case MyTableViewTypeCartoonDown:
+        }
+        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown: {
             break;
-        case MyTableViewTypeFavorite:
+        }
+        case MyTableViewTypeFavorite: {
+            BMDataModel* collection = [self.items objectAtIndex:indexPath.row];
+            if ([collection isKindOfClass:[BMCartoonCollectionDataModel class]]) {
+                BMCartoonCollectionDataModel *collectModel = (BMCartoonCollectionDataModel *)collection;
+                _cartoonListVC = [BMMusicListVC new];
+                _cartoonListVC.vcType = MyListVCTypeCartoon;
+                _cartoonListVC.currentCartoonCollectionData = collectModel;
+                [self.viewController.navigationController pushViewController:_cartoonListVC animated:YES];
+                return;
+            }
+            if ([collection isKindOfClass:[BMCollectionDataModel class]]) {
+                BMCollectionDataModel *collectModel = (BMCollectionDataModel *)collection;
+                _musicListVC = [BMMusicListVC new];
+                _musicListVC.vcType = MyListVCTypeMusic;
+                _musicListVC.currentCollectionData = collectModel;
+                [self.viewController.navigationController pushViewController:_musicListVC animated:YES];
+                return;
+            }
             break;
-        case MyTableViewTypeHistory:
-            break;
+        }
         default:
             break;
     }
@@ -269,8 +277,8 @@
         [operation1 setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             time_t now;
             time(&now);
-            audio_info.IsDowned      = @(YES);
-            audio_info.DownloadTime  = @([[NSDate date] timeIntervalSince1970]);
+            audio_info.IsDowned      = [NSNumber numberWithBool:YES];
+            audio_info.DownloadTime  = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
             
             if (self.myType == MyTableViewTypeMusic && [audio_info isKindOfClass:[BMListDataModel class]]) {
                 [[BMDataBaseManager sharedInstance] downLoadMusicList:audio_info];
@@ -295,16 +303,24 @@
             break;
         case MyTableViewTypeMusicDown: {
             BMListDataModel* audio_info = self.items[index];
-            audio_info.IsDowned = @(0);
+            audio_info.IsDowned = [NSNumber numberWithInt:0];
             [BMDataCacheManager updateMusicListDataDownLoadStatus:audio_info];
+            NSString*documentsDirectory = DOWNLOAD_DIR;
+            NSString *name = [NSString stringWithFormat:@"%@.%@", audio_info.Rid, [audio_info.Url pathExtension]];
+            NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
+            [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
             [self.items removeObject:audio_info];
             [self reloadData];
         }
             break;
         case MyTableViewTypeCartoonDown: {
             BMCartoonListDataModel* cartoonListData = self.items[index];
-            cartoonListData.IsDowned = @(0);
+            cartoonListData.IsDowned = [NSNumber numberWithInt:0];
             [BMDataCacheManager updateCartoonListDataDownLoadStatus:cartoonListData];
+            NSString*documentsDirectory = DOWNLOAD_DIR;
+            NSString *name = [NSString stringWithFormat:@"%@.%@", cartoonListData.Rid, [cartoonListData.Url pathExtension]];
+            NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
+            [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
             [self.items removeObject:cartoonListData];
             [self reloadData];
             break;
@@ -319,11 +335,59 @@
 }
 
 - (void)cancelFav:(UIButton *)btn {
-    
+    NSUInteger index = btn.tag-3000;
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+            break;
+        case MyTableViewTypeCartoon:
+            break;
+        case MyTableViewTypeMusicDown: {
+            BMCollectionDataModel* collection_info = self.items[index];
+            collection_info.IsFaved = [NSNumber numberWithInt:0];
+            [[BMDataBaseManager sharedInstance] favMusicCollection:collection_info];
+            [self.items removeObject:collection_info];
+            [self reloadData];
+        }
+            break;
+        case MyTableViewTypeCartoonDown: {
+            BMCartoonCollectionDataModel* collection_info = self.items[index];
+            collection_info.IsFaved = [NSNumber numberWithInt:0];
+            [[BMDataBaseManager sharedInstance] favCartoonCollection:collection_info];
+            [self.items removeObject:collection_info];
+            [self reloadData];
+            break;
+        }
+        case MyTableViewTypeFavorite:
+            break;
+        case MyTableViewTypeHistory:
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)deleteHistory:(UIButton *)btn {
-    
+    NSUInteger index = btn.tag-3000;
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+        case MyTableViewTypeMusicDown:
+        case MyTableViewTypeHistory: {
+            BMListDataModel* cur_video = [self.items objectAtIndex:index];
+            cur_video.LastListeningTime = [NSNumber numberWithInt:NSTimeIntervalSince1970];
+            [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
+            [self.items removeObject:cur_video];
+            [self reloadData];
+            break;
+        }
+        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown: {
+            break;
+        }
+        case MyTableViewTypeFavorite:
+            break;
+        default:
+            break;
+    }
 }
 
 @end

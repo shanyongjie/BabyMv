@@ -89,12 +89,12 @@
 }
 
 -(NSArray *)createDBStr {
-    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE MusicCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE MusicList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE CartoonCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)"
+    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE MusicCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE MusicList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)"
              ];
 }
 
@@ -125,6 +125,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -136,7 +137,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMDataModel* cate in arr) {
-            [db executeUpdate:@"replace into MusicCate(Name, Artist, Url, Rid) values (?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Rid];
+            [db executeUpdate:@"replace into MusicCate(Name, Artist, Url, Time, Rid) values (?,?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Time, cate.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -168,6 +169,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
             cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
             cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
@@ -215,6 +217,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
             cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
             cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
@@ -229,7 +232,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCollectionDataModel* collection in arr) {
-            [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, CateId, Rid) values (?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.CateId, collection.Rid];
+            [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -261,6 +264,29 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
+            listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
+            listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
+            listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
+            listData.DownloadTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"DownloadTime"]];
+            listData.LastListeningTime = [NSNumber numberWithLongLong:[resultSet unsignedLongLongIntForColumn:@"LastListeningTime"]];
+            [resArr addObject:listData];
+        }
+    }];
+    return resArr;
+}
+
+-(NSArray *)getListenMusicList {
+    __block NSMutableArray* resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* resultSet = [db executeQuery:@"select * from MusicList where LastListeningTime>? order by Rid asc", [NSNumber numberWithLongLong:NSTimeIntervalSince1970]];
+        while ([resultSet next]) {
+            BMListDataModel* listData = [BMListDataModel new];
+            listData.Rid = [NSNumber numberWithInt:[resultSet intForColumn:@"Rid"]];
+            listData.Name = [resultSet stringForColumn:@"Name"];
+            listData.Artist = [resultSet stringForColumn:@"Artist"];
+            listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
             listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
@@ -282,6 +308,7 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
             listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
@@ -303,6 +330,7 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
             listData.IsDowned = [NSNumber numberWithInt:[resultSet intForColumn:@"IsDowned"]];
@@ -318,7 +346,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMListDataModel* list in arr) {
-            [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url) values (?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url];
+            [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url, Time) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time];
             if ([db hadError]) {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
                 result = NO;
@@ -386,6 +414,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -397,7 +426,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMDataModel* cate in arr) {
-            [db executeUpdate:@"replace into CartoonCate(Name, Artist, Url, Rid) values (?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Rid];
+            [db executeUpdate:@"replace into CartoonCate(Name, Artist, Url, Time, Rid) values (?,?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Time, cate.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -429,6 +458,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
             cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
             cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
@@ -476,6 +506,7 @@
             cur_item.Name = [query_result stringForColumn:@"Name"];
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
             cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
             cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
             cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
@@ -490,7 +521,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCartoonCollectionDataModel* collection in arr) {
-            [db executeUpdate:@"replace into CartoonCollection(Name, Artist, Url, CateId, Rid) values (?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.CateId, collection.Rid];
+            [db executeUpdate:@"replace into CartoonCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -522,6 +553,7 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
@@ -544,6 +576,7 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
@@ -566,6 +599,7 @@
             listData.Name = [resultSet stringForColumn:@"Name"];
             listData.Artist = [resultSet stringForColumn:@"Artist"];
             listData.Url = [resultSet stringForColumn:@"Url"];
+            listData.Time = [NSNumber numberWithLongLong:[resultSet longLongIntForColumn:@"Time"]];
             listData.PicUrl = [resultSet stringForColumn:@"PicUrl"];
             listData.CollectionId = [NSNumber numberWithInt:[resultSet intForColumn:@"CollectionId"]];
             listData.ListenCount = [NSNumber numberWithInt:[resultSet intForColumn:@"ListenCount"]];
@@ -582,7 +616,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCartoonListDataModel* list in arr) {
-            [db executeUpdate:@"replace into CartoonList(Rid, CollectionId, Name, Artist, Url, PicUrl) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.PicUrl];
+            [db executeUpdate:@"replace into CartoonList(Rid, CollectionId, Name, Artist, Url, Time, PicUrl) values (?,?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.PicUrl];
             if ([db hadError]) {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
                 result = NO;

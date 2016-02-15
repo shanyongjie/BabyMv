@@ -127,11 +127,11 @@
     }
     if (self.vcType == MyListVCTypeHistory) {
         self.navigationItem.title = @"收听历史";
-//        _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] ]];
-//        if (_listData.count) {
-//            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
-//            [self.tableView reloadData];
-//        }
+        _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getListenMusicList]];
+        if (_listData.count) {
+            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView reloadData];
+        }
     }
 }
 
@@ -164,11 +164,9 @@
     }
     if ([collectionId intValue] == currentCollectionId) {
         if (self.vcType == MyListVCTypeMusic) {
-//            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:@(currentCollectionId)]];    //这样就拿不到数据？！
             _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
         }
         if (self.vcType == MyListVCTypeCartoon) {
-//            _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:@(currentCollectionId)]];    //这样就拿不到数据？！
             _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
         }
         if (_listData.count) {
@@ -181,11 +179,11 @@
 -(void)favCollection:(UIButton *)btn {
     btn.selected = !btn.selected;
     if (self.vcType == MyListVCTypeMusic) {
-        self.currentCollectionData.IsFaved = @(btn.selected);
+        self.currentCollectionData.IsFaved = [NSNumber numberWithBool:btn.selected];
         [[BMDataBaseManager sharedInstance] favMusicCollection:self.currentCollectionData];
     }
     if (self.vcType == MyListVCTypeCartoon) {
-        self.currentCartoonCollectionData.IsFaved = @(btn.selected);
+        self.currentCartoonCollectionData.IsFaved = [NSNumber numberWithBool:btn.selected];
         [[BMDataBaseManager sharedInstance] favCartoonCollection:self.currentCartoonCollectionData];
     }
 }

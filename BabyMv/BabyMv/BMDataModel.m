@@ -18,6 +18,7 @@
     model.Name = dicData[@"CateName"];
     model.Artist = @"0";
     model.Url = @"0";
+    model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     return model;
 }
 @end
@@ -32,6 +33,7 @@
     model.Name = dicData[@"collectName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"collectPic"] isEqual:[NSNull null]]?@"":dicData[@"collectPic"];
+    model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     model.CateId = nil;
     model.IsFaved = nil;
     model.FavedTime = nil;
@@ -49,6 +51,7 @@
     model.Name = dicData[@"AudioName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
+    model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     model.CollectionId = nil;
     model.ListenCount = nil;
     model.IsDowned = nil;
@@ -68,6 +71,7 @@
     model.Name = dicData[@"MvName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"MvPic"] isEqual:[NSNull null]]?@"":dicData[@"MvPic"];
+    model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     model.CateId = nil;
     model.IsFaved = nil;
     model.FavedTime = nil;
@@ -85,6 +89,7 @@
     model.Name = dicData[@"ChapterName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
+    model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     model.PicUrl = [dicData[@"ChapterPic"] isEqual:[NSNull null]]?@"":dicData[@"ChapterPic"];;
     model.CollectionId = nil;
     model.ListenCount = nil;
