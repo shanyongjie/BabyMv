@@ -46,8 +46,10 @@
     return self;
 }
 
--(void)setVideoInfo:(BMCartoonListDataModel *)videoInfo {
+-(void)setVideoInfo:(BMCartoonListDataModel *)videoInfo index:(NSInteger)index videoList:(NSArray *)currentPlayingList{
     _videoInfo = videoInfo;
+    _currentPlayingIndex = index;
+    _currentPlayingList = [NSArray arrayWithArray:currentPlayingList];
 }
 
 #pragma mark -- loading status
@@ -194,7 +196,6 @@
 - (void)play{
     _tipsRect = _gestureResponseView.frame;
     
-//    BMCartoonListDataModel* song_item = [[BMVideoListManagement sharedInstance] getDownVideo:_videoInfo];
     BMCartoonListDataModel* song_item = self.videoInfo;
     NSString*documentsDirectory = DOWNLOAD_DIR;
     NSString *name = [NSString stringWithFormat:@"%@.%@", song_item.Rid, [song_item.Url pathExtension]];
@@ -217,8 +218,6 @@
         [self.view bringSubviewToFront:_btnScreenLock];
         
         _moviePlayer.media = [VLCMedia mediaWithPath:str_file_path];
-        
-        //    [_moviePlayer prepareToPlay];
         [_moviePlayer play];
         
     }else{
@@ -271,19 +270,18 @@
             }
             case TAG_BTN_PREV:
             {
-                
                 break;
             }
             case TAG_BTN_NEXT:
             {
-//                BMCartoonListDataModel* next_item = [[BMVideoPlayList sharedInstance] nextItem];
-//                if (next_item) {
-//                    _videoInfo = next_item;
-//                }else {
-//                    return;
-//                }
-//                
-//                [self play];
+                if (self.currentPlayingList.count) {
+                    BMCartoonListDataModel* next_item = self.currentPlayingList[++self.currentPlayingIndex];
+                    _videoInfo = next_item;
+                }else {
+                    return;
+                }
+                
+                [self play];
                 break;
             }
 #endif
@@ -419,7 +417,9 @@
 //                }
 //                
 //                [self play];
-                
+                BMCartoonListDataModel* next_item = self.currentPlayingList[++self.currentPlayingIndex];
+                _videoInfo = next_item;
+                [self play];
                 break;
             }
             case VLCMediaPlayerStateEnded:

@@ -230,6 +230,7 @@
         case MyTableViewTypeMusic:
         case MyTableViewTypeMusicDown:
         case MyTableViewTypeHistory: {
+            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
             BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
             cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
             [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
@@ -237,9 +238,10 @@
         }
         case MyTableViewTypeCartoon:
         case MyTableViewTypeCartoonDown: {
+            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
             BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
             _vlcPlayer = [[BMVlcVideoPlayViewController alloc] init];
-            [_vlcPlayer setVideoInfo:cur_video];
+            [_vlcPlayer setVideoInfo:cur_video index:indexPath.row videoList:[BMDataCacheManager currentPlayingList]];
 #warning Oriention!!!
             //only use presentViewController: animated: completion: method can generate new VC to control it's own Oriention!!!
             [self.viewController.navigationController presentViewController:_vlcPlayer animated:YES completion:nil];

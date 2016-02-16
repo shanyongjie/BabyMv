@@ -10,35 +10,8 @@
 #import "BMDataModel.h"
 #import "BMDataBaseManager.h"
 
-//@interface BMTopMusicModel : NSObject
-//@property(nonatomic, strong)BMDataModel* cateData;
-//@property(nonatomic, strong)NSMutableArray* topCollectionArr;
-//@end
-//@implementation BMTopMusicModel
-//-(instancetype)init{
-//    self = [super init];
-//    if (self) {
-//        _topCollectionArr = [NSMutableArray new];
-//    }
-//    return self;
-//}
-//@end
-//
-//@interface BMTopCollectionModel : NSObject
-//@property(nonatomic, strong)BMCollectionDataModel* collectionData;
-//@property(nonatomic, strong)NSMutableArray* topMusicList;
-//@end
-//@implementation BMTopCollectionModel
-//-(instancetype)init{
-//    self = [super init];
-//    if (self) {
-//        _topMusicList = [NSMutableArray new];
-//    }
-//    return self;
-//}
-//@end
-
 @interface BMDataCacheManager ()
+@property(nonatomic, strong)NSMutableArray* currentPlayingList;         //music or cartoon
 @property(nonatomic, strong)NSMutableArray* musicCate;
 @property(nonatomic, strong)NSMutableDictionary* musicCate2CollectionDic;
 @property(nonatomic, strong)NSMutableDictionary* musicCollection2ListDic;
@@ -60,6 +33,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dataCacheManager = [BMDataCacheManager new];
+        dataCacheManager.currentPlayingList = [NSMutableArray new];
         dataCacheManager.musicCate          = [NSMutableArray new];
         dataCacheManager.musicCate2CollectionDic = [NSMutableDictionary new];
         dataCacheManager.musicCollection2ListDic = [NSMutableDictionary new];
@@ -77,12 +51,27 @@
     [[BMDataCacheManager sharedInstance] resetCache];
 }
 -(void)resetCache {
+    [self.currentPlayingList removeAllObjects];
     [self.musicCate removeAllObjects];
     [self.musicCate2CollectionDic removeAllObjects];
     [self.musicCollection2ListDic removeAllObjects];
     [self.cartoonCate removeAllObjects];
     [self.cartoonCate2CollectionDic removeAllObjects];
     [self.cartoonCollection2ListDic removeAllObjects];
+}
+
++(NSArray *)currentPlayingList {
+    return [[BMDataCacheManager sharedInstance] currentPlayingList];
+}
+-(NSArray *)currentPlayingList {
+    return _currentPlayingList;
+}
++(void)setCurrentPlayingList:(NSArray *)arr {
+    [[BMDataCacheManager sharedInstance] setCurrentPlayingListArr:arr];
+}
+-(void)setCurrentPlayingListArr:(NSArray *)arr {
+    [self.currentPlayingList removeAllObjects];
+    [self.currentPlayingList addObjectsFromArray:arr];
 }
 
 +(NSArray *)musicCate {

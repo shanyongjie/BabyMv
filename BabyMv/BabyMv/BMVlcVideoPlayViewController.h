@@ -23,6 +23,8 @@
 @property (nonatomic, strong) BMCartoonListDataModel* videoInfo;
 @property (nonatomic, strong) UIButton* btnScreenLock;
 @property (nonatomic, assign) BOOL      isPauseClicked;
+@property (nonatomic, assign) NSInteger currentPlayingIndex;
+@property (nonatomic, strong) NSArray* currentPlayingList;
 
--(void)setVideoInfo:(BMCartoonListDataModel *)videoInfo;
+-(void)setVideoInfo:(BMCartoonListDataModel *)videoInfo index:(NSInteger)index videoList:(NSArray *)currentPlayingList;
 @end

@@ -14,6 +14,10 @@
 
 @interface BMDataCacheManager : NSObject
 +(void)resetCache;
+
++(NSArray *)currentPlayingList;
++(void)setCurrentPlayingList:(NSArray *)arr;
+
 +(NSArray *)musicCate;
 +(NSArray *)musicCollectionWithCateId:(NSNumber *)cateId;
 +(NSArray *)musicListWithCollectionId:(NSNumber *)collectionId;
