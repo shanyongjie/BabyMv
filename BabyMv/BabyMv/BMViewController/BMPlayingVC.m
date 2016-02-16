@@ -69,6 +69,7 @@
         }
         case 1001: {
             // return
+//            [self dismissViewControllerAnimated:YES completion:nil];
             [self.navigationController popViewControllerAnimated:YES];
             break;
         }

@@ -12,6 +12,7 @@
 #import "BMPlayingVC.h"
 #import "BMMYVC.h"
 #import "BMSettingVC.h"
+#import "MacroDefinition.h"
 #import "AppDelegate.h"
 #import "UITabBarController+Orientation.h"
 #import "UINavigationController+Orientation.h"
@@ -29,6 +30,9 @@
 @property(nonatomic, strong) BMPlayingVC* playingVC;
 @property(nonatomic, strong) BMMYVC* myVC;
 @property(nonatomic, strong) BMSettingVC* settingVC;
+
+@property(nonatomic, strong) CABasicAnimation* rotationAnimation;
+@property(nonatomic, strong) UIButton* midButton;
 @end
 
 @implementation BMMainTabBarController
@@ -86,6 +90,34 @@
     
     self.viewControllers = @[self.musicNAV, self.cartoonNAV, self.playingNAV, self.myNAV, self.settingNAV];
     self.tabBar.backgroundColor = [UIColor yellowColor];
+    
+    {
+        int buttonImageWidth = 60;
+        int buttonImageHeight = 60;
+        self.midButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.midButton addTarget:self action:@selector(switchToPlayPage) forControlEvents:UIControlEventTouchUpInside];
+        [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateNormal];
+        [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateHighlighted];
+        self.midButton.frame = CGRectMake(self.tabBar.frame.size.width/2-30, self.tabBar.frame.size.height-60, buttonImageWidth, buttonImageHeight);
+        [self.tabBar addSubview:self.midButton];
+
+/*
+        _rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        _rotationAnimation.toValue =  [NSNumber numberWithFloat: M_PI * 2.0 ];
+        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        _rotationAnimation.duration = 10;
+        _rotationAnimation.repeatCount = 1000;//你可以设置到最大的整数值
+        _rotationAnimation.autoreverses = NO;
+        _rotationAnimation.cumulative = NO;
+        _rotationAnimation.removedOnCompletion = NO;
+        _rotationAnimation.fillMode = kCAFillModeForwards;
+        if ([UIApplication sharedApplication].keyWindow) {
+            [[UIApplication sharedApplication].keyWindow addSubview:self.midButton];
+        } else if ([[UIApplication sharedApplication] windows].count>0) {
+            [[[[UIApplication sharedApplication] windows]objectAtIndex:0] addSubview:self.midButton];
+        }
+        */
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,6 +165,12 @@
     if ([viewController isEqual:self.settingVC]) {
         
     }
+}
+
+- (void)switchToPlayPage {
+    BMPlayingVC* vc = [BMPlayingVC new];
+    [self.selectedViewController pushViewController:vc animated:YES];
+//    [self.selectedViewController presentViewController:vc animated:YES completion:nil];
 }
 
 @end
