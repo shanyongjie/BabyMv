@@ -46,6 +46,9 @@
 		8229C9B81C63F4CC008C7CB6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9B61C63F4CC008C7CB6 /* Main.storyboard */; };
 		8229C9BA1C63F4CC008C7CB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9B91C63F4CC008C7CB6 /* Assets.xcassets */; };
 		8229C9BD1C63F4CC008C7CB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9BB1C63F4CC008C7CB6 /* LaunchScreen.storyboard */; };
+		829801581C72C49F00002736 /* MobileVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829801571C72C49F00002736 /* MobileVLCKit.framework */; };
+		8298015C1C72C6F100002736 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015B1C72C6F100002736 /* AudioToolbox.framework */; };
+		8298015E1C72C70600002736 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +117,10 @@
 		8229C9B91C63F4CC008C7CB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8229C9BC1C63F4CC008C7CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8229C9BE1C63F4CC008C7CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		829801571C72C49F00002736 /* MobileVLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileVLCKit.framework; path = BabyMv/MobileVLCKit.framework; sourceTree = "<group>"; };
+		829801591C72C6A900002736 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		8298015B1C72C6F100002736 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
 		9405A327E318416F261B9404 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ED2BC2EA86D452D81F774E65 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +130,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8298015E1C72C70600002736 /* libiconv.2.4.0.tbd in Frameworks */,
+				8298015C1C72C6F100002736 /* AudioToolbox.framework in Frameworks */,
+				829801581C72C49F00002736 /* MobileVLCKit.framework in Frameworks */,
 				0CDB40BE1C664496009792DE /* CoreGraphics.framework in Frameworks */,
 				0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */,
 				0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */,
@@ -270,6 +280,10 @@
 		FAF0172E45261123001A15DC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */,
+				8298015B1C72C6F100002736 /* AudioToolbox.framework */,
+				829801591C72C6A900002736 /* CoreAudio.framework */,
+				829801571C72C49F00002736 /* MobileVLCKit.framework */,
 				0CDB40BD1C664496009792DE /* CoreGraphics.framework */,
 				0CDB40BB1C664486009792DE /* libsqlite3.tbd */,
 				0CDB40B91C664478009792DE /* libstdc++.6.tbd */,
@@ -542,11 +556,37 @@
 			baseConfigurationReference = ED2BC2EA86D452D81F774E65 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BabyMv",
+				);
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lstdc++",
+					"-licucore",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"FMDB\"",
+					"-l\"SDWebImage\"",
+					"-l\"sqlite3\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv.m;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -558,11 +598,37 @@
 			baseConfigurationReference = 9405A327E318416F261B9404 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BabyMv",
+				);
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lstdc++",
+					"-licucore",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"FMDB\"",
+					"-l\"SDWebImage\"",
+					"-l\"sqlite3\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.xuanbaby.BabyMv.m;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
