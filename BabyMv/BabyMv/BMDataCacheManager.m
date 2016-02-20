@@ -14,6 +14,7 @@
 @property(nonatomic, strong)NSMutableArray* currentPlayingList;         //music or cartoon
 @property(nonatomic, strong)NSMutableArray* musicCate;
 @property(nonatomic, strong)NSMutableDictionary* musicCate2CollectionDic;
+@property(nonatomic, strong)NSMutableDictionary* musicCategoryId2CollectionId;
 @property(nonatomic, strong)NSMutableDictionary* musicCollection2ListDic;
 
 //@property(nonatomic, strong)NSMutableArray* musicCollection;
@@ -21,6 +22,7 @@
 @property(nonatomic, strong)NSMutableArray* currentMusicList;
 @property(nonatomic, strong)NSMutableArray* cartoonCate;
 @property(nonatomic, strong)NSMutableDictionary* cartoonCate2CollectionDic;
+@property(nonatomic, strong)NSMutableDictionary* cartoonCategoryId2CollectionId;
 @property(nonatomic, strong)NSMutableDictionary* cartoonCollection2ListDic;
 //@property(nonatomic, strong)NSMutableArray* cartoonCollection;
 //@property(nonatomic, strong)NSMutableArray* cartoonList;
@@ -36,10 +38,12 @@
         dataCacheManager.currentPlayingList = [NSMutableArray new];
         dataCacheManager.musicCate          = [NSMutableArray new];
         dataCacheManager.musicCate2CollectionDic = [NSMutableDictionary new];
+        dataCacheManager.musicCategoryId2CollectionId = [NSMutableDictionary new];
         dataCacheManager.musicCollection2ListDic = [NSMutableDictionary new];
         
         dataCacheManager.cartoonCate        = [NSMutableArray new];
         dataCacheManager.cartoonCate2CollectionDic  = [NSMutableDictionary new];
+        dataCacheManager.cartoonCategoryId2CollectionId  = [NSMutableDictionary new];
         dataCacheManager.cartoonCollection2ListDic  = [NSMutableDictionary new];
         
         dataCacheManager.currentMusicList        = [NSMutableArray new];
@@ -54,9 +58,11 @@
     [self.currentPlayingList removeAllObjects];
     [self.musicCate removeAllObjects];
     [self.musicCate2CollectionDic removeAllObjects];
+    [self.musicCategoryId2CollectionId removeAllObjects];
     [self.musicCollection2ListDic removeAllObjects];
     [self.cartoonCate removeAllObjects];
     [self.cartoonCate2CollectionDic removeAllObjects];
+    [self.cartoonCategoryId2CollectionId removeAllObjects];
     [self.cartoonCollection2ListDic removeAllObjects];
 }
 
@@ -103,6 +109,13 @@
     self.musicCate2CollectionDic[cateId] = oldData;
 }
 
++(NSNumber *)musicCollectionIdBinding2CategoryId:(NSNumber *)categoryId {
+    return [BMDataCacheManager sharedInstance].musicCategoryId2CollectionId[categoryId];
+}
++(void)setMusicCollectionId:(NSNumber *)collectionId cateId:(NSNumber *)cateId {
+    [BMDataCacheManager sharedInstance].musicCategoryId2CollectionId[cateId] = collectionId;
+}
+
 +(NSArray *)musicListWithCollectionId:(NSNumber *)collectionId {
     return [[BMDataCacheManager sharedInstance] musicListWithCollectionId:collectionId];
 }
@@ -145,6 +158,13 @@
     NSMutableArray *oldData = [NSMutableArray arrayWithArray:self.cartoonCate2CollectionDic[cateId]];
     [oldData addObjectsFromArray:arr];
     self.cartoonCate2CollectionDic[cateId] = oldData;
+}
+
++(NSNumber *)cartoonCollectionIdBinding2CategoryId:(NSNumber *)categoryId {
+    return [BMDataCacheManager sharedInstance].cartoonCategoryId2CollectionId[categoryId];
+}
++(void)setCartoonCollectionId:(NSNumber *)collectionId cateId:(NSNumber *)cateId {
+    [BMDataCacheManager sharedInstance].cartoonCategoryId2CollectionId[cateId] = collectionId;
 }
 
 +(NSArray *)cartoonListWithCollectionId:(NSNumber *)collectionId {

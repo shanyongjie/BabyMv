@@ -31,6 +31,7 @@
     [[BMRequestManager sharedInstance] loadCategoryData:requestType];
 }
 
+#pragma mark 加载分类数据
 -(void)loadCategoryData:(MyRequestType)requestType {
     NSString* url = nil;
     switch (requestType) {
@@ -124,7 +125,11 @@
             }
             
             // 根据musicCateId来确定需要刷新的vc
-            if ([[BMDataBaseManager sharedInstance] addMusicCollectionArr:musicCollectArr]) {
+            [BMDataCacheManager setMusicCollectionId:[NSNumber numberWithInt:[collectId intValue]] cateId:musicCateId];
+            if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
+                [BMDataCacheManager setMusicList:musicListArr collectionId:collectionId];
+            }
+            if ([[BMDataBaseManager sharedInstance] addMusicCollectionArr:musicCollectArr] && [[BMDataBaseManager sharedInstance] updateMusicCateId:musicCateId withBindingCollectionId:collectionId]) {
                 NSDictionary* dic = nil;
                 if (musicListArr.count) {
                     dic = @{@"musicCateId":musicCateId, @"SongList":musicListArr};
@@ -132,10 +137,8 @@
                     dic = @{@"musicCateId":musicCateId};
                 }
                 [BMDataCacheManager setMusicCollection:musicCollectArr cateId:musicCateId];
+                //发通知的时机很重要，所有数据都加载后再发通知
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_MUSIC_COLLECTION_DATA_FINISHED object:dic];
-            }
-            if ([[BMDataBaseManager sharedInstance] addMusicListArr:musicListArr]) {
-                [BMDataCacheManager setMusicList:musicListArr collectionId:collectionId];
             }
             return;
         }
@@ -166,7 +169,11 @@
             }
             
             // 根据cartoonCateId来确定需要刷新的vc
-            if ([[BMDataBaseManager sharedInstance] addCartoonCollectionArr:cartoonCollectArr]) {
+            [BMDataCacheManager setCartoonCollectionId:[NSNumber numberWithInt:[collectId intValue]] cateId:musicCateId];
+            if ([[BMDataBaseManager sharedInstance] addCartoonListArr:cartoonListArr]) {
+                [BMDataCacheManager setCartoonList:cartoonListArr collectionId:collectionId];
+            }
+            if ([[BMDataBaseManager sharedInstance] addCartoonCollectionArr:cartoonCollectArr] && [[BMDataBaseManager sharedInstance] updateCartoonCateId:musicCateId withBindingCollectionId:collectionId]) {
                 NSDictionary* dic = nil;
                 if (cartoonListArr.count) {
                     dic = @{@"cartoonCateId":musicCateId, @"cartoonList":cartoonListArr};
@@ -176,9 +183,6 @@
                 [BMDataCacheManager setCartoonCollection:cartoonCollectArr cateId:musicCateId];
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOAD_CARTOON_COLLECTION_DATA_FINISHED object:dic];
             }
-            if ([[BMDataBaseManager sharedInstance] addCartoonListArr:cartoonListArr]) {
-                [BMDataCacheManager setCartoonList:cartoonListArr collectionId:collectionId];
-            }
             return;
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -186,7 +190,7 @@
     }];
 }
 
-#pragma mark 根据合集加载合集
+#pragma mark 根据合集加载列表
 -(void)loadListDataWithCollectionId:(NSNumber *)collectionId requestType:(MyRequestType)requestType {
     NSString* url = nil;
     switch (requestType) {

@@ -13,7 +13,7 @@
 #import <FMDatabaseQueue.h>
 
 
-#define DB_VER 2
+#define DB_VER 5
 #define DB_NAME @"babymv.sqlite"
 #define DB_DIR  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"database"]
 #define DB_PATH  [NSString stringWithFormat:@"%@/%@", DB_DIR, DB_NAME]
@@ -58,7 +58,6 @@
         }];
         if (version != DB_VER) {
             [_dbQueue close];
-            
             NSError* err = nil;
             [[NSFileManager defaultManager] removeItemAtPath:DB_PATH error:&err];
             dbExist = NO;
@@ -88,11 +87,52 @@
     return self;
 }
 
+
+-(void) delUnuseUserMsgs:(FMDatabase *)db
+{
+    [db executeUpdate:@"delete from MusicCollection where IsFaved=0"];
+    [db executeUpdate:@"delete from MusicList where IsDowned=0"];
+    [db executeUpdate:@"delete from CartoonCollection where IsFaved=0"];
+    [db executeUpdate:@"delete from CartoonList where IsDowned=0"];
+}
+-(void) dropUnuseTables:(FMDatabase *)db
+{
+    [db executeUpdate:@"drop table MusicCate"];
+    [db executeUpdate:@"drop table CartoonCate"];
+}
+-(void) backupUserDB:(FMDatabase *)db tableNames:(NSArray *)tableNames
+{
+    for (NSString* tableName in tableNames) {
+        NSString* sqlStr = [NSString stringWithFormat:@"ALTER TABLE %@ RENAME TO %@_bak", tableName, tableName];
+        [db executeUpdate:sqlStr];
+    }
+}
+-(void) restoreUserMessage:(FMDatabase *)db from:(NSString*)fromTable to:(NSString*)toTable
+{
+    FMResultSet* rs = [db executeQuery:[NSString stringWithFormat:@"select * from %@",fromTable]];
+    NSString* columnStr = nil;
+    if ([rs next]) {
+        int columnCount = rs.columnCount;
+        NSMutableArray* columnList = [[NSMutableArray alloc] initWithCapacity:columnCount];
+        for (int index = 0; index < columnCount; index++) {
+            [columnList addObject:[rs columnNameForIndex:index]];
+        }
+        columnStr = [columnList componentsJoinedByString:@","];
+    }
+    [rs close];
+    if (!columnStr) {
+        return;
+    }
+    [db executeUpdate:[NSString stringWithFormat:@"insert into %@ (%@) select %@ from %@",toTable,columnStr,columnStr,fromTable]];
+    if([db hadError]) {
+    }
+}
+
 -(NSArray *)createDBStr {
-    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+    return @[@"CREATE TABLE MusicCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, BindingCollectionId unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
              @"CREATE TABLE MusicCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
              @"CREATE TABLE MusicList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
-             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
+             @"CREATE TABLE CartoonCate(Rid integer PRIMARY KEY NOT NULL, Name text, Artist text, Url text, Time unsigned DEFAULT 0, BindingCollectionId unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
              @"CREATE TABLE CartoonCollection(Rid integer PRIMARY KEY NOT NULL, CateId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, IsFaved integer DEFAULT 0, FavedTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)",
              @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)"
              ];
@@ -126,6 +166,7 @@
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
             cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
+            cur_item.BindingCollectionId = [NSNumber numberWithInt:[query_result intForColumn:@"BindingCollectionId"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -137,6 +178,7 @@
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMDataModel* cate in arr) {
+//            [db executeUpdate:@"replace into MusicCate set Name=?, Artist=?, Url=?, Time=? where Rid=?",cate.Name, cate.Artist, cate.Url, cate.Time, cate.Rid];
             [db executeUpdate:@"replace into MusicCate(Name, Artist, Url, Time, Rid) values (?,?,?,?,?)",cate.Name, cate.Artist, cate.Url, cate.Time, cate.Rid];
             if ([db hadError])
             {
@@ -148,14 +190,17 @@
     return result;
 }
 
--(void)updateMusicCate:(BMDataModel *) cate {
+-(BOOL)updateMusicCateId:(NSNumber *)cateId withBindingCollectionId:(NSNumber *)collectionId {
+    __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"update MusicCate set Name=?, Artist=?, Url=? where Rid = ?",cate.Name, cate.Artist, cate.Url, cate.Rid];
+        [db executeUpdate:@"update MusicCate set BindingCollectionId=? where Rid = ?", collectionId, cateId];
         if ([db hadError])
         {
             NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+            result = NO;
         }
     }];
+    return result;
 }
 
 #pragma mark - music合集
@@ -233,6 +278,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCollectionDataModel* collection in arr) {
             [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+//            [db executeUpdate:@"replace into MusicCollection set Name=?, Artist=?, Url=?, Time=?, CateId=? where Rid=?",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -347,6 +393,7 @@
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMListDataModel* list in arr) {
             [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url, Time) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time];
+//            [db executeUpdate:@"replace into MusicList set CollectionId=?, Name=?, Artist=?, Url=?, Time=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.Rid];
             if ([db hadError]) {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
                 result = NO;
@@ -415,6 +462,7 @@
             cur_item.Artist = [query_result stringForColumn:@"Artist"];
             cur_item.Url = [query_result stringForColumn:@"Url"];
             cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
+            cur_item.BindingCollectionId = [NSNumber numberWithInt:[query_result intForColumn:@"BindingCollectionId"]];
             [resArr addObject:cur_item];
         }
         [query_result close];
@@ -437,14 +485,17 @@
     return result;
 }
 
--(void)updateCartoonCate:(BMDataModel *) cate {
+-(BOOL)updateCartoonCateId:(NSNumber *)cateId withBindingCollectionId:(NSNumber *)collectionId {
+    __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        [db executeUpdate:@"update CartoonCate set Name=?, Artist=?, Url=? where Rid = ?",cate.Name, cate.Artist, cate.Url, cate.Rid];
+        [db executeUpdate:@"update CartoonCate set BindingCollectionId=? where Rid = ?", collectionId, cateId];
         if ([db hadError])
         {
             NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+            result = NO;
         }
     }];
+    return result;
 }
 
 #pragma mark - cartoon合集

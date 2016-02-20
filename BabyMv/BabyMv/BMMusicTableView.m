@@ -12,6 +12,8 @@
 #import "BMDataBaseManager.h"
 #import "BMDataCacheManager.h"
 #import "BMMusicListVC.h"
+#import "BMMusicVC.h"
+#import "BMCartoonVC.h"
 #import "BMVlcVideoPlayViewController.h"
 
 #import "Toast+UIView.h"
@@ -322,6 +324,8 @@
             [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
             [self.items removeObject:audio_info];
             [self reloadData];
+            NSDictionary* dic = @{@"collectionId":audio_info.CollectionId};
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TABLEVIEW_OF_MUSICVC object:dic];
         }
             break;
         case MyTableViewTypeCartoonDown: {
@@ -334,6 +338,8 @@
             [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
             [self.items removeObject:cartoonListData];
             [self reloadData];
+            NSDictionary* dic = @{@"collectionId":cartoonListData.CollectionId};
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TABLEVIEW_OF_CARTOONVC object:dic];
             break;
         }
         case MyTableViewTypeFavorite:

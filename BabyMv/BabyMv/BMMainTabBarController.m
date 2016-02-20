@@ -98,8 +98,8 @@
         [self.midButton addTarget:self action:@selector(switchToPlayPage) forControlEvents:UIControlEventTouchUpInside];
         [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateNormal];
         [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateHighlighted];
-        self.midButton.frame = CGRectMake(self.tabBar.frame.size.width/2-30, self.tabBar.frame.size.height-60, buttonImageWidth, buttonImageHeight);
-        [self.tabBar addSubview:self.midButton];
+        self.midButton.frame = CGRectMake(self.tabBar.frame.size.width/2-30, [UIScreen mainScreen].bounds.size.height-60, buttonImageWidth, buttonImageHeight);
+        [self.view addSubview:self.midButton];
 
 /*
         _rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -169,7 +169,10 @@
 
 - (void)switchToPlayPage {
     BMPlayingVC* vc = [BMPlayingVC new];
+    vc.midButton = self.midButton;
+    self.midButton.hidden = YES;
     [self.selectedViewController pushViewController:vc animated:YES];
+    [self.selectedViewController hidesBottomBarWhenPushed];
 //    [self.selectedViewController presentViewController:vc animated:YES completion:nil];
 }
 

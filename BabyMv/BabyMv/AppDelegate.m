@@ -74,7 +74,7 @@
     if (musicCateArr.count) {
         //数据库数据时效性设置，超时，获取最新数据替换原有数据
 #if DEBUG
-        needRequestNewData = ([((BMDataModel *)musicCateArr[0]).Time longLongValue] + 600 < [[NSDate date] timeIntervalSince1970])?YES:NO;
+        needRequestNewData = ([((BMDataModel *)musicCateArr[0]).Time longLongValue] + 60 < [[NSDate date] timeIntervalSince1970])?YES:NO;
 #else
         needRequestNewData = ([((BMDataModel *)musicCateArr[0]).Time longLongValue] + SECONDS_PER_DAY < [[NSDate date] timeIntervalSince1970])?YES:NO;
 #endif
@@ -93,6 +93,11 @@
         [BMRequestManager loadCategoryData:MyRequestTypeMusic];
     } else {
         [BMDataCacheManager setMusicCate:musicCateArr];
+        for (BMDataModel* musicCategory in musicCateArr) {
+            if (![musicCategory.BindingCollectionId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+                [BMDataCacheManager setMusicCollectionId:musicCategory.BindingCollectionId cateId:musicCategory.Rid];
+            }
+        }
     }
     //加载视频缓存
     NSArray* cartoonCateArr       = [[BMDataBaseManager sharedInstance] getAllCartoonCate];
@@ -112,6 +117,11 @@
         [BMRequestManager loadCategoryData:MyRequestTypeCartoon];
     } else {
         [BMDataCacheManager setCartoonCate:cartoonCateArr];
+        for (BMDataModel* cartoonCategory in cartoonCateArr) {
+            if (![cartoonCategory.BindingCollectionId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+                [BMDataCacheManager setCartoonCollectionId:cartoonCategory.BindingCollectionId cateId:cartoonCategory.Rid];
+            }
+        }
     }
     
     //新建下载目录
