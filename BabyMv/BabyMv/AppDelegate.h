@@ -8,9 +8,30 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol AudioPlayerInterruptionDelegate;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+//@property (strong, nonatomic) EGMainViewController    *mainViewController;
+@property (/*weak,*/ nonatomic, weak) id<AudioPlayerInterruptionDelegate> interruptionHandlerObject;
+
++ (AppDelegate*)sharedAppDelegate;
+
++(UINavigationController*) rootNavigationController;
+-(UINavigationController*) currentTabNaviatrionController;
+
+- (void)clearAllCaches;
+
+- (bool)isFirstStart;
+
+- (void)shareMusicAlbumToSocialSpace:(NSDictionary*)dic_shared_items;
+
 @end
+
+static inline AppDelegate* GetAppDelegate()
+{
+    return (AppDelegate*)[AppDelegate sharedAppDelegate];
+}
 

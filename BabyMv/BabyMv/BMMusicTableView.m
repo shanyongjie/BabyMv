@@ -19,6 +19,9 @@
 #import <AFHTTPRequestOperation.h>
 #import <UIButton+WebCache.h>
 
+#import "AudioPlayer/AudioPlayerAdapter.h"
+#import "BSPlayList.h"
+
 
 @interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
 @property(nonatomic, strong)NSMutableArray* items;
@@ -230,14 +233,24 @@
         case MyTableViewTypeMusic:
         case MyTableViewTypeMusicDown:
         case MyTableViewTypeHistory: {
-            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
+//            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
             BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            
+            [[BSPlayList sharedInstance] setPlayList:self.items];
+            [[BSPlayList sharedInstance] setListID:[cur_video.CollectionId intValue]];
+            [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
+            [[BSPlayList sharedInstance] savePlaylist];
+            
+            
             cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
             [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
+            
+            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[cur_video.CollectionId intValue] delegate:nil];
             break;
         }
         case MyTableViewTypeCartoon:
         case MyTableViewTypeCartoonDown: {
+            [[AudioPlayerAdapter sharedPlayerAdapter] pause];
             [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
             BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
             _vlcPlayer = [[BMVlcVideoPlayViewController alloc] init];

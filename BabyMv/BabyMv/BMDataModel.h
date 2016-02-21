@@ -8,7 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BMDataModel : NSObject
+typedef enum _MediaFormat {
+    MediaFormatUnknow = 0,
+    MediaFormatMP3,
+    MediaFormatAAC,
+    MediaFormatWMA,
+    MediaFormatWAV,
+    MediaFormatCount,
+} MediaFormat;
+
+inline const char* GetFormatString(MediaFormat format)
+{
+    const char* s_mediaFormat[MediaFormatCount] = {
+        "",
+        "mp3",
+        "aac",
+        "wma",
+        "wav",
+    };
+    return s_mediaFormat[format];
+}
+
+@interface BMDataModel : NSObject<NSCopying, NSCoding>
 @property(nonatomic, strong)NSNumber* Rid;
 @property(nonatomic, strong)NSString* Name;
 @property(nonatomic, strong)NSString* Artist;
@@ -18,7 +39,7 @@
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
 
-@interface BMCollectionDataModel : BMDataModel
+@interface BMCollectionDataModel : BMDataModel<NSCopying, NSCoding>
 @property(nonatomic, strong)NSNumber* CateId;
 @property(nonatomic, strong)NSNumber* IsFaved;
 @property(nonatomic, strong)NSNumber* FavedTime;
@@ -26,7 +47,7 @@
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
 
-@interface BMListDataModel : BMDataModel
+@interface BMListDataModel : BMDataModel<NSCopying, NSCoding>
 @property(nonatomic, strong)NSNumber* CollectionId;
 @property(nonatomic, strong)NSNumber* ListenCount;
 @property(nonatomic, strong)NSNumber* IsDowned;
@@ -40,7 +61,7 @@
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
 
-@interface BMCartoonListDataModel : BMListDataModel
+@interface BMCartoonListDataModel : BMListDataModel<NSCopying>
 @property(nonatomic, strong)NSString* PicUrl;
 
 +(instancetype)parseData:(NSDictionary *)dicData;

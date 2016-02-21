@@ -17,7 +17,10 @@
 
 #import "UIImage+Helper.h"
 
-
+#import <AVFoundation/AVFoundation.h>
+#import "AudioPlayerInterruptionDelegate.h"
+#import "DownloadManager.h"
+#import "RequestManager.h"
 
 #define SECONDS_PER_DAY (24*60*60)
 
@@ -29,11 +32,67 @@
 
 @implementation AppDelegate
 
+static AppDelegate *s_sharedApplication;
+UINavigationController *rootNavigationController;
+
+static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 inInterruptionState);
+
++ (UINavigationController *)rootNavigationController
+{
+    return rootNavigationController;
+}
+
++ (AppDelegate*)sharedAppDelegate{
+    return (AppDelegate*)[UIApplication sharedApplication].delegate;
+}
+
+- (bool)isFirstStart{
+    return false;
+}
+
+- (void)clearAllCaches{
+//    BSAlertView* alert_view = [[BSAlertView alloc] initWithTitle:@"确定要清空所有缓存的资源吗？" message:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定" clickButton:^(NSInteger indexClick) {
+//        if (1 == indexClick) {
+//            Dir::DeleteDir(Dir::GetPath(Dir::PATH_VIDEO_CACHE));
+//            //            Dir::DeleteDir(Dir::GetPath(Dir::PATH_BKIMAGE));
+//            
+//            DownloadManager::Instance()->ReleaseAllCacheItem();
+//            
+//            //        DeleteFile(NSString *path)
+//            [[NSFileManager defaultManager] removeItemAtPath:[AppConfigure sharedAppConfigure].ringtoneCacheDirectory error:nil];
+//            [[NSFileManager defaultManager] createDirectoryAtPath:[AppConfigure sharedAppConfigure].ringtoneCacheDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+//        }
+//    }];
+//    [alert_view show];
+}
+
+- (void)handleAudioSessionInterruption:(UInt32)interruptionState
+{
+    if (self.interruptionHandlerObject && [self.interruptionHandlerObject respondsToSelector:@selector(handleAudioSessionInterruption:)])
+    {
+        [self.interruptionHandlerObject handleAudioSessionInterruption:interruptionState];
+    }
+}
+
+static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 inInterruptionState)
+{
+    AppDelegate* _self = (__bridge AppDelegate*)inUserData;
+    [_self handleAudioSessionInterruption:inInterruptionState];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self loadCacheData];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
+    
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
+    RequestManager::instance()->start();
+    DownloadManager::Instance()->start();
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = self.mainTabBarController;
     [self.window makeKeyAndVisible];

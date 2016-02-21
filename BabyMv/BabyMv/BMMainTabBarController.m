@@ -16,6 +16,9 @@
 #import "AppDelegate.h"
 #import "UITabBarController+Orientation.h"
 #import "UINavigationController+Orientation.h"
+#import "Notification.h"
+#import "BSPlayList.h"
+#import "AudioPlayerAdapter.h"
 
 
 @interface BMMainTabBarController ()<UITabBarControllerDelegate>
@@ -117,6 +120,8 @@
             [[[[UIApplication sharedApplication] windows]objectAtIndex:0] addSubview:self.midButton];
         }
         */
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AudioPlayFinishedNotification:) name:kCNotificationPlayItemFinished object:nil];
     }
 }
 
@@ -173,4 +178,13 @@
 //    [self.selectedViewController presentViewController:vc animated:YES completion:nil];
 }
 
+#pragma mark ----- audio play notification
+- (void)AudioPlayFinishedNotification:(NSNotification*)notification{
+    if ([BSPlayList sharedInstance].nextItem) {
+        [[AudioPlayerAdapter sharedPlayerAdapter] playNext];
+    }else {
+        [[BSPlayList sharedInstance] setCurIndex:0];
+        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+    }
+}
 @end

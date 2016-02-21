@@ -7,6 +7,7 @@
 //
 
 #import "BMDataModel.h"
+#import "common.h"
 
 @implementation BMDataModel
 +(instancetype)parseData:(NSDictionary *)dicData {
@@ -21,6 +22,53 @@
     model.Time = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
     return model;
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        decode_property_object(Rid);
+        decode_property_object(Name);
+        decode_property_object(Artist);
+        decode_property_object(Url);
+        decode_property_object(Time);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    encode_property_object(Rid);
+    encode_property_object(Name);
+    encode_property_object(Artist);
+    encode_property_object(Url);
+    encode_property_object(Time);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    BMDataModel* obj = [[self.class allocWithZone:zone] init];
+    if (obj)
+    {
+        obj.Rid         = self.Rid;
+        obj.Name    = self.Name;
+        obj.Artist    = self.Artist;
+        obj.Url      = self.Url;
+        obj.Time      = self.Time;
+    }
+    return obj;
+}
+
+- (BOOL)isEqual:(id)obj
+{
+    if ([obj isKindOfClass:(self.class)])
+    {
+        return self.Rid == ((BMDataModel*)obj).Rid;
+    }
+    return FALSE;
+}
+
 @end
 
 @implementation BMCollectionDataModel
@@ -39,6 +87,62 @@
     model.FavedTime = nil;
     return model;
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        decode_property_object(Rid);
+        decode_property_object(Name);
+        decode_property_object(Artist);
+        decode_property_object(Url);
+        decode_property_object(Time);
+        decode_property_object(CateId);
+        decode_property_object(IsFaved);
+        decode_property_object(FavedTime);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    encode_property_object(Rid);
+    encode_property_object(Name);
+    encode_property_object(Artist);
+    encode_property_object(Url);
+    encode_property_object(Time);
+    encode_property_object(CateId);
+    encode_property_object(IsFaved);
+    encode_property_object(FavedTime);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    BMCollectionDataModel* obj = [[self.class allocWithZone:zone] init];
+    if (obj)
+    {
+        obj.Rid         = self.Rid;
+        obj.Name    = self.Name;
+        obj.Artist    = self.Artist;
+        obj.Url      = self.Url;// 是否是节点；
+        obj.Time      = self.Time;
+        obj.CateId     = self.CateId;
+        obj.IsFaved     = self.IsFaved;
+        obj.FavedTime   = self.FavedTime;
+    }
+    return obj;
+}
+
+- (BOOL)isEqual:(id)obj
+{
+    if ([obj isKindOfClass:(self.class)])
+    {
+        return self.Rid == ((BMCollectionDataModel*)obj).Rid;
+    }
+    return FALSE;
+}
+
 @end
 
 @implementation BMListDataModel
@@ -59,6 +163,68 @@
     model.LastListeningTime = nil;
     return model;
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        decode_property_object(Rid);
+        decode_property_object(Name);
+        decode_property_object(Artist);
+        decode_property_object(Url);
+        decode_property_object(Time);
+        decode_property_object(CollectionId);
+        decode_property_object(ListenCount);
+        decode_property_object(IsDowned);
+        decode_property_object(DownloadTime);
+        decode_property_object(LastListeningTime);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    encode_property_object(Rid);
+    encode_property_object(Name);
+    encode_property_object(Artist);
+    encode_property_object(Url);
+    encode_property_object(Time);
+    encode_property_object(CollectionId);
+    encode_property_object(ListenCount);
+    encode_property_object(IsDowned);
+    encode_property_object(DownloadTime);
+    encode_property_object(LastListeningTime);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    BMListDataModel* obj = [[self.class allocWithZone:zone] init];
+    if (obj)
+    {
+        obj.Rid         = self.Rid;
+        obj.Name    = self.Name;
+        obj.Artist    = self.Artist;
+        obj.Url      = self.Url;// 是否是节点；
+        obj.Time      = self.Time;
+        obj.CollectionId     = self.CollectionId;
+        obj.ListenCount     = self.ListenCount;
+        obj.IsDowned   = self.IsDowned;
+        obj.DownloadTime = self.DownloadTime;
+        obj.LastListeningTime = self.LastListeningTime;
+    }
+    return obj;
+}
+
+- (BOOL)isEqual:(id)obj
+{
+    if ([obj isKindOfClass:(self.class)])
+    {
+        return self.Rid == ((BMListDataModel*)obj).Rid;
+    }
+    return FALSE;
+}
+
 @end
 
 @implementation BMCartoonCollectionDataModel
