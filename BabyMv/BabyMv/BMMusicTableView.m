@@ -128,10 +128,7 @@
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
-            [cell.img.imageView setContentMode:UIViewContentModeScaleAspectFill];
-            cell.img.imageView.clipsToBounds = YES;
-            cell.img.imageView.layer.masksToBounds = YES;
-            [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
             cell.downimg.tag = 3000+indexPath.row;
             [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
             [cell.downimg addTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
@@ -141,6 +138,7 @@
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
                 cell.downimg.enabled = NO;
             }
+            
             break;
         }
         case MyTableViewTypeCartoonDown: {
@@ -148,7 +146,7 @@
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
-            [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
             cell.downimg.tag = 3000+indexPath.row;
             break;
         }
@@ -361,7 +359,7 @@
                 case 80:
                 case 90:
                 case 100: {
-                    NSString* str = [NSString stringWithFormat:@"%lu%", (unsigned long)percent];
+                    NSString* str = [[NSString stringWithFormat:@"%lu", (unsigned long)percent] stringByAppendingString:@"%"];
                     [btn setTitle:str forState:UIControlStateNormal];
                     break;
                 }
