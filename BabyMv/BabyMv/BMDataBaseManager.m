@@ -779,7 +779,7 @@
 }
 
 -(BOOL)addCartoonListArr:(NSArray *)arr {
-    NSSet* downloadedCartoonIds = self.downloadedMusicIds;
+    NSSet* downloadedCartoonIds = self.downloadedCartoonIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCartoonListDataModel* list in arr) {
