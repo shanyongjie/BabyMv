@@ -15,6 +15,7 @@
 #import "NetworkConfigure.h"
 #import "BSDir.h"
 #import "Notification.h"
+#import "MacroDefinition.h"
 
 
 #define DEFAULT_MP3_BITRATE     96
@@ -352,9 +353,9 @@ void audioRouteChangeListenerCallback (
     if ([down_item.IsDowned intValue]) {
         NSString* strex = Dir::GetFileExt(down_item.Url);
         if ([strex isEqualToString:@"aac"]) {
-            nsfile = [Dir::GetPath(Dir::PATH_LOCALMUSIC) stringByAppendingPathComponent:[NSString stringWithFormat:@"%u.m4a", [down_item.Rid intValue]]];
+            nsfile = [DOWNLOAD_DIR stringByAppendingPathComponent:[NSString stringWithFormat:@"%u.m4a", [down_item.Rid intValue]]];
         }else {
-            nsfile = [Dir::GetPath(Dir::PATH_LOCALMUSIC) stringByAppendingPathComponent:[NSString stringWithFormat:@"%u.%@", [down_item.Rid intValue], strex]];
+            nsfile = [DOWNLOAD_DIR stringByAppendingPathComponent:[NSString stringWithFormat:@"%u.%@", [down_item.Rid intValue], strex]];
         }
     }
     /*CLocalMusicManager::GetInstance()->GetLocalFilePathForMediaItem(_mediaItemInfo);*/
