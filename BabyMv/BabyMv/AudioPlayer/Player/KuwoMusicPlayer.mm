@@ -349,7 +349,7 @@ void audioRouteChangeListenerCallback (
 	_localMusic = NO;
     NSString* nsfile = nil;
     BMListDataModel* down_item = (BMListDataModel*)_mediaItemInfo;
-    if (down_item.IsDowned) {
+    if ([down_item.IsDowned intValue]) {
         NSString* strex = Dir::GetFileExt(down_item.Url);
         if ([strex isEqualToString:@"aac"]) {
             nsfile = [Dir::GetPath(Dir::PATH_LOCALMUSIC) stringByAppendingPathComponent:[NSString stringWithFormat:@"%u.m4a", [down_item.Rid intValue]]];
