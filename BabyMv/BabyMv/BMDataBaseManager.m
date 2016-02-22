@@ -20,6 +20,10 @@
 
 @interface BMDataBaseManager ()
 @property(nonatomic, strong)FMDatabaseQueue* dbQueue;
+@property(nonatomic, strong)NSSet* favedMusicCollectionIds;
+@property(nonatomic, strong)NSSet* downloadedMusicIds;
+@property(nonatomic, strong)NSSet* favedCartoonCollectionIds;
+@property(nonatomic, strong)NSSet* downloadedCartoonIds;
 @end
 
 @implementation BMDataBaseManager
@@ -137,6 +141,62 @@
              @"CREATE TABLE CartoonList(Rid integer PRIMARY KEY NOT NULL, CollectionId integer, Name text, Artist text, Url text, Time unsigned DEFAULT 0, PicUrl text, ListenCount integer DEFAULT 0, IsDowned integer DEFAULT 0, DownloadTime unsigned DEFAULT 0, LastListeningTime unsigned DEFAULT 0, ExtraContent text, ExtraProperty text)"
              ];
 }
+
+#pragma mark - cache
+
+-(NSSet *)favedMusicCollectionIds {
+    if (!_favedMusicCollectionIds) {
+        NSArray* favedArr = [self getFavoriteMusicCollections];
+        NSMutableArray* favedMusicIds = [NSMutableArray new];
+        for (BMCollectionDataModel* collectionData in favedArr) {
+            if ([collectionData.IsFaved intValue]) {
+                [favedMusicIds addObject:collectionData.Rid];
+            }
+        }
+        _favedMusicCollectionIds = [NSSet setWithArray:favedMusicIds];
+    }
+    return _favedMusicCollectionIds;
+}
+-(NSSet *)downloadedMusicIds {
+    if (!_downloadedMusicIds) {
+        NSArray* downloadedArr = [self getDownloadedMusicList];
+        NSMutableArray* downloadedMusicIds = [NSMutableArray new];
+        for (BMListDataModel* listData in downloadedArr) {
+            if ([listData.IsDowned intValue]) {
+                [downloadedMusicIds addObject:listData.Rid];
+            }
+        }
+        _downloadedMusicIds = [NSSet setWithArray:downloadedMusicIds];
+    }
+    return _downloadedMusicIds;
+}
+-(NSSet *)favedCartoonCollectionIds {
+    if (!_favedCartoonCollectionIds) {
+        NSArray* favedArr = [self getFavoriteCartoonCollections];
+        NSMutableArray* favedCartoonIds = [NSMutableArray new];
+        for (BMCartoonCollectionDataModel* collectionData in favedArr) {
+            if ([collectionData.IsFaved intValue]) {
+                [favedCartoonIds addObject:collectionData.Rid];
+            }
+        }
+        _favedCartoonCollectionIds = [NSSet setWithArray:favedCartoonIds];
+    }
+    return _favedCartoonCollectionIds;
+}
+-(NSSet *)downloadedCartoonIds {
+    if (!_downloadedCartoonIds) {
+        NSArray* downloadedArr = [self getDownloadedCartoonList];
+        NSMutableArray* downloadedCartoonIds = [NSMutableArray new];
+        for (BMCartoonListDataModel* listData in downloadedArr) {
+            if ([listData.IsDowned intValue]) {
+                [downloadedCartoonIds addObject:listData.Rid];
+            }
+        }
+        _downloadedCartoonIds = [NSSet setWithArray:downloadedCartoonIds];
+    }
+    return _downloadedCartoonIds;
+}
+
 
 #pragma mark - music分类
 -(NSArray *)getAllCateIds {
@@ -273,12 +333,37 @@
     return resArr;
 }
 
+-(NSArray *)getMusicCollectionByCateId:(NSNumber *)cateId {
+    __block NSMutableArray *resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* query_result = [db executeQuery:@"select * from MusicCollection where CateId=?", cateId];
+        while ([query_result next]) {
+            BMCollectionDataModel* cur_item = [[BMCollectionDataModel alloc] init];
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
+            cur_item.Name = [query_result stringForColumn:@"Name"];
+            cur_item.Artist = [query_result stringForColumn:@"Artist"];
+            cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
+            [resArr addObject:cur_item];
+        }
+        [query_result close];
+    }];
+    return resArr;
+}
+
 -(BOOL)addMusicCollectionArr:(NSArray *) arr {
+    NSSet* favedMusicCollectionIds = self.favedMusicCollectionIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCollectionDataModel* collection in arr) {
-            [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
-//            [db executeUpdate:@"replace into MusicCollection set Name=?, Artist=?, Url=?, Time=?, CateId=? where Rid=?",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            if ([favedMusicCollectionIds containsObject:collection.Rid]) {
+                [db executeUpdate:@"update MusicCollection set Name=?, Artist=?, Url=?, Time=?, CateId=? where Rid=?",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            } else {
+                [db executeUpdate:@"replace into MusicCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            }
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -389,11 +474,15 @@
 }
 
 -(BOOL)addMusicListArr:(NSArray *)arr {
+    NSSet* downloadedMusicIds = self.downloadedMusicIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMListDataModel* list in arr) {
-            [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url, Time) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time];
-//            [db executeUpdate:@"replace into MusicList set CollectionId=?, Name=?, Artist=?, Url=?, Time=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.Rid];
+            if ([downloadedMusicIds containsObject:list.Rid]) {
+                [db executeUpdate:@"update MusicList set CollectionId=?, Name=?, Artist=?, Url=?, Time=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.Rid];
+            } else {
+                [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url, Time) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time];
+            }
             if ([db hadError]) {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
                 result = NO;
@@ -568,11 +657,37 @@
     return resArr;
 }
 
+-(NSArray *)getCartoonCollectionByCateId:(NSNumber *)cateId {
+    __block NSMutableArray *resArr = [NSMutableArray new];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* query_result = [db executeQuery:@"select * from CartoonCollection where CateId=?", cateId];
+        while ([query_result next]) {
+            BMCartoonCollectionDataModel* cur_item = [[BMCartoonCollectionDataModel alloc] init];
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
+            cur_item.Name = [query_result stringForColumn:@"Name"];
+            cur_item.Artist = [query_result stringForColumn:@"Artist"];
+            cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
+            [resArr addObject:cur_item];
+        }
+        [query_result close];
+    }];
+    return resArr;
+}
+
 -(BOOL)addCartoonCollectionArr:(NSArray *) arr {
+    NSSet* favedCartoonCollectionIds = self.favedCartoonCollectionIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCartoonCollectionDataModel* collection in arr) {
-            [db executeUpdate:@"replace into CartoonCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            if ([favedCartoonCollectionIds containsObject:collection.Rid]) {
+                [db executeUpdate:@"update CartoonCollection set Name=?, Artist=?, Url=?, Time=?, CateId=? where Rid = ?",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            } else {
+                [db executeUpdate:@"replace into CartoonCollection(Name, Artist, Url, Time, CateId, Rid) values (?,?,?,?,?,?)",collection.Name, collection.Artist, collection.Url, collection.Time, collection.CateId, collection.Rid];
+            }
             if ([db hadError])
             {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -664,10 +779,15 @@
 }
 
 -(BOOL)addCartoonListArr:(NSArray *)arr {
+    NSSet* downloadedCartoonIds = self.downloadedMusicIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMCartoonListDataModel* list in arr) {
-            [db executeUpdate:@"replace into CartoonList(Rid, CollectionId, Name, Artist, Url, Time, PicUrl) values (?,?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.PicUrl];
+            if ([downloadedCartoonIds containsObject:list.Rid]) {
+                [db executeUpdate:@"update CartoonList set CollectionId=?, Name=?, Artist=?, Url=?, Time=?, PicUrl=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.PicUrl, list.Rid];
+            } else {
+                [db executeUpdate:@"replace into CartoonList(Rid, CollectionId, Name, Artist, Url, Time, PicUrl) values (?,?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.PicUrl];
+            }
             if ([db hadError]) {
                 NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
                 result = NO;

@@ -27,6 +27,7 @@
 -(BOOL)IsMusicCollectionFaved:(NSNumber *) CollectionId;
 -(NSArray *)getAllCollectionIds;
 -(NSArray *)getAllMusicCollection;
+-(NSArray *)getMusicCollectionByCateId:(NSNumber *)cateId;
 -(BOOL)addMusicCollectionArr:(NSArray *) arr;
 -(void)favMusicCollection:(BMCollectionDataModel *) collection;
 
@@ -49,6 +50,7 @@
 -(BOOL)IsCartoonCollectionFaved:(NSNumber *) CollectionId;
 -(NSArray *)getAllCartoonCollectionIds;
 -(NSArray *)getAllCartoonCollection;
+-(NSArray *)getCartoonCollectionByCateId:(NSNumber *)cateId;
 -(BOOL)addCartoonCollectionArr:(NSArray *) arr;
 -(void)favCartoonCollection:(BMCartoonCollectionDataModel *) collection;
 
