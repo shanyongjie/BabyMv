@@ -30,6 +30,7 @@
         case MyTableViewTypeMusicDown:
         case MyTableViewTypeFavorite:
         case MyTableViewTypeHistory:
+        case MyTableVIewTypePlayList:
             return [self initMusicCellWithStyle:UITableViewCellStyleDefault cellType:cellType reuseIdentifier:reuseIdentifier];
             break;
         case MyTableViewTypeCartoon:
@@ -56,6 +57,9 @@
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11.5, 31.5, 31.5)];
         if (MyTableViewTypeMusic == cellType) {
+            [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+        }else if (MyTableVIewTypePlayList == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
         } else if (MyTableViewTypeMusicDown == cellType) {

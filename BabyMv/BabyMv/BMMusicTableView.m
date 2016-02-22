@@ -39,16 +39,15 @@
     if (self) {
         self.delegate = self;
         self.dataSource = self;
-        self.items = [NSMutableArray new];
-        self.myType = MyTableViewTypeMusic;
+        _items = [[NSMutableArray alloc] initWithCapacity:0];
+        _myType = MyTableViewTypeMusic;
     }
     return self;
 }
 
--(void)setItems:(NSMutableArray *)items {
-    if (_items != items) {
-        _items = items;
-    }
+-(void)setSongItems:(NSArray *)items {
+    [_items removeAllObjects];
+    [_items addObjectsFromArray:items];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -56,8 +55,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.items.count) {
-        return self.items.count;
+    if (_items.count) {
+        return _items.count;
     }
     return 0;
 }
@@ -83,18 +82,21 @@
         case MyTableViewTypeHistory:
             cellReuseId = @"historyDownload";
             break;
+        case MyTableVIewTypePlayList:
+            cellReuseId = @"musicPlayListCell";
+            break;
         default:
             break;
     }
     BMTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseId];
     if (!cell) {
-        cell = [[BMTableViewCell alloc] initWithCellType:self.myType reuseIdentifier:cellReuseId];
+        cell = [[BMTableViewCell alloc] initWithCellType:_myType reuseIdentifier:cellReuseId];
         cell.cellDelegate = self;
     }
     
-    switch (self.myType) {
+    switch (_myType) {
         case MyTableViewTypeMusic: {
-            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
@@ -106,7 +108,7 @@
             break;
         }
         case MyTableViewTypeMusicDown: {
-            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
@@ -114,7 +116,7 @@
             break;
         }
         case MyTableViewTypeCartoon: {
-            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMCartoonListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
@@ -127,7 +129,7 @@
             break;
         }
         case MyTableViewTypeCartoonDown: {
-            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMCartoonListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
@@ -136,7 +138,7 @@
             break;
         }
         case MyTableViewTypeFavorite: {
-            BMCollectionDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMCollectionDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
@@ -144,11 +146,23 @@
             break;
         }
         case MyTableViewTypeHistory: {
-            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
             cell.downimg.tag = 3000+indexPath.row;
+            break;
+        }
+        case MyTableVIewTypePlayList: {
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            cell.titleLab.text = cur_video.Name;
+            cell.detailLab.text = cur_video.Artist;
+            cell.downimg.tag = 3000+indexPath.row;
+            [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            if ([cur_video.IsDowned intValue]) {
+                [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+            }
             break;
         }
         default:
@@ -179,8 +193,10 @@
             return 30;
             break;
         case MyTableViewTypeHistory:
-            return 30;
+            return 0;
             break;
+        case MyTableVIewTypePlayList:
+            return 0;
         default:
             break;
             return 0.01;
@@ -223,6 +239,8 @@
         case MyTableViewTypeHistory:
             titleLab.text = @"历史";
             break;
+        case MyTableVIewTypePlayList:
+            return nil;
         default:
             break;
             return nil;
@@ -234,11 +252,12 @@
     switch (self.myType) {
         case MyTableViewTypeMusic:
         case MyTableViewTypeMusicDown:
+        case MyTableVIewTypePlayList:
         case MyTableViewTypeHistory: {
 //            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
-            BMListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             
-            [[BSPlayList sharedInstance] setPlayList:self.items];
+            [[BSPlayList sharedInstance] setPlayList:_items];
             [[BSPlayList sharedInstance] setListID:[cur_video.CollectionId intValue]];
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
             [[BSPlayList sharedInstance] savePlaylist];
@@ -253,8 +272,8 @@
         case MyTableViewTypeCartoon:
         case MyTableViewTypeCartoonDown: {
             [[AudioPlayerAdapter sharedPlayerAdapter] pause];
-            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
-            BMCartoonListDataModel* cur_video = [self.items objectAtIndex:indexPath.row];
+            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:_items]];
+            BMCartoonListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             _vlcPlayer = [[BMVlcVideoPlayViewController alloc] init];
             [_vlcPlayer setVideoInfo:cur_video index:indexPath.row videoList:[BMDataCacheManager currentPlayingList]];
 #warning Oriention!!!
@@ -263,7 +282,7 @@
             break;
         }
         case MyTableViewTypeFavorite: {
-            BMDataModel* collection = [self.items objectAtIndex:indexPath.row];
+            BMDataModel* collection = [_items objectAtIndex:indexPath.row];
             if ([collection isKindOfClass:[BMCartoonCollectionDataModel class]]) {
                 BMCartoonCollectionDataModel *collectModel = (BMCartoonCollectionDataModel *)collection;
                 _cartoonListVC = [BMMusicListVC new];
@@ -291,7 +310,7 @@
 
 - (void)download:(UIButton *)btn {
     NSUInteger index = btn.tag-3000;
-    __block BMListDataModel* audio_info = self.items[index];
+    __block BMListDataModel* audio_info = _items[index];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString*documentsDirectory = DOWNLOAD_DIR;
         NSString *name = [NSString stringWithFormat:@"%@.%@", audio_info.Rid, [audio_info.Url pathExtension]];
@@ -328,28 +347,28 @@
         case MyTableViewTypeCartoon:
             break;
         case MyTableViewTypeMusicDown: {
-            BMListDataModel* audio_info = self.items[index];
+            BMListDataModel* audio_info = _items[index];
             audio_info.IsDowned = [NSNumber numberWithInt:0];
             [BMDataCacheManager updateMusicListDataDownLoadStatus:audio_info];
             NSString*documentsDirectory = DOWNLOAD_DIR;
             NSString *name = [NSString stringWithFormat:@"%@.%@", audio_info.Rid, [audio_info.Url pathExtension]];
             NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
             [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
-            [self.items removeObject:audio_info];
+            [_items removeObject:audio_info];
             [self reloadData];
             NSDictionary* dic = @{@"collectionId":audio_info.CollectionId};
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TABLEVIEW_OF_MUSICVC object:dic];
         }
             break;
         case MyTableViewTypeCartoonDown: {
-            BMCartoonListDataModel* cartoonListData = self.items[index];
+            BMCartoonListDataModel* cartoonListData = _items[index];
             cartoonListData.IsDowned = [NSNumber numberWithInt:0];
             [BMDataCacheManager updateCartoonListDataDownLoadStatus:cartoonListData];
             NSString*documentsDirectory = DOWNLOAD_DIR;
             NSString *name = [NSString stringWithFormat:@"%@.%@", cartoonListData.Rid, [cartoonListData.Url pathExtension]];
             NSString *musicPath =[documentsDirectory stringByAppendingPathComponent:name];
             [[NSFileManager defaultManager] removeItemAtPath:musicPath error:nil];
-            [self.items removeObject:cartoonListData];
+            [_items removeObject:cartoonListData];
             [self reloadData];
             NSDictionary* dic = @{@"collectionId":cartoonListData.CollectionId};
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TABLEVIEW_OF_CARTOONVC object:dic];
@@ -372,18 +391,18 @@
         case MyTableViewTypeCartoon:
             break;
         case MyTableViewTypeMusicDown: {
-            BMCollectionDataModel* collection_info = self.items[index];
+            BMCollectionDataModel* collection_info = _items[index];
             collection_info.IsFaved = [NSNumber numberWithInt:0];
             [[BMDataBaseManager sharedInstance] favMusicCollection:collection_info];
-            [self.items removeObject:collection_info];
+            [_items removeObject:collection_info];
             [self reloadData];
         }
             break;
         case MyTableViewTypeCartoonDown: {
-            BMCartoonCollectionDataModel* collection_info = self.items[index];
+            BMCartoonCollectionDataModel* collection_info = _items[index];
             collection_info.IsFaved = [NSNumber numberWithInt:0];
             [[BMDataBaseManager sharedInstance] favCartoonCollection:collection_info];
-            [self.items removeObject:collection_info];
+            [_items removeObject:collection_info];
             [self reloadData];
             break;
         }
@@ -402,10 +421,10 @@
         case MyTableViewTypeMusic:
         case MyTableViewTypeMusicDown:
         case MyTableViewTypeHistory: {
-            BMListDataModel* cur_video = [self.items objectAtIndex:index];
+            BMListDataModel* cur_video = [_items objectAtIndex:index];
             cur_video.LastListeningTime = [NSNumber numberWithInt:NSTimeIntervalSince1970];
             [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
-            [self.items removeObject:cur_video];
+            [_items removeObject:cur_video];
             [self reloadData];
             break;
         }

@@ -84,7 +84,7 @@
         self.navigationItem.title = self.currentCollectionData.Name;
         _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         } else{
             [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCollectionData.Rid requestType:MyRequestTypeMusic];
@@ -99,7 +99,7 @@
         self.navigationItem.title = self.currentCartoonCollectionData.Name;
         _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         } else{
             [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.currentCartoonCollectionData.Rid requestType:MyRequestTypeCartoon];
@@ -113,7 +113,7 @@
         self.navigationItem.title = @"我下载的儿歌";
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getDownloadedMusicList]];
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         }
     }
@@ -121,7 +121,7 @@
         self.navigationItem.title = @"我下载的动画";
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getDownloadedCartoonList]];
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         }
     }
@@ -129,7 +129,7 @@
         self.navigationItem.title = @"收听历史";
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getListenMusicList]];
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         }
     }
@@ -170,7 +170,7 @@
             _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
         }
         if (_listData.count) {
-            [self.tableView setItems:[NSMutableArray arrayWithArray:_listData]];
+            [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         }
     }

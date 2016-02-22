@@ -11,6 +11,6 @@
 
 @interface BMMusicTableView : UITableView
 @property(nonatomic, assign)MyTableViewType myType;
--(void)setItems:(NSMutableArray *)items;
+-(void)setSongItems:(NSArray *)items;
 @end
 

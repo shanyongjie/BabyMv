@@ -181,7 +181,7 @@
 -(void)LoadListData {
     _cartoonListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.selectedCollectionId]];
     if (_cartoonListArr.count) {
-        [self.tableView setItems:[NSMutableArray arrayWithArray:_cartoonListArr]];
+        [self.tableView setSongItems:_cartoonListArr];
         [self.tableView reloadData];
     } else {
         [self showLoadingPage:YES descript:nil];

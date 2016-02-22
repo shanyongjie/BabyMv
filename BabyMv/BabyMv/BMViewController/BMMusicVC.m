@@ -190,7 +190,8 @@
 -(void)LoadListData {
     _musicListArr = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.selectedCollectionId]];
     if (_musicListArr.count) {
-        [self.tableView setItems:[NSMutableArray arrayWithArray:_musicListArr]];
+        [self.tableView setSongItems:_musicListArr];
+        self.tableView.myType = MyTableViewTypeMusic;
         [self.tableView reloadData];
     } else {
         [[BMRequestManager sharedInstance] loadListDataWithCollectionId:self.selectedCollectionId requestType:MyRequestTypeMusic];

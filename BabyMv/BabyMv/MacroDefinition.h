@@ -25,6 +25,7 @@ typedef enum : NSUInteger {
     MyTableViewTypeCartoonDown,
     MyTableViewTypeFavorite,
     MyTableViewTypeHistory,
+    MyTableVIewTypePlayList
 } MyTableViewType;
 
 typedef enum : NSUInteger {

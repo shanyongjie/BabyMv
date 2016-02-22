@@ -10,9 +10,10 @@
 #import "MacroDefinition.h"
 #import "BMTopTabBar.h"
 #import "BMMusicTableView.h"
+#import "BSPlayList.h"
 
 @interface BMPlayingVC ()
-@property(nonatomic, strong)UITableView* tableView;
+@property(nonatomic, strong)BMMusicTableView* tableView;
 @property(nonatomic, strong)BMBottomPlayingTabBar* playingTabBar;
 @end
 
@@ -45,6 +46,11 @@
             [SELF playingToolBarButtonClick:index];
         };
     }
+    
+    
+    _tableView.myType = MyTableVIewTypePlayList;
+    [_tableView setSongItems:[BSPlayList sharedInstance].arryPlayList];
+    self.navigationItem.title = @"播放列表";
     self.navigationItem.backBarButtonItem = nil;
     self.navigationItem.leftBarButtonItems = nil;
     self.navigationItem.leftItemsSupplementBackButton = NO;

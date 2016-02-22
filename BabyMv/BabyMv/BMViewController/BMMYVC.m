@@ -100,7 +100,7 @@
     [self.items addObjectsFromArray:[[BMDataBaseManager sharedInstance] getFavoriteMusicCollections]];
     [self.items addObjectsFromArray:[[BMDataBaseManager sharedInstance] getFavoriteCartoonCollections]];
     if (self.items.count) {
-        [self.tableView setItems:self.items];
+        [self.tableView setSongItems:_items];
         [self.tableView reloadData];
     }
 }

@@ -146,7 +146,7 @@
 
 - (void)play
 {
-//    [self releasePlayer];
+    [self releasePlayer];
     
     [self newPlayer];
 
@@ -234,8 +234,6 @@
 
 - (void)handlerPlayState:(PlayState)ps
 {
-    if (ps == _playState)
-        return;
     _playState = ps;
 
     dispatch_async(dispatch_get_main_queue(), ^{
