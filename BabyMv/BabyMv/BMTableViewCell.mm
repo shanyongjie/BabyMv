@@ -62,6 +62,7 @@
         }else if (MyTableVIewTypePlayList == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+//            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
         } else if (MyTableViewTypeMusicDown == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
@@ -108,7 +109,7 @@
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11, 38, 38)];
         if (MyTableViewTypeCartoon == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
-            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+//            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
         } else if (MyTableViewTypeCartoonDown == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
