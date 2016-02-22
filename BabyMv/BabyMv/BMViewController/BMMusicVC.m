@@ -95,8 +95,13 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_MUSIC_CATEGORY_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_MUSIC_COLLECTION_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_MUSIC_LIST_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:UPDATE_TABLEVIEW_OF_MUSICVC object:nil];
         }
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -169,7 +174,11 @@
             }
         });
         
-        self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
+        self.selectedCollectionId = [BMDataCacheManager musicCollectionIdBinding2CategoryId:self.selectedCategoryId];
+        if ([self.selectedCollectionId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            //做一下容错，如果没有和categoryId绑定的collectionId，就取当前的第一个collectionId
+            self.selectedCollectionId = ((BMCollectionDataModel *)_collectionArr[0]).Rid;
+        }
         [self LoadListData];
     } else{
         [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeMusic];

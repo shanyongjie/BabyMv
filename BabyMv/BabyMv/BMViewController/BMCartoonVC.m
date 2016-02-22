@@ -96,6 +96,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCategoryDataFinish:) name:LOAD_CARTOON_CATEGORY_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_CARTOON_COLLECTION_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_CARTOON_LIST_DATA_FINISHED object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:UPDATE_TABLEVIEW_OF_CARTOONVC object:nil];
         }
     }
 }
@@ -165,7 +166,11 @@
                 label.frame = frame;
             }
         });
-        self.selectedCollectionId = ((BMCartoonCollectionDataModel *)_cartoonCollectionArr[0]).Rid;
+        self.selectedCollectionId = [BMDataCacheManager cartoonCollectionIdBinding2CategoryId:self.selectedCategoryId];
+        if ([self.selectedCollectionId isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            //做一下容错，如果没有和categoryId绑定的collectionId，就取当前的第一个collectionId
+            self.selectedCollectionId = ((BMCartoonCollectionDataModel *)_cartoonCollectionArr[0]).Rid;
+        }
         [self LoadListData];
     } else{
         [[BMRequestManager sharedInstance] loadCollectionDataWithCategoryId:self.selectedCategoryId requestType:MyRequestTypeCartoon];

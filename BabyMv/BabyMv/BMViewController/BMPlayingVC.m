@@ -20,10 +20,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:YES];
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:NO];
+    self.midButton.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -43,6 +45,9 @@
             [SELF playingToolBarButtonClick:index];
         };
     }
+    self.navigationItem.backBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItems = nil;
+    self.navigationItem.leftItemsSupplementBackButton = NO;
 }
 
 - (void)didReceiveMemoryWarning {

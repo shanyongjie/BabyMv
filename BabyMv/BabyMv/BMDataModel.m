@@ -15,7 +15,7 @@
         return nil;
     }
     BMDataModel* model = [BMDataModel new];
-    model.Rid = dicData[@"CateId"];
+    model.Rid = [NSNumber numberWithInt:[dicData[@"CateId"] intValue]];
     model.Name = dicData[@"CateName"];
     model.Artist = @"0";
     model.Url = @"0";
@@ -77,7 +77,7 @@
         return nil;
     }
     BMCollectionDataModel* model = [BMCollectionDataModel new];
-    model.Rid = dicData[@"collectId"];
+    model.Rid = [NSNumber numberWithInt:[dicData[@"collectId"] intValue]];
     model.Name = dicData[@"collectName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"collectPic"] isEqual:[NSNull null]]?@"":dicData[@"collectPic"];
@@ -151,7 +151,7 @@
         return nil;
     }
     BMListDataModel* model = [BMListDataModel new];
-    model.Rid = dicData[@"Rid"];
+    model.Rid = [NSNumber numberWithInt:[dicData[@"Rid"] intValue]];
     model.Name = dicData[@"AudioName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;
@@ -233,7 +233,7 @@
         return nil;
     }
     BMCartoonCollectionDataModel* model = [BMCartoonCollectionDataModel new];
-    model.Rid = dicData[@"MvId"];
+    model.Rid = [NSNumber numberWithInt:[dicData[@"MvId"] intValue]];;
     model.Name = dicData[@"MvName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"MvPic"] isEqual:[NSNull null]]?@"":dicData[@"MvPic"];
@@ -251,7 +251,7 @@
         return nil;
     }
     BMCartoonListDataModel* model = [BMCartoonListDataModel new];
-    model.Rid = dicData[@"Rid"];
+    model.Rid = [NSNumber numberWithInt:[dicData[@"Rid"] intValue]];
     model.Name = dicData[@"ChapterName"];
     model.Artist = dicData[@"Artist"];
     model.Url = [dicData[@"Url"] isEqual:[NSNull null]]?@"":dicData[@"Url"];;

@@ -35,6 +35,7 @@ inline const char* GetFormatString(MediaFormat format)
 @property(nonatomic, strong)NSString* Artist;
 @property(nonatomic, strong)NSString* Url;
 @property(nonatomic, strong)NSNumber* Time;
+@property(nonatomic, strong)NSNumber* BindingCollectionId;
 
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
@@ -56,7 +57,7 @@ inline const char* GetFormatString(MediaFormat format)
 
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end
-
+//歌曲合集模型
 @interface BMCartoonCollectionDataModel : BMCollectionDataModel
 +(instancetype)parseData:(NSDictionary *)dicData;
 @end

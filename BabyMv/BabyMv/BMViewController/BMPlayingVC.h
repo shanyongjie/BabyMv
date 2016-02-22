@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BMPlayingVC : UIViewController
-
+@property(nonatomic, weak)UIButton* midButton;
 @end

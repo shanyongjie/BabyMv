@@ -45,7 +45,6 @@
 		8229C9B81C63F4CC008C7CB6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9B61C63F4CC008C7CB6 /* Main.storyboard */; };
 		8229C9BA1C63F4CC008C7CB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9B91C63F4CC008C7CB6 /* Assets.xcassets */; };
 		8229C9BD1C63F4CC008C7CB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9BB1C63F4CC008C7CB6 /* LaunchScreen.storyboard */; };
-		829801581C72C49F00002736 /* MobileVLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829801571C72C49F00002736 /* MobileVLCKit.framework */; };
 		8298015C1C72C6F100002736 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015B1C72C6F100002736 /* AudioToolbox.framework */; };
 		8298015E1C72C70600002736 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */; };
 		82EDDA2E1C78B76F00A73BC5 /* BSDir.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1B1C78B76F00A73BC5 /* BSDir.mm */; };
@@ -299,7 +298,6 @@
 			files = (
 				8298015E1C72C70600002736 /* libiconv.2.4.0.tbd in Frameworks */,
 				8298015C1C72C6F100002736 /* AudioToolbox.framework in Frameworks */,
-				829801581C72C49F00002736 /* MobileVLCKit.framework in Frameworks */,
 				0CDB40BE1C664496009792DE /* CoreGraphics.framework in Frameworks */,
 				0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */,
 				0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */,
