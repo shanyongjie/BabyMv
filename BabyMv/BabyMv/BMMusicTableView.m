@@ -23,6 +23,7 @@
 
 #import "AudioPlayer/AudioPlayerAdapter.h"
 #import "BSPlayList.h"
+#import "iToast.h"
 
 
 @interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
@@ -30,6 +31,7 @@
 @property(nonatomic, strong)BMMusicListVC* musicListVC;
 @property(nonatomic, strong)BMMusicListVC* cartoonListVC;
 @property(nonatomic, strong)BMVlcVideoPlayViewController* vlcPlayer;
+@property(nonatomic, strong)NSMutableSet* downloadingItems;
 @end
 
 @implementation BMMusicTableView
@@ -39,8 +41,9 @@
     if (self) {
         self.delegate = self;
         self.dataSource = self;
-        self.items = [NSMutableArray new];
-        self.myType = MyTableViewTypeMusic;
+        _items = [NSMutableArray new];
+        _myType = MyTableViewTypeMusic;
+        _downloadingItems = [NSMutableSet new];
     }
     return self;
 }
@@ -100,8 +103,12 @@
             cell.detailLab.text = cur_video.Artist;
             cell.downimg.tag = 3000+indexPath.row;
             [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            [cell.downimg addTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+            cell.downimg.enabled = YES;
             if ([cur_video.IsDowned intValue]) {
+                [cell.downimg removeTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+                cell.downimg.enabled = NO;
             }
             break;
         }
@@ -118,11 +125,18 @@
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
+            [cell.img.imageView setContentMode:UIViewContentModeScaleAspectFill];
+            cell.img.imageView.clipsToBounds = YES;
+            cell.img.imageView.layer.masksToBounds = YES;
             [cell.img sd_setImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
             cell.downimg.tag = 3000+indexPath.row;
             [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
+            [cell.downimg addTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
+            cell.downimg.enabled = YES;
             if ([cur_video.IsDowned intValue]) {
+                [cell.downimg removeTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+                cell.downimg.enabled = NO;
             }
             break;
         }
@@ -292,6 +306,14 @@
 - (void)download:(UIButton *)btn {
     NSUInteger index = btn.tag-3000;
     __block BMListDataModel* audio_info = self.items[index];
+    
+    if ([self.downloadingItems containsObject:audio_info]) {
+        [iToast defaultShow:@"已经加入下载队列"];
+        return;
+    }
+    
+    [self.downloadingItems addObject:audio_info];
+    __weak BMMusicTableView* SELF = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString*documentsDirectory = DOWNLOAD_DIR;
         NSString *name = [NSString stringWithFormat:@"%@.%@", audio_info.Rid, [audio_info.Url pathExtension]];
@@ -300,6 +322,31 @@
         AFHTTPRequestOperation *operation1 = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:audio_info.Url]]];
         operation1.outputStream = [NSOutputStream outputStreamToFileAtPath:musicPath append:NO];
         [operation1 start];
+        [operation1 setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+            [btn setImage:nil forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            NSUInteger percent = 100.0*totalBytesRead/totalBytesExpectedToRead;
+            NSLog(@"percent::%lu%", (unsigned long)percent);
+            switch (percent) {
+                case 0:
+                case 10:
+                case 20:
+                case 30:
+                case 40:
+                case 50:
+                case 60:
+                case 70:
+                case 80:
+                case 90:
+                case 100: {
+                    NSString* str = [NSString stringWithFormat:@"%lu%", (unsigned long)percent];
+                    [btn setTitle:str forState:UIControlStateNormal];
+                    break;
+                }
+                default:
+                    break;
+            }
+        }];
         [operation1 setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             time_t now;
             time(&now);
@@ -315,7 +362,11 @@
             }
 
             [btn setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
+            btn.enabled = NO;
+            [SELF.downloadingItems removeObject:audio_info];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [iToast defaultShow:@"下载失败"];
+            [SELF.downloadingItems removeObject:audio_info];
         }];
     });
 }
