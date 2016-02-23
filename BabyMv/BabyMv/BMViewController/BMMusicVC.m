@@ -96,6 +96,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCollectionDataFinish:) name:LOAD_MUSIC_COLLECTION_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:LOAD_MUSIC_LIST_DATA_FINISHED object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadListDataFinish:) name:UPDATE_TABLEVIEW_OF_MUSICVC object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
         }
     }
 }
@@ -109,6 +110,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 简单reloadData数据
+-(void)reloadTableViewData {
+    [self.tableView reloadData];
+}
 /*
 #pragma mark - Navigation
 

@@ -9,6 +9,7 @@
 #ifndef MacroDefinition_h
 #define MacroDefinition_h
 
+#import "Notification.h"
 
 typedef enum : NSUInteger {
     MyListVCTypeMusic,

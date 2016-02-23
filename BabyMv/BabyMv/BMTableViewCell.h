@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UILabel *detailLab;
 @property (strong, nonatomic) UIButton *downimg;
 @property (strong, nonatomic) UIButton *currentPlayingSign;
+@property (strong, nonatomic) UIView *selectedBGView;
 @property (weak, nonatomic) id<BMTableViewCellDelegate> cellDelegate;
 
 -(instancetype)initWithCellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier;

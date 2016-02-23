@@ -113,6 +113,13 @@
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
                 cell.downimg.enabled = NO;
             }
+            BMListDataModel* currentPlayingMusic =  [BSPlayList sharedInstance].currentItem;
+            cell.currentPlayingSign.hidden = YES;
+            cell.selectedBGView.hidden = YES;
+            if (currentPlayingMusic && [currentPlayingMusic.Rid isEqualToNumber:cur_video.Rid]) {
+                cell.currentPlayingSign.hidden = NO;
+                cell.selectedBGView.hidden = NO;
+            }
             break;
         }
         case MyTableViewTypeMusicDown: {
@@ -121,6 +128,13 @@
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
             cell.downimg.tag = 3000+indexPath.row;
+            BMListDataModel* currentPlayingMusic =  [BSPlayList sharedInstance].currentItem;
+            cell.currentPlayingSign.hidden = YES;
+            cell.selectedBGView.hidden = YES;
+            if (currentPlayingMusic && [currentPlayingMusic.Rid isEqualToNumber:cur_video.Rid]) {
+                cell.currentPlayingSign.hidden = NO;
+                cell.selectedBGView.hidden = NO;
+            }
             break;
         }
         case MyTableViewTypeCartoon: {
@@ -164,6 +178,12 @@
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
             cell.downimg.tag = 3000+indexPath.row;
+            BMListDataModel* currentPlayingMusic =  [BSPlayList sharedInstance].currentItem;
+            cell.selectedBGView.hidden = YES;
+            if (currentPlayingMusic && [currentPlayingMusic.Rid isEqualToNumber:cur_video.Rid]) {
+                cell.currentPlayingSign.hidden = NO;
+                cell.selectedBGView.hidden = NO;
+            }
             break;
         }
         case MyTableVIewTypePlayList: {
@@ -176,11 +196,19 @@
             if ([cur_video.IsDowned intValue]) {
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
             }
+            BMListDataModel* currentPlayingMusic =  [BSPlayList sharedInstance].currentItem;
+            cell.currentPlayingSign.hidden = YES;
+            cell.selectedBGView.hidden = YES;
+            if (currentPlayingMusic && [currentPlayingMusic.Rid isEqualToNumber:cur_video.Rid]) {
+                cell.currentPlayingSign.hidden = NO;
+                cell.selectedBGView.hidden = NO;
+            }
             break;
         }
         default:
             break;
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

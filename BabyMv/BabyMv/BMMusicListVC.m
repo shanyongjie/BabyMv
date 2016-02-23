@@ -77,6 +77,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 #warning some data from cache, other form DB, that's a question
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
@@ -135,9 +136,26 @@
     }
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCNotificationPlayItemStarted object:nil];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 简单reloadData数据
+-(void)reloadTableViewData {
+    switch (self.vcType) {
+        case MyListVCTypeMusic:
+        case MyListVCTypeMusicDownload:
+        case MyListVCTypeHistory:
+            [self.tableView reloadData];
+            break;
+        default:
+            break;
+    }
 }
 
 /*

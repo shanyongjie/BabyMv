@@ -54,6 +54,7 @@
     self.navigationItem.backBarButtonItem = nil;
     self.navigationItem.leftBarButtonItems = nil;
     self.navigationItem.leftItemsSupplementBackButton = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +62,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 简单reloadData数据
+-(void)reloadTableViewData {
+    [self.tableView reloadData];
+}
 /*
 #pragma mark - Navigation
 
