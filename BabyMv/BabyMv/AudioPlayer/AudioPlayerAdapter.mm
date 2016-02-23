@@ -19,6 +19,7 @@
 #import "RTLocalConfig.h"
 
 #import "bsbase64.h"
+#import "BMDataBaseManager.h"
 
 @interface AudioPlayerAdapter () <PlayerEventHandlerDelegate>
 {
@@ -151,6 +152,9 @@
     [self newPlayer];
 
     self.player.mediaItemInfo = (BMListDataModel*)self.nowPlayingItem;
+    BMListDataModel* cur_video = (BMListDataModel*)self.nowPlayingItem;
+    cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
+    [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
 
     UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
     AudioSessionSetProperty (

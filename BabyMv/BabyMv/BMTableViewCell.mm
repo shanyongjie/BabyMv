@@ -18,17 +18,17 @@
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-    self.currentPlayingSign.hidden = YES;
-//    self.selectedBGView.hidden = YES;
-    if (selected) {
-        self.currentPlayingSign.hidden = NO;
-//        self.selectedBGView.hidden = NO;
-    }
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//
+//    // Configure the view for the selected state
+//    self.currentPlayingSign.hidden = YES;
+////    self.selectedBGView.hidden = YES;
+//    if (selected) {
+//        self.currentPlayingSign.hidden = NO;
+////        self.selectedBGView.hidden = NO;
+//    }
+//}
 
 -(instancetype)initWithCellType:(MyTableViewType)cellType reuseIdentifier:(NSString *)reuseIdentifier {
     switch (cellType) {
@@ -81,19 +81,21 @@
             [_downimg addTarget:self action:@selector(deleteHistory:) forControlEvents:UIControlEventTouchUpInside];
         }
         
-        _currentPlayingSign = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 4, self.frame.size.height)];
+        _currentPlayingSign = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 4, 59)];
         _currentPlayingSign.backgroundColor = RGB(0xf4ad00, 1.0);
         _currentPlayingSign.enabled = NO;
         _currentPlayingSign.hidden = YES;
-//        _selectedBGView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, VIEW_DEFAULT_WIDTH-5, self.frame.size.height)];
-//        [_selectedBGView setBackgroundColor:RGB(0xfff8e1, 1.0)];
-//        _selectedBGView.hidden = YES;
-//        [self.contentView addSubview:_selectedBGView];
+        _selectedBGView = [[UIView alloc] initWithFrame:CGRectMake(5, 0, VIEW_DEFAULT_WIDTH-5, 59)];
+        [_selectedBGView setBackgroundColor:RGB(0xfff8e1, 1.0)];
+        _selectedBGView.hidden = YES;
+        [self.contentView addSubview:_selectedBGView];
         [self.contentView addSubview:_indexLab];
         [self.contentView addSubview:_titleLab];
         [self.contentView addSubview:_detailLab];
         [self.contentView addSubview:_downimg];
         [self.contentView addSubview:_currentPlayingSign];
+        self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, VIEW_DEFAULT_WIDTH-5, self.frame.size.height)];
+        [self.selectedBackgroundView setBackgroundColor:RGB(0xfff8e1, 1.0)];
     }
     return self;
 }

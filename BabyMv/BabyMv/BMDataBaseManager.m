@@ -20,6 +20,7 @@
 
 @interface BMDataBaseManager ()
 @property(nonatomic, strong)FMDatabaseQueue* dbQueue;
+@property(nonatomic, strong)NSSet* historyMusicIds;
 @property(nonatomic, strong)NSSet* favedMusicCollectionIds;
 @property(nonatomic, strong)NSSet* downloadedMusicIds;
 @property(nonatomic, strong)NSSet* favedCartoonCollectionIds;
@@ -95,7 +96,7 @@
 -(void) delUnuseUserMsgs:(FMDatabase *)db
 {
     [db executeUpdate:@"delete from MusicCollection where IsFaved=0"];
-    [db executeUpdate:@"delete from MusicList where IsDowned=0"];
+    [db executeUpdate:@"delete from MusicList where IsDowned=0 and LastListeningTime=0"];
     [db executeUpdate:@"delete from CartoonCollection where IsFaved=0"];
     [db executeUpdate:@"delete from CartoonList where IsDowned=0"];
 }
@@ -143,7 +144,19 @@
 }
 
 #pragma mark - cache
-
+-(NSSet *)historyMusicIds {
+    if (!_historyMusicIds) {
+        NSArray* historyArr = [self getListenMusicList];
+        NSMutableArray* historyMusicIds = [NSMutableArray new];
+        for (BMListDataModel* listData in historyArr) {
+            if ([listData.LastListeningTime intValue] > 0) {
+                [historyMusicIds addObject:listData.Rid];
+            }
+        }
+        _historyMusicIds = [NSSet setWithArray:historyMusicIds];
+    }
+    return _historyMusicIds;
+}
 -(NSSet *)favedMusicCollectionIds {
     if (!_favedMusicCollectionIds) {
         NSArray* favedArr = [self getFavoriteMusicCollections];
@@ -196,7 +209,6 @@
     }
     return _downloadedCartoonIds;
 }
-
 
 #pragma mark - music分类
 -(NSArray *)getAllCateIds {
@@ -494,10 +506,11 @@
 
 -(BOOL)addMusicListArr:(NSArray *)arr {
     NSSet* downloadedMusicIds = self.downloadedMusicIds;
+    NSSet* historyMusicIds = self.historyMusicIds;
     __block BOOL result = YES;;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (BMListDataModel* list in arr) {
-            if ([downloadedMusicIds containsObject:list.Rid]) {
+            if ([downloadedMusicIds containsObject:list.Rid] || [historyMusicIds containsObject:list.Rid]) {
                 [db executeUpdate:@"update MusicList set CollectionId=?, Name=?, Artist=?, Url=?, Time=? where Rid=?", list.CollectionId, list.Name, list.Artist, list.Url, list.Time, list.Rid];
             } else {
                 [db executeUpdate:@"replace into MusicList(Rid, CollectionId, Name, Artist, Url, Time) values (?,?,?,?,?,?)", list.Rid, list.CollectionId, list.Name, list.Artist, list.Url, list.Time];

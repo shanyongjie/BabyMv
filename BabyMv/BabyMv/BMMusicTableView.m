@@ -179,6 +179,7 @@
             cell.detailLab.text = cur_video.Artist;
             cell.downimg.tag = 3000+indexPath.row;
             BMListDataModel* currentPlayingMusic =  [BSPlayList sharedInstance].currentItem;
+            cell.currentPlayingSign.hidden = YES;
             cell.selectedBGView.hidden = YES;
             if (currentPlayingMusic && [currentPlayingMusic.Rid isEqualToNumber:cur_video.Rid]) {
                 cell.currentPlayingSign.hidden = NO;
@@ -303,9 +304,9 @@
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
             [[BSPlayList sharedInstance] savePlaylist];
             
-            
-            cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
-            [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
+//            
+//            cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
+//            [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
             
             [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[cur_video.CollectionId intValue] delegate:nil];
             break;
