@@ -24,6 +24,7 @@
 -(BOOL)updateMusicCateId:(NSNumber *)cateId withBindingCollectionId:(NSNumber *)collectionId;
 
 -(NSArray *)getFavoriteMusicCollections;
+-(BMCollectionDataModel *)musicCollectionById:(NSNumber *) CollectionId;
 -(BOOL)IsMusicCollectionFaved:(NSNumber *) CollectionId;
 -(NSArray *)getAllCollectionIds;
 -(NSArray *)getAllMusicCollection;

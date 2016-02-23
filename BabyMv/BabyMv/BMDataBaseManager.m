@@ -285,6 +285,25 @@
     return resArr;
 }
 
+-(BMCollectionDataModel *)musicCollectionById:(NSNumber *) CollectionId {
+    __block BMCollectionDataModel* cur_item = [[BMCollectionDataModel alloc] init];
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        FMResultSet* query_result = [db executeQuery:@"select * from MusicCollection where Rid=?", CollectionId];
+        if ([query_result next]) {
+            cur_item.Rid = [NSNumber numberWithInt:[query_result intForColumn:@"Rid"]];
+            cur_item.Name = [query_result stringForColumn:@"Name"];
+            cur_item.Artist = [query_result stringForColumn:@"Artist"];
+            cur_item.Url = [query_result stringForColumn:@"Url"];
+            cur_item.Time = [NSNumber numberWithLongLong:[query_result longLongIntForColumn:@"Time"]];
+            cur_item.CateId = [NSNumber numberWithInt:[query_result intForColumn:@"CateId"]];
+            cur_item.IsFaved = [NSNumber numberWithInt:[query_result intForColumn:@"IsFaved"]];
+            cur_item.FavedTime = [NSNumber numberWithLongLong:[query_result unsignedLongLongIntForColumn:@"FavedTime"]];
+        }
+        [query_result close];
+    }];
+    return cur_item;
+}
+
 -(BOOL)IsMusicCollectionFaved:(NSNumber *) CollectionId {
     __block BOOL IsFaved = NO;
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
