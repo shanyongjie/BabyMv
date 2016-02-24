@@ -121,6 +121,8 @@
 @property(nonatomic, strong)UIButton* modeBtn;
 @property(nonatomic, strong)UIButton* nextBtn;
 @property(nonatomic, strong)UIProgressView* processView;
+@property(nonatomic, strong)UILabel* currentTimeLab;
+@property(nonatomic, strong)UILabel* totalTimeLab;
 @end
 
 @implementation BMBottomPlayingTabBar
@@ -172,12 +174,22 @@
         [nextBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         nextBtn.tag = 1003;
         
+        InitViewX(UILabel, currentTimeLab, self, 0);
+        currentTimeLab.font = [UIFont systemFontOfSize:13];
+        currentTimeLab.textColor = [UIColor grayColor];
+        currentTimeLab.text = @"10:00";
+        InitViewX(UILabel, totalTimeLab, self, 0);
+        totalTimeLab.font = [UIFont systemFontOfSize:13];
+        totalTimeLab.textColor = [UIColor grayColor];
+        totalTimeLab.text = @"10:00";
         //    NSArray *imgArr = @[@"btn-timing", @[@"btn-repeat-once", @"btn-order", @"btn-all-repeat"], @"btn-next"];
-        NSDictionary* map = NSDictionaryOfVariableBindings(processView, preBtn, timeBtn, playBtn, modeBtn, nextBtn);
-        NSDictionary* metrics = @{@"playBtnWidth":@(42), @"btnWidth":@(33), @"processViewHeight":@(2)};
-        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-(>=0)-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
+        NSDictionary* map = NSDictionaryOfVariableBindings(processView, currentTimeLab, totalTimeLab, preBtn, timeBtn, playBtn, modeBtn, nextBtn);
+        NSDictionary* metrics = @{@"timeLabelWidth":@(42), @"playBtnWidth":@(42), @"btnWidth":@(33), @"processViewHeight":@(2)};
+        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-[currentTimeLab(timeLabelWidth)]-(>=0)-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
+        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-[totalTimeLab(timeLabelWidth)]-(>=0)-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
         ViewAddCons(self, @"H:|[processView]|", metrics, map);
         ViewAddCons(self, @"V:|[processView(processViewHeight)]-(2)-[playBtn(playBtnWidth)]", metrics, map);
+        ViewAddCons(self, @"V:|-[currentTimeLab]-(>=0)-[totalTimeLab]-|", metrics, map);
         ViewAddCenterY(self, preBtn)
         ViewAddCenterY(self, timeBtn)
         ViewAddCenterY(self, modeBtn)
