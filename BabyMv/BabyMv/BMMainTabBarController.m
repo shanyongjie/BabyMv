@@ -19,7 +19,7 @@
 #import "Notification.h"
 #import "BSPlayList.h"
 #import "AudioPlayerAdapter.h"
-
+#import "UITabBar+Custom.h"
 
 @interface BMMainTabBarController ()<UITabBarControllerDelegate>
 @property(nonatomic, strong) UINavigationController* musicNAV;
@@ -74,11 +74,33 @@
     self.settingNAV = [[UINavigationController alloc] initWithRootViewController:self.settingVC];
     [self.settingNAV.navigationBar setTranslucent:NO];
     
-    self.musicVC.tabBarItem.title = @"儿歌";
-    self.cartoonVC.tabBarItem.title = @"动画";
-    self.playingVC.tabBarItem.title = @"播放";
-    self.myVC.tabBarItem.title = @"我的";
-    self.settingVC.tabBarItem.title = @"设置";
+    self.musicVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"儿歌" normalImage:[UIImage imageNamed:@"tab_song"] highlightedImage:[UIImage imageNamed:@"tab_song_selected"] tag:0];
+    [self.musicVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+    [self.musicVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+    
+    self.cartoonVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"动画" normalImage:[UIImage imageNamed:@"tab_cartoon"] highlightedImage:[UIImage imageNamed:@"tab_cartoon_selected"] tag:1];
+    [self.cartoonVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+    [self.cartoonVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+    
+    self.playingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"播放" image:nil tag:2];
+    [self.playingVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateNormal];
+    
+    self.myVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"我的" normalImage:[UIImage imageNamed:@"tab_fav"] highlightedImage:[UIImage imageNamed:@"tab_fav_selected"] tag:3];
+    [self.myVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+    [self.myVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+    
+    self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"tab_download"] highlightedImage:[UIImage imageNamed:@"tab_download_selected"] tag:4];
+    [self.settingVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+    [self.settingVC.tabBarItem setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
     
     [self.musicVC.tabBarItem setImage:[UIImage imageNamed:@"tab_song"]];
     [self.musicVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_song_selected"]];

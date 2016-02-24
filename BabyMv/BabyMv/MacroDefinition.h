@@ -113,7 +113,7 @@ viewName.tag = TAG;                                         \
 #define RGB(colorRgb,__a)  [UIColor colorWithRed:((colorRgb & 0xFF0000) >> 16)/255.0 green:((colorRgb & 0xFF00) >> 8)/255.0 blue:((colorRgb & 0xFF)/255.0) alpha:__a]
 #define RGBColor(__r,__g,__b,__a)  [UIColor colorWithRed:(CGFloat)__r/0xff green:(CGFloat)__g/0xff blue:(CGFloat)__b/0xff alpha:__a]
 #define NavBarYellow RGB(0xfecd3f, 1.0)
-
+#define TabBarGray RGB(0x535353, 1.0)
 
 
 #pragma mark - Notification

@@ -22,6 +22,8 @@
 		0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */; };
 		0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */; };
 		0C98E3E51C6E0CA400EA39DD /* BMMusicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */; };
+		0CAEDCD91C7DDA3B00C93A79 /* UINavigationBar+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEDCD81C7DDA3B00C93A79 /* UINavigationBar+Custom.m */; };
+		0CAEDCDC1C7DDAB100C93A79 /* UITabBar+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEDCDB1C7DDAB100C93A79 /* UITabBar+Custom.m */; };
 		0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */; };
 		0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */; };
 		0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40921C663962009792DE /* BMTopTabBar.m */; };
@@ -133,6 +135,10 @@
 		0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRequestManager.m; sourceTree = "<group>"; };
 		0C98E3E31C6E0CA400EA39DD /* BMMusicListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMMusicListVC.h; sourceTree = "<group>"; };
 		0C98E3E41C6E0CA400EA39DD /* BMMusicListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMusicListVC.m; sourceTree = "<group>"; };
+		0CAEDCD71C7DDA3B00C93A79 /* UINavigationBar+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Custom.h"; sourceTree = "<group>"; };
+		0CAEDCD81C7DDA3B00C93A79 /* UINavigationBar+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Custom.m"; sourceTree = "<group>"; };
+		0CAEDCDA1C7DDAB100C93A79 /* UITabBar+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Custom.h"; sourceTree = "<group>"; };
+		0CAEDCDB1C7DDAB100C93A79 /* UITabBar+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Custom.m"; sourceTree = "<group>"; };
 		0CBF46821C719FBE006B2ED9 /* BMVlcVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMVlcVideoPlayViewController.h; sourceTree = "<group>"; };
 		0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMVlcVideoPlayViewController.mm; sourceTree = "<group>"; };
 		0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Orientation.h"; path = "CustomUI/UINavigationController+Orientation.h"; sourceTree = "<group>"; };
@@ -392,6 +398,10 @@
 				0CDB409F1C664259009792DE /* UITabBarController+Orientation.m */,
 				0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */,
 				0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */,
+				0CAEDCD71C7DDA3B00C93A79 /* UINavigationBar+Custom.h */,
+				0CAEDCD81C7DDA3B00C93A79 /* UINavigationBar+Custom.m */,
+				0CAEDCDA1C7DDAB100C93A79 /* UITabBar+Custom.h */,
+				0CAEDCDB1C7DDAB100C93A79 /* UITabBar+Custom.m */,
 			);
 			name = CustomUI;
 			sourceTree = "<group>";
@@ -820,6 +830,7 @@
 				0C0F3DEE1C64E0C1008773AC /* BMCartoonVC.m in Sources */,
 				82EDDA891C78CB0800A73BC5 /* Reachability.m in Sources */,
 				82F9CF771C76B093000C41FA /* DownloadManager.mm in Sources */,
+				0CAEDCDC1C7DDAB100C93A79 /* UITabBar+Custom.m in Sources */,
 				0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */,
 				82EDDA2F1C78B76F00A73BC5 /* device.c in Sources */,
 				82EDDA911C79E49600A73BC5 /* BSVideoPlayList.mm in Sources */,
@@ -888,6 +899,7 @@
 				82EDDA831C78C21F00A73BC5 /* util.mm in Sources */,
 				82EDDA501C78BC5D00A73BC5 /* NetworkConfigure.m in Sources */,
 				82EDDA5C1C78C08500A73BC5 /* NSString+Util.m in Sources */,
+				0CAEDCD91C7DDA3B00C93A79 /* UINavigationBar+Custom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
