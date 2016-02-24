@@ -13,6 +13,7 @@
 #import "BSPlayList.h"
 #import "PopupMenuVIew.h"
 #import "common.h"
+#import "AppDelegate.h"
 
 @interface BMTopTabButton ()
 @end
@@ -235,8 +236,8 @@
             {
                 PopupMenuView* menu = [[PopupMenuView alloc] init];
                 [menu addItemWithText:@"顺序播放" image:[UIImage imageNamed:@"btn-order"] andSelector:@selector(handleMenuSequence) userData:nil];
-                [menu addItemWithText:@"单曲循环" image:[UIImage imageNamed:@"btn-repeat-once"] andSelector:@selector(handleMenuRing) userData:nil];
-                [menu addItemWithText:@"循环播放" image:[UIImage imageNamed:@"btn-all-repeat"] andSelector:@selector(handleMenuSingle) userData:nil];
+                [menu addItemWithText:@"单曲循环" image:[UIImage imageNamed:@"btn-repeat-once"] andSelector:@selector(handleMenuSingle) userData:nil];
+                [menu addItemWithText:@"循环播放" image:[UIImage imageNamed:@"btn-all-repeat"] andSelector:@selector(handleMenuRing) userData:nil];
                 
                 menu.delegate = self;
                 [menu showInView:self.superview withAnchorPoint:RightTopPoint(self.frame) dropFlags:0 animated:YES];
@@ -276,7 +277,15 @@
             }
             case 1004:
             {
+                PopupMenuView* menu = [[PopupMenuView alloc] init];
+                [menu addItemWithText:@"不限时" image:[UIImage imageNamed:@"timing-no"] andSelector:@selector(handleMenuNoTiming) userData:nil];
+                [menu addItemWithText:@"60分钟停止" image:[UIImage imageNamed:@"timing-60"] andSelector:@selector(handleTiming60) userData:nil];
+                [menu addItemWithText:@"30分钟停止" image:[UIImage imageNamed:@"timing-30"] andSelector:@selector(handleTiming30) userData:nil];
+                [menu addItemWithText:@"20分钟停止" image:[UIImage imageNamed:@"timing-20"] andSelector:@selector(handleTiming20) userData:nil];
+                [menu addItemWithText:@"10分钟停止" image:[UIImage imageNamed:@"timing-10"] andSelector:@selector(handleTiming10) userData:nil];
                 
+                menu.delegate = self;
+                [menu showInView:self.superview withAnchorPoint:RightTopPoint(self.frame) dropFlags:0 animated:YES];
                 break;
             }
             default:
@@ -412,6 +421,47 @@
     [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once"] forState:UIControlStateNormal];
     [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once-down"] forState:UIControlStateHighlighted];
 }
+
+- (void)handleMenuNoTiming{
+    [[BSPlayInfo sharedInstance] setTimingType:E_TIMING_NO];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-no"] forState:UIControlStateNormal];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-no-down"] forState:UIControlStateHighlighted];
+    
+    [[AppDelegate sharedAppDelegate].mainTabBarController endTimingTimer];
+}
+
+- (void)handleTiming60{
+    [[BSPlayInfo sharedInstance] setTimingType:E_TIMING_60];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-60"] forState:UIControlStateNormal];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-60-down"] forState:UIControlStateHighlighted];
+    
+    [[AppDelegate sharedAppDelegate].mainTabBarController startTimingTimer];
+}
+
+- (void)handleTiming30{
+    [[BSPlayInfo sharedInstance] setTimingType:E_TIMING_30];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-30"] forState:UIControlStateNormal];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-30-down"] forState:UIControlStateHighlighted];
+    
+    [[AppDelegate sharedAppDelegate].mainTabBarController startTimingTimer];
+}
+
+- (void)handleTiming20{
+    [[BSPlayInfo sharedInstance] setTimingType:E_TIMING_20];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-20"] forState:UIControlStateNormal];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-20-down"] forState:UIControlStateHighlighted];
+    
+    [[AppDelegate sharedAppDelegate].mainTabBarController startTimingTimer];
+}
+
+- (void)handleTiming10{
+    [[BSPlayInfo sharedInstance] setTimingType:E_TIMING_10];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-10"] forState:UIControlStateNormal];
+    [_timeBtn setImage:[UIImage imageNamed:@"timing-10-down"] forState:UIControlStateHighlighted];
+    
+    [[AppDelegate sharedAppDelegate].mainTabBarController startTimingTimer];
+}
+
 
 @end
 

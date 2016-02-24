@@ -10,4 +10,7 @@
 
 @interface BMMainTabBarController : UITabBarController
 
+- (void)startTimingTimer;
+- (void)endTimingTimer;
+
 @end

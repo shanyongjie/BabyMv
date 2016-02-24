@@ -11,7 +11,7 @@
 #import "common.h"
 
 #define MENU_ITEM_HEIGHT (40)
-#define MENU_ITEM_WIDTH 145
+#define MENU_ITEM_WIDTH 165
 #define MENU_MARGIN_H 0
 #define MENU_MARGIN_V 0
 

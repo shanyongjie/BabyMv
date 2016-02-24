@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "BMMainTabBarController.h"
+
 #import "BMDataBaseManager.h"
 #import "BMRequestManager.h"
 #import "BMDataCacheManager.h"
@@ -29,7 +29,7 @@
 
 
 @interface AppDelegate ()
-@property (nonatomic, strong) BMMainTabBarController* mainTabBarController;
+
 @end
 
 @implementation AppDelegate

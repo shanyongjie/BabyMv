@@ -20,6 +20,13 @@
 #import "BSPlayList.h"
 #import "AudioPlayerAdapter.h"
 #import "UITabBar+Custom.h"
+#import "BSPlayInfo.h"
+#import "UIImageView+WebCache.h"
+#import "BMDataBaseManager.h"
+
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
+
+static int imageviewAngle = 0;
 
 @interface BMMainTabBarController ()<UITabBarControllerDelegate>
 @property(nonatomic, strong) UINavigationController* musicNAV;
@@ -35,7 +42,14 @@
 @property(nonatomic, strong) BMSettingVC* settingVC;
 
 @property(nonatomic, strong) CABasicAnimation* rotationAnimation;
+@property(nonatomic, strong) UIImageView*  midImage;
 @property(nonatomic, strong) UIButton* midButton;
+
+@property(nonatomic, strong) NSTimer*  timingTimer;
+
+@property(nonatomic, assign) BOOL  bRotate;
+
+@property(nonatomic, strong) NSTimer* rotateTimer;
 @end
 
 @implementation BMMainTabBarController
@@ -119,11 +133,33 @@
     {
         int buttonImageWidth = 60;
         int buttonImageHeight = 60;
+        
+        _midImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.tabBar.frame.size.width/2-30, [UIScreen mainScreen].bounds.size.height-60, buttonImageWidth, buttonImageHeight)];
+        _midImage.contentMode = UIViewContentModeScaleAspectFill;
+        _midImage.clipsToBounds = YES;
+        _midImage.layer.masksToBounds = YES;
+        _midImage.layer.cornerRadius = _midImage.frame.size.width / 2;
+        
+        if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
+            NSString* image_url = ((BMCollectionDataModel*)[[BMDataBaseManager sharedInstance] musicCollectionById:[BSPlayList sharedInstance].currentItem.CollectionId]).Url;
+            if (image_url && image_url.length) {
+                [_midImage sd_setImageWithURL:[NSURL URLWithString:image_url] placeholderImage:[UIImage imageNamed:@"middle_play"]];
+            }else {
+                [_midImage setImage:[UIImage imageNamed:@"middle_play"]];
+            }
+            
+        }else {
+            [_midImage setImage:[UIImage imageNamed:@"middle_play"]];
+        }
+        
+        [self.view addSubview:_midImage];
+        
         self.midButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.midButton addTarget:self action:@selector(switchToPlayPage) forControlEvents:UIControlEventTouchUpInside];
-        [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateNormal];
-        [self.midButton setBackgroundImage:[UIImage imageNamed:@"middle_play"] forState:UIControlStateHighlighted];
+        [self.midButton setBackgroundColor:[UIColor clearColor]];
         self.midButton.frame = CGRectMake(self.tabBar.frame.size.width/2-30, [UIScreen mainScreen].bounds.size.height-60, buttonImageWidth, buttonImageHeight);
+//        self.midButton.layer.cornerRadius = self.midButton.frame.size.width / 2;
+        
         [self.view addSubview:self.midButton];
 
 /*
@@ -144,12 +180,56 @@
         */
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AudioPlayFinishedNotification:) name:kCNotificationPlayItemFinished object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayStateChanged) name:kCNotificationPlayStateChanged object:nil];
     }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)startTimingTimer{
+    int n_time_delay = -1;
+    switch ([[BSPlayInfo sharedInstance] getTimingType]) {
+        case E_TIMING_60:
+        {
+            n_time_delay = 60 * 60;
+            break;
+        }
+        case E_TIMING_30:
+        {
+            n_time_delay = 30 * 60;
+            break;
+        }
+        case E_TIMING_20:
+        {
+            n_time_delay = 20 * 60;
+            break;
+        }
+        case E_TIMING_10:
+        {
+            n_time_delay = 10 * 60;
+            break;
+        }
+        default:
+            break;
+    }
+    
+    if (-1 != n_time_delay) {
+        _timingTimer = [NSTimer scheduledTimerWithTimeInterval:n_time_delay target:self selector:@selector(stopAudioPlay) userInfo:nil repeats:NO];
+    }
+}
+
+- (void)stopAudioPlay{
+    [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+}
+
+- (void)endTimingTimer{
+    if (_timingTimer) {
+        [_timingTimer invalidate];
+        _timingTimer = nil;
+    }
 }
 
 /*
@@ -197,7 +277,9 @@
 - (void)switchToPlayPage {
     BMPlayingVC* vc = [BMPlayingVC new];
     vc.midButton = self.midButton;
+    vc.midImage = self.midImage;
     self.midButton.hidden = YES;
+    self.midImage.hidden = YES;
     [self.selectedViewController pushViewController:vc animated:YES];
     [self.selectedViewController hidesBottomBarWhenPushed];
 //    [self.selectedViewController presentViewController:vc animated:YES completion:nil];
@@ -205,11 +287,77 @@
 
 #pragma mark ----- audio play notification
 - (void)AudioPlayFinishedNotification:(NSNotification*)notification{
-    if ([BSPlayList sharedInstance].nextItem) {
-        [[AudioPlayerAdapter sharedPlayerAdapter] playNext];
-    }else {
-        [[BSPlayList sharedInstance] setCurIndex:0];
-        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+    switch ([[BSPlayInfo sharedInstance] getPlayMode]) {
+        case E_MODE_SEQUENCE:
+        {
+            if ([BSPlayList sharedInstance].nextItem) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] playNext];
+            }else {
+                [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            }
+            break;
+        }
+        case E_MODE_SINGLE:
+        {
+            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+            break;
+        }
+        case E_MODE_RING:
+        {
+            if ([BSPlayList sharedInstance].nextItem) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] playNext];
+            }else {
+                [[BSPlayList sharedInstance] setCurIndex:0];
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+            }
+            break;
+        }
+        default:
+            break;
     }
 }
+
+- (void)onPlayStateChanged{
+    if (PlayStatePlaying == [AudioPlayerAdapter sharedPlayerAdapter].playState) {
+        if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
+            NSString* image_url = ((BMCollectionDataModel*)[[BMDataBaseManager sharedInstance] musicCollectionById:[BSPlayList sharedInstance].currentItem.CollectionId]).Url;
+            if (image_url && image_url.length) {
+                [_midImage sd_setImageWithURL:[NSURL URLWithString:image_url] placeholderImage:[UIImage imageNamed:@"middle_play"]];
+            }else {
+                [_midImage setImage:[UIImage imageNamed:@"middle_play"]];
+            }
+            
+        }else {
+            [_midImage setImage:[UIImage imageNamed:@"middle_play"]];
+        }
+        
+        [self beginRotate];
+        
+    }else {
+        [self endRotate];
+    }
+}
+
+- (void)beginRotate{
+    if (_rotateTimer) {
+        [_rotateTimer invalidate];
+        _rotateTimer = nil;
+    }
+    
+    _rotateTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(rotateImage) userInfo:nil repeats:YES];
+}
+
+- (void)endRotate{
+    if (_rotateTimer) {
+        [_rotateTimer invalidate];
+        _rotateTimer = nil;
+    }
+}
+
+- (void)rotateImage{
+    imageviewAngle+=3;
+    
+    _midImage.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(imageviewAngle));
+}
+
 @end

@@ -10,4 +10,5 @@
 
 @interface BMPlayingVC : UIViewController
 @property(nonatomic, strong)UIButton* midButton;
+@property(nonatomic, strong)UIImageView* midImage;
 @end

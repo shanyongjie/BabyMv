@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BMMainTabBarController.h"
 
 @protocol AudioPlayerInterruptionDelegate;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) BMMainTabBarController* mainTabBarController;
 
 //@property (strong, nonatomic) EGMainViewController    *mainViewController;
 @property (/*weak,*/ nonatomic, weak) id<AudioPlayerInterruptionDelegate> interruptionHandlerObject;

@@ -28,6 +28,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:NO];
     self.midButton.hidden = NO;
+    self.midImage.hidden = NO;
     [_playingTabBar endUpdates];
 }
 
