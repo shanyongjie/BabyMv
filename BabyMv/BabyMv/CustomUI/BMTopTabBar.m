@@ -9,7 +9,7 @@
 #import "BMTopTabBar.h"
 #import "UIImage+Helper.h"
 #import "AudioPlayerAdapter.h"
-
+#import "BSPlayInfo.h"
 
 @interface BMTopTabButton ()
 @end
@@ -167,7 +167,7 @@
         
         InitViewX(UIButton, modeBtn, self, 0);
         [modeBtn setImage:[UIImage imageNamed:@"btn-order"] forState:UIControlStateNormal];
-        [modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateHighlighted];
+        [modeBtn setImage:[UIImage imageNamed:@"btn-order-down"] forState:UIControlStateHighlighted];
         [modeBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         modeBtn.tag = 1000;
         
@@ -180,11 +180,11 @@
         InitViewX(UILabel, currentTimeLab, self, 0);
         currentTimeLab.font = [UIFont systemFontOfSize:13];
         currentTimeLab.textColor = [UIColor grayColor];
-        currentTimeLab.text = @"10:00";
+        currentTimeLab.text = @"00:00";
         InitViewX(UILabel, totalTimeLab, self, 0);
         totalTimeLab.font = [UIFont systemFontOfSize:13];
         totalTimeLab.textColor = [UIColor grayColor];
-        totalTimeLab.text = @"10:00";
+        totalTimeLab.text = @"00:00";
         //    NSArray *imgArr = @[@"btn-timing", @[@"btn-repeat-once", @"btn-order", @"btn-all-repeat"], @"btn-next"];
         NSDictionary* map = NSDictionaryOfVariableBindings(processView, currentTimeLab, totalTimeLab, preBtn, timeBtn, playBtn, modeBtn, nextBtn);
         NSDictionary* metrics = @{@"timeLabelWidth":@(42), @"playBtnWidth":@(42), @"btnWidth":@(33), @"processViewHeight":@(2)};
@@ -264,7 +264,7 @@
         }
     }
     
-    switch (s_current_timing_type) {
+    switch ([[BSPlayInfo sharedInstance] getTimingType]) {
         case E_TIMING_NO:
         {
             [_timeBtn setImage:[UIImage imageNamed:@"timing-no"] forState:UIControlStateNormal];
@@ -297,6 +297,34 @@
         }
         default:
             break;
+    }
+    
+    switch ([[BSPlayInfo sharedInstance] getPlayMode]) {
+        case E_MODE_SEQUENCE:
+        {
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-order"] forState:UIControlStateNormal];
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-order-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        case E_MODE_RING:
+        {
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateNormal];
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat-down"] forState:UIControlStateHighlighted];
+            
+            break;
+        }
+        case E_MODE_SINGLE:
+        {
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once"] forState:UIControlStateNormal];
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        default:
+        {
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateNormal];
+            [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat-down"] forState:UIControlStateHighlighted];
+            break;
+        }
     }
 }
 
