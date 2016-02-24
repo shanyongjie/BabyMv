@@ -21,6 +21,8 @@
 #import "AudioPlayerInterruptionDelegate.h"
 #import "DownloadManager.h"
 #import "RequestManager.h"
+#import <MobClick.h>
+
 
 #define SECONDS_PER_DAY (24*60*60)
 
@@ -82,6 +84,8 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [MobClick startWithAppkey:@"54be6f7cfd98c51f9e00008f"];
+    
     [self loadCacheData];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
