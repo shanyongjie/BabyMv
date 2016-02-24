@@ -96,6 +96,14 @@ viewName.tag = TAG;                                         \
 
 
 
+#pragma mark - systemVersion
+#define IOSVER [[[UIDevice currentDevice] systemVersion] floatValue]
+#define LESSIOS_7 ( IOSVER < 7.0)
+#define BIGTHANIOS6 ( IOSVER >= 6.0)
+#define BIGTHANIOS7 ( IOSVER >= 7.0)
+#define BIGTHANIOS8 ( IOSVER >= 8.0)
+
+
 #pragma mark - View Bounds
 #define MAIN_WIDTH    ([UIScreen mainScreen].applicationFrame.size.width)
 #define MAIN_HEIGHT   ([UIScreen mainScreen].applicationFrame.size.height-44)
