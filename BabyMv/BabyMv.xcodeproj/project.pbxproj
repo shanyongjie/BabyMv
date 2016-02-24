@@ -13,6 +13,7 @@
 		0C0F3DF01C64E0C1008773AC /* BMMYVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DE91C64E0C1008773AC /* BMMYVC.m */; };
 		0C0F3DF11C64E0C1008773AC /* BMPlayingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */; };
 		0C0F3DF21C64E0C1008773AC /* BMSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */; };
+		0C1362A01C7DF2C0009AAA1D /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C13629E1C7DF2C0009AAA1D /* libUMessage_Sdk_1.2.6.a */; };
 		0C2A51461C6787D600837228 /* BMTableViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51431C6787D600837228 /* BMTableViewCell.mm */; };
 		0C2A51471C6787D600837228 /* MYFocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51451C6787D600837228 /* MYFocusScrollView.m */; };
 		0C2A514A1C678C3500837228 /* BMMusicTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51491C678C3500837228 /* BMMusicTableView.m */; };
@@ -118,6 +119,8 @@
 		0C0F3DEB1C64E0C1008773AC /* BMPlayingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMPlayingVC.m; path = BMViewController/BMPlayingVC.m; sourceTree = "<group>"; };
 		0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMSettingVC.h; path = BMViewController/BMSettingVC.h; sourceTree = "<group>"; };
 		0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMSettingVC.m; path = BMViewController/BMSettingVC.m; sourceTree = "<group>"; };
+		0C13629E1C7DF2C0009AAA1D /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
+		0C13629F1C7DF2C0009AAA1D /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		0C2A51421C6787D600837228 /* BMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTableViewCell.h; sourceTree = "<group>"; };
 		0C2A51431C6787D600837228 /* BMTableViewCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMTableViewCell.mm; sourceTree = "<group>"; };
 		0C2A51441C6787D600837228 /* MYFocusScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYFocusScrollView.h; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 				0CDB40BC1C664486009792DE /* libsqlite3.tbd in Frameworks */,
 				0CDB40BA1C664478009792DE /* libstdc++.6.tbd in Frameworks */,
 				0CDB40B81C66443C009792DE /* MediaPlayer.framework in Frameworks */,
+				0C1362A01C7DF2C0009AAA1D /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				0CDB40B61C664432009792DE /* CoreVideo.framework in Frameworks */,
 				0CDB40B41C664425009792DE /* AVFoundation.framework in Frameworks */,
 				0CDB40B21C66441E009792DE /* QuartzCore.framework in Frameworks */,
@@ -346,6 +350,15 @@
 				0C82A9831C704DEE004883C2 /* Others */,
 			);
 			name = BMVIewController;
+			sourceTree = "<group>";
+		};
+		0C13629D1C7DF2AD009AAA1D /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				0C13629E1C7DF2C0009AAA1D /* libUMessage_Sdk_1.2.6.a */,
+				0C13629F1C7DF2C0009AAA1D /* UMessage.h */,
+			);
+			name = SDK;
 			sourceTree = "<group>";
 		};
 		0C2A514C1C67BA7600837228 /* DataBase */ = {
@@ -449,6 +462,7 @@
 				0C0F3DE31C64E0A3008773AC /* BMVIewController */,
 				0CDB40901C663910009792DE /* CustomUI */,
 				8229C9AD1C63F4CC008C7CB6 /* Supporting Files */,
+				0C13629D1C7DF2AD009AAA1D /* SDK */,
 			);
 			path = BabyMv;
 			sourceTree = "<group>";
@@ -1027,6 +1041,10 @@
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BabyMv",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lstdc++",
@@ -1069,6 +1087,10 @@
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BabyMv",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lstdc++",
