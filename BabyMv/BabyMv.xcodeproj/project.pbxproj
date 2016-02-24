@@ -27,7 +27,6 @@
 		0CAEDCDC1C7DDAB100C93A79 /* UITabBar+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEDCDB1C7DDAB100C93A79 /* UITabBar+Custom.m */; };
 		0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */; };
 		0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */; };
-		0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40921C663962009792DE /* BMTopTabBar.m */; };
 		0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40951C664259009792DE /* Toast+UIView.m */; };
 		0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40971C664259009792DE /* UIActionSheet+Sync.m */; };
 		0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB409B1C664259009792DE /* UIImage+Helper.m */; };
@@ -54,6 +53,7 @@
 		82CBEA731C7DECBE002EF97D /* BSPlayInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CBEA721C7DECBE002EF97D /* BSPlayInfo.m */; };
 		82CBEA7D1C7DFBB4002EF97D /* MenuItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82CBEA7A1C7DFBB4002EF97D /* MenuItem.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		82CBEA7E1C7DFBB4002EF97D /* PopupMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82CBEA7C1C7DFBB4002EF97D /* PopupMenuView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		82CBEA801C7DFFFE002EF97D /* BMTopTabBar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82CBEA7F1C7DFFFE002EF97D /* BMTopTabBar.mm */; };
 		82EDDA2E1C78B76F00A73BC5 /* BSDir.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1B1C78B76F00A73BC5 /* BSDir.mm */; };
 		82EDDA2F1C78B76F00A73BC5 /* device.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1C1C78B76F00A73BC5 /* device.c */; };
 		82EDDA301C78B76F00A73BC5 /* Encoding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1F1C78B76F00A73BC5 /* Encoding.mm */; };
@@ -150,7 +150,6 @@
 		0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Orientation.h"; path = "CustomUI/UINavigationController+Orientation.h"; sourceTree = "<group>"; };
 		0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Orientation.m"; path = "CustomUI/UINavigationController+Orientation.m"; sourceTree = "<group>"; };
 		0CDB40911C663962009792DE /* BMTopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMTopTabBar.h; path = CustomUI/BMTopTabBar.h; sourceTree = "<group>"; };
-		0CDB40921C663962009792DE /* BMTopTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BMTopTabBar.m; path = CustomUI/BMTopTabBar.m; sourceTree = "<group>"; };
 		0CDB40941C664259009792DE /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		0CDB40951C664259009792DE /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		0CDB40961C664259009792DE /* UIActionSheet+Sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Sync.h"; sourceTree = "<group>"; };
@@ -191,6 +190,7 @@
 		82CBEA7A1C7DFBB4002EF97D /* MenuItem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MenuItem.mm; sourceTree = "<group>"; };
 		82CBEA7B1C7DFBB4002EF97D /* PopupMenuVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupMenuVIew.h; sourceTree = "<group>"; };
 		82CBEA7C1C7DFBB4002EF97D /* PopupMenuView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PopupMenuView.mm; sourceTree = "<group>"; };
+		82CBEA7F1C7DFFFE002EF97D /* BMTopTabBar.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BMTopTabBar.mm; path = CustomUI/BMTopTabBar.mm; sourceTree = "<group>"; };
 		82EDDA181C78B6D600A73BC5 /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
 		82EDDA191C78B76F00A73BC5 /* AutoPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoPtr.h; sourceTree = "<group>"; };
 		82EDDA1A1C78B76F00A73BC5 /* BSDir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDir.h; sourceTree = "<group>"; };
@@ -402,11 +402,11 @@
 		0CDB40901C663910009792DE /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				0CDB40911C663962009792DE /* BMTopTabBar.h */,
+				82CBEA7F1C7DFFFE002EF97D /* BMTopTabBar.mm */,
 				82CBEA781C7DFBB4002EF97D /* PopupMenu */,
 				0C89B9F61C7B55650046C6DC /* iToast.h */,
 				0C89B9F71C7B55650046C6DC /* iToast.m */,
-				0CDB40911C663962009792DE /* BMTopTabBar.h */,
-				0CDB40921C663962009792DE /* BMTopTabBar.m */,
 				0C2A51421C6787D600837228 /* BMTableViewCell.h */,
 				0C2A51431C6787D600837228 /* BMTableViewCell.mm */,
 				0C2A51441C6787D600837228 /* MYFocusScrollView.h */,
@@ -925,11 +925,11 @@
 				82EDDA791C78C21F00A73BC5 /* color.mm in Sources */,
 				0CDB40A71C664259009792DE /* UITabBarController+Orientation.m in Sources */,
 				82EDDA7C1C78C21F00A73BC5 /* gis.m in Sources */,
-				0CDB40931C663962009792DE /* BMTopTabBar.m in Sources */,
 				82EDDA7B1C78C21F00A73BC5 /* FileHelper.mm in Sources */,
 				82F9CF741C76B093000C41FA /* AudioPlayerAdapter.mm in Sources */,
 				82F9CF7B1C76B093000C41FA /* RequestManager.mm in Sources */,
 				82EDDA541C78BFF100A73BC5 /* DeviceInfo.m in Sources */,
+				82CBEA801C7DFFFE002EF97D /* BMTopTabBar.mm in Sources */,
 				82EDDA4E1C78BC5D00A73BC5 /* RTLocalConfig.mm in Sources */,
 				82F9CF821C76B093000C41FA /* CAXException.cpp in Sources */,
 				82EDDA801C78C21F00A73BC5 /* rect.mm in Sources */,

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define IMAGE_CAP_AVERAGE INT_MAX
+
 @class PopupMenuView;
 
 @protocol PopupMenuDelegate <NSObject>

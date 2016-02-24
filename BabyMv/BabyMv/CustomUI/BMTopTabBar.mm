@@ -11,6 +11,8 @@
 #import "AudioPlayerAdapter.h"
 #import "BSPlayInfo.h"
 #import "BSPlayList.h"
+#import "PopupMenuVIew.h"
+#import "common.h"
 
 @interface BMTopTabButton ()
 @end
@@ -115,7 +117,7 @@
 
 //////////
 
-@interface BMBottomPlayingTabBar ()
+@interface BMBottomPlayingTabBar ()<PopupMenuDelegate>
 @property(nonatomic, strong)NSArray* items;
 @property(nonatomic, strong)UIButton* preBtn;
 @property(nonatomic, strong)UIButton* timeBtn;
@@ -231,6 +233,13 @@
         switch (btn.tag) {
             case 1000:
             {
+                PopupMenuView* menu = [[PopupMenuView alloc] init];
+                [menu addItemWithText:@"顺序播放" image:[UIImage imageNamed:@"btn-order"] andSelector:@selector(handleMenuSequence) userData:nil];
+                [menu addItemWithText:@"单曲循环" image:[UIImage imageNamed:@"btn-repeat-once"] andSelector:@selector(handleMenuRing) userData:nil];
+                [menu addItemWithText:@"循环播放" image:[UIImage imageNamed:@"btn-all-repeat"] andSelector:@selector(handleMenuSingle) userData:nil];
+                
+                menu.delegate = self;
+                [menu showInView:self.superview withAnchorPoint:RightTopPoint(self.frame) dropFlags:0 animated:YES];
                 break;
             }
             case 1002:
@@ -267,6 +276,7 @@
             }
             case 1004:
             {
+                
                 break;
             }
             default:
@@ -383,6 +393,24 @@
     int n_minite = (int)f_time / 60;
     int n_second = ((int)f_time) % 60;
     return [NSString stringWithFormat:@"%@:%@", (n_minite < 10 ? [NSString stringWithFormat:@"0%d", n_minite] : [NSString stringWithFormat:@"%d", n_minite]), (n_second < 10 ? [NSString stringWithFormat:@"0%d", n_second] : [NSString stringWithFormat:@"%d", n_second])];
+}
+
+- (void)handleMenuSequence{
+    [[BSPlayInfo sharedInstance] setPlayMode:E_MODE_SEQUENCE];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-order"] forState:UIControlStateNormal];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-order-down"] forState:UIControlStateHighlighted];
+}
+
+- (void)handleMenuRing{
+    [[BSPlayInfo sharedInstance] setPlayMode:E_MODE_RING];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateNormal];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat-down"] forState:UIControlStateHighlighted];
+}
+
+- (void)handleMenuSingle{
+    [[BSPlayInfo sharedInstance] setPlayMode:E_MODE_SINGLE];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once"] forState:UIControlStateNormal];
+    [_modeBtn setImage:[UIImage imageNamed:@"btn-repeat-once-down"] forState:UIControlStateHighlighted];
 }
 
 @end
