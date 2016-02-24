@@ -8,6 +8,7 @@
 
 #import "BMTopTabBar.h"
 #import "UIImage+Helper.h"
+#import "AudioPlayerAdapter.h"
 
 
 @interface BMTopTabButton ()
@@ -123,6 +124,8 @@
 @property(nonatomic, strong)UIProgressView* processView;
 @property(nonatomic, strong)UILabel* currentTimeLab;
 @property(nonatomic, strong)UILabel* totalTimeLab;
+
+@property(nonatomic, strong)NSTimer* updateTimmer;
 @end
 
 @implementation BMBottomPlayingTabBar
@@ -146,31 +149,31 @@
         
         InitViewX(UIButton, preBtn, self, 0);
         [preBtn setImage:[UIImage imageNamed:@"btn-back"] forState:UIControlStateNormal];
-        [preBtn setImage:[UIImage imageNamed:@"btn-back-down"] forState:UIControlStateSelected];
+        [preBtn setImage:[UIImage imageNamed:@"btn-back-down"] forState:UIControlStateHighlighted];
         [preBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         preBtn.tag = 1001;
         
         InitViewX(UIButton, timeBtn, self, 0);
-        [timeBtn setImage:[UIImage imageNamed:@"btn-timing"] forState:UIControlStateNormal];
-        [timeBtn setImage:[UIImage imageNamed:@"btn-timing-down"] forState:UIControlStateSelected];
+        [timeBtn setImage:[UIImage imageNamed:@"timing-no"] forState:UIControlStateNormal];
+        [timeBtn setImage:[UIImage imageNamed:@"timing-no-down"] forState:UIControlStateHighlighted];
         [timeBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         timeBtn.tag = 1004;
         
         InitViewX(UIButton, playBtn, self, 0);
         [playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
-        [playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateSelected];
+        [playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
         [playBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         playBtn.tag = 1002;
         
         InitViewX(UIButton, modeBtn, self, 0);
         [modeBtn setImage:[UIImage imageNamed:@"btn-order"] forState:UIControlStateNormal];
-        [modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateSelected];
+        [modeBtn setImage:[UIImage imageNamed:@"btn-all-repeat"] forState:UIControlStateHighlighted];
         [modeBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         modeBtn.tag = 1000;
         
         InitViewX(UIButton, nextBtn, self, 0);
         [nextBtn setImage:[UIImage imageNamed:@"btn-next"] forState:UIControlStateNormal];
-        [nextBtn setImage:[UIImage imageNamed:@"btn-next-down"] forState:UIControlStateSelected];
+        [nextBtn setImage:[UIImage imageNamed:@"btn-next-down"] forState:UIControlStateHighlighted];
         [nextBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
         nextBtn.tag = 1003;
         
@@ -200,6 +203,22 @@
     return self;
 }
 
+- (void)beginUpdates{
+    if (!_updateTimmer) {
+        [_updateTimmer invalidate];
+        _updateTimmer = nil;
+    }
+    
+    _updateTimmer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updatePlayingInfo) userInfo:nil repeats:YES];
+}
+
+- (void)endUpdates{
+    if (_updateTimmer) {
+        [_updateTimmer invalidate];
+        _updateTimmer = nil;
+    }
+}
+
 -(void)genTabBtnCb:(id)sender{
     UIControl* btn = (UIControl*)sender;
     self.tabTag = (int)btn.tag;
@@ -219,6 +238,72 @@
             break;
         }
     }
+}
+
+- (void)updatePlayingInfo{
+    if (0.0 != [AudioPlayerAdapter sharedPlayerAdapter].duration) {
+        [_processView setProgress:[AudioPlayerAdapter sharedPlayerAdapter].currentTime / [AudioPlayerAdapter sharedPlayerAdapter].duration];
+    }else {
+        [_processView setProgress:0];
+    }
+    
+    [_currentTimeLab setText:[self convertTime:[AudioPlayerAdapter sharedPlayerAdapter].currentTime]];
+    [_totalTimeLab setText:[self convertTime:[AudioPlayerAdapter sharedPlayerAdapter].duration]];
+    switch ([AudioPlayerAdapter sharedPlayerAdapter].playState) {
+        case PlayStatePlaying:
+        {
+            [_playBtn setImage:[UIImage imageNamed:@"btn-stop"] forState:UIControlStateNormal];
+            [_playBtn setImage:[UIImage imageNamed:@"btn-stop-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        default:
+        {
+            [_playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
+            [_playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+    }
+    
+    switch (s_current_timing_type) {
+        case E_TIMING_NO:
+        {
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-no"] forState:UIControlStateNormal];
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-no-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        case E_TIMING_10:
+        {
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-10"] forState:UIControlStateNormal];
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-10-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        case E_TIMING_20:
+        {
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-20"] forState:UIControlStateNormal];
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-20-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        case E_TIMING_30:
+        {
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-30"] forState:UIControlStateNormal];
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-30-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        case E_TIMING_60:
+        {
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-60"] forState:UIControlStateNormal];
+            [_timeBtn setImage:[UIImage imageNamed:@"timing-60-down"] forState:UIControlStateHighlighted];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (NSString*)convertTime:(float)f_time{
+    int n_minite = (int)f_time / 60;
+    int n_second = ((int)f_time) % 60;
+    return [NSString stringWithFormat:@"%@:%@", (n_minite < 10 ? [NSString stringWithFormat:@"0%d", n_minite] : [NSString stringWithFormat:@"%d", n_minite]), (n_second < 10 ? [NSString stringWithFormat:@"0%d", n_second] : [NSString stringWithFormat:@"%d", n_second])];
 }
 
 @end

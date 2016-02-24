@@ -28,5 +28,7 @@ typedef void(^BMTopTabsBLK)(int);
 @interface BMBottomPlayingTabBar : UIView
 @property(nonatomic, copy)BMTopTabsBLK blk;
 -(void)setItems:(NSArray *)items height:(int)height;
+- (void)beginUpdates;
+- (void)endUpdates;
 @property(nonatomic, assign)int tabTag;
 @end

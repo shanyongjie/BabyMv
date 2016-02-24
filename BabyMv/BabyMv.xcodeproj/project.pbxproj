@@ -50,6 +50,7 @@
 		8229C9BD1C63F4CC008C7CB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8229C9BB1C63F4CC008C7CB6 /* LaunchScreen.storyboard */; };
 		8298015C1C72C6F100002736 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015B1C72C6F100002736 /* AudioToolbox.framework */; };
 		8298015E1C72C70600002736 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */; };
+		82CBEA731C7DECBE002EF97D /* BSPlayInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82CBEA721C7DECBE002EF97D /* BSPlayInfo.m */; };
 		82EDDA2E1C78B76F00A73BC5 /* BSDir.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1B1C78B76F00A73BC5 /* BSDir.mm */; };
 		82EDDA2F1C78B76F00A73BC5 /* device.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1C1C78B76F00A73BC5 /* device.c */; };
 		82EDDA301C78B76F00A73BC5 /* Encoding.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EDDA1F1C78B76F00A73BC5 /* Encoding.mm */; };
@@ -179,6 +180,8 @@
 		829801591C72C6A900002736 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		8298015B1C72C6F100002736 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		8298015D1C72C70600002736 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		82CBEA711C7DECBE002EF97D /* BSPlayInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSPlayInfo.h; sourceTree = "<group>"; };
+		82CBEA721C7DECBE002EF97D /* BSPlayInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSPlayInfo.m; sourceTree = "<group>"; };
 		82EDDA181C78B6D600A73BC5 /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
 		82EDDA191C78B76F00A73BC5 /* AutoPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoPtr.h; sourceTree = "<group>"; };
 		82EDDA1A1C78B76F00A73BC5 /* BSDir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDir.h; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 			children = (
 				82EDDA8C1C79E49600A73BC5 /* BSPlayList.h */,
 				82EDDA8D1C79E49600A73BC5 /* BSPlayList.mm */,
+				82CBEA711C7DECBE002EF97D /* BSPlayInfo.h */,
+				82CBEA721C7DECBE002EF97D /* BSPlayInfo.m */,
 				82EDDA8E1C79E49600A73BC5 /* BSVideoPlayList.h */,
 				82EDDA8F1C79E49600A73BC5 /* BSVideoPlayList.mm */,
 				0C42D4591C6CE62D00B19DA5 /* BMDataModel.h */,
@@ -857,6 +862,7 @@
 				82EDDA391C78B91100A73BC5 /* bsbase64.c in Sources */,
 				82F9CF781C76B093000C41FA /* HttpConnection.mm in Sources */,
 				0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */,
+				82CBEA731C7DECBE002EF97D /* BSPlayInfo.m in Sources */,
 				0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */,
 				82EDDA321C78B76F00A73BC5 /* log.m in Sources */,
 				82EDDA811C78C21F00A73BC5 /* TimeHelper.mm in Sources */,

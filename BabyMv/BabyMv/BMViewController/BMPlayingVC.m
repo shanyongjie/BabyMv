@@ -22,11 +22,13 @@
 -(void)viewWillAppear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:YES];
     [self.navigationItem setHidesBackButton:YES];
+    [_playingTabBar beginUpdates];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:NO];
     self.midButton.hidden = NO;
+    [_playingTabBar endUpdates];
 }
 
 - (void)viewDidLoad {
