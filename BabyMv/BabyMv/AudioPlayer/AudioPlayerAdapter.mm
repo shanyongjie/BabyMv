@@ -199,6 +199,10 @@
     [self.player pause];
 }
 
+- (void)resume{
+    [self.player play];
+}
+
 - (void)stop
 {
     if (GetAppDelegate().interruptionHandlerObject == self)

@@ -36,6 +36,7 @@
 - (void)playNext;
 - (void)playPrev;
 - (void)pause;
+- (void)resume;
 - (void)stop;
 - (void)seek:(float)f_seek_time;
 - (float)currentTime;

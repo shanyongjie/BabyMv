@@ -10,6 +10,7 @@
 #import "UIImage+Helper.h"
 #import "AudioPlayerAdapter.h"
 #import "BSPlayInfo.h"
+#import "BSPlayList.h"
 
 @interface BMTopTabButton ()
 @end
@@ -156,25 +157,25 @@
         InitViewX(UIButton, timeBtn, self, 0);
         [timeBtn setImage:[UIImage imageNamed:@"timing-no"] forState:UIControlStateNormal];
         [timeBtn setImage:[UIImage imageNamed:@"timing-no-down"] forState:UIControlStateHighlighted];
-        [timeBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
+        [timeBtn addTarget:self action:@selector(onControlBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         timeBtn.tag = 1004;
         
         InitViewX(UIButton, playBtn, self, 0);
         [playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
         [playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
-        [playBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
+        [playBtn addTarget:self action:@selector(onControlBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         playBtn.tag = 1002;
         
         InitViewX(UIButton, modeBtn, self, 0);
         [modeBtn setImage:[UIImage imageNamed:@"btn-order"] forState:UIControlStateNormal];
         [modeBtn setImage:[UIImage imageNamed:@"btn-order-down"] forState:UIControlStateHighlighted];
-        [modeBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
+        [modeBtn addTarget:self action:@selector(onControlBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         modeBtn.tag = 1000;
         
         InitViewX(UIButton, nextBtn, self, 0);
         [nextBtn setImage:[UIImage imageNamed:@"btn-next"] forState:UIControlStateNormal];
         [nextBtn setImage:[UIImage imageNamed:@"btn-next-down"] forState:UIControlStateHighlighted];
-        [nextBtn addTarget:self action:@selector(genTabBtnCb:) forControlEvents:UIControlEventTouchUpInside];
+        [nextBtn addTarget:self action:@selector(onControlBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         nextBtn.tag = 1003;
         
         InitViewX(UILabel, currentTimeLab, self, 0);
@@ -222,6 +223,56 @@
 -(void)genTabBtnCb:(id)sender{
     UIControl* btn = (UIControl*)sender;
     self.tabTag = (int)btn.tag;
+}
+
+- (void)onControlBtnClick:(id)sender{
+    UIButton* btn = (UIButton*)sender;
+    if (btn) {
+        switch (btn.tag) {
+            case 1000:
+            {
+                break;
+            }
+            case 1002:
+            {
+                if (PlayStatePlaying == [AudioPlayerAdapter sharedPlayerAdapter].playState) {
+                    [[AudioPlayerAdapter sharedPlayerAdapter] pause];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-stop"] forState:UIControlStateNormal];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-stop-down"] forState:UIControlStateHighlighted];
+                }else if(PlayStatePaused == [AudioPlayerAdapter sharedPlayerAdapter].playState){
+                    [[AudioPlayerAdapter sharedPlayerAdapter] resume];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
+                }else {
+                    [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
+                    [_playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
+                }
+                break;
+            }
+            case 1003:
+            {
+                if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
+                    if ([[BSPlayList sharedInstance] nextItem]) {
+                        int n_cur_index = [[BSPlayList sharedInstance] getCurIndex] + 1;
+                        [[BSPlayList sharedInstance] setCurIndex:n_cur_index];
+                        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                    }else {
+                        [[BSPlayList sharedInstance] setCurIndex:0];
+                        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                    }
+                }
+                
+                break;
+            }
+            case 1004:
+            {
+                break;
+            }
+            default:
+                break;
+        }
+    }
 }
 
 -(void)setTabTag:(int)tabTag{
