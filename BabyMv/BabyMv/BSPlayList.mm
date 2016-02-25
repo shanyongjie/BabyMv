@@ -55,7 +55,7 @@ static BSPlayList* sharedInstance = nil;
 }
 
 - (void)setPlayList : (NSArray*)arry_play_list{
-    _arryPlayList = arry_play_list;
+    _arryPlayList = [arry_play_list copy];
 }
 - (BMListDataModel*) currentItem{
     if (_arryPlayList && -1 != _n_cur_index && _n_cur_index < [_arryPlayList count]) {

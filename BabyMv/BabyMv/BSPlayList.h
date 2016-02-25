@@ -12,7 +12,7 @@
 @interface BSPlayList : NSObject
 
 @property (nonatomic, assign)int listID;
-@property (nonatomic, copy) NSArray* arryPlayList;
+@property (nonatomic, strong) NSArray* arryPlayList;
 
 +(BSPlayList*)sharedInstance;
 

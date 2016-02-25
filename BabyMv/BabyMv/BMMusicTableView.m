@@ -25,6 +25,9 @@
 #import "BSPlayList.h"
 #import "iToast.h"
 
+#define LIST_ID_DOWNLOAD           39999991
+#define LIST_ID_HISTORY            39999992
+
 
 @interface BMMusicTableView ()<UITableViewDelegate, UITableViewDataSource, BMTableViewCellDelegate>
 @property(nonatomic, strong)NSMutableArray* items;
@@ -293,22 +296,51 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (self.myType) {
         case MyTableViewTypeMusic:
-        case MyTableViewTypeMusicDown:
-        case MyTableVIewTypePlayList:
-        case MyTableViewTypeHistory: {
-//            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
+        {
             BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             
-            [[BSPlayList sharedInstance] setPlayList:_items];
-            [[BSPlayList sharedInstance] setListID:[cur_video.CollectionId intValue]];
+            if (cur_video.CollectionId != [BSPlayList sharedInstance].listID) {
+                [[BSPlayList sharedInstance] setPlayList:_items];
+                [[BSPlayList sharedInstance] setListID:[cur_video.CollectionId intValue]];
+                [[BSPlayList sharedInstance] savePlaylist];
+            }
+            
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
-            [[BSPlayList sharedInstance] savePlaylist];
-            
-//            
-//            cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
-//            [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
-            
             [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[cur_video.CollectionId intValue] delegate:nil];
+            
+            break;
+        }
+        case MyTableViewTypeMusicDown:
+        {
+            if (LIST_ID_DOWNLOAD != [BSPlayList sharedInstance].listID) {
+                [[BSPlayList sharedInstance] setPlayList:_items];
+                [[BSPlayList sharedInstance] setListID:LIST_ID_DOWNLOAD];
+                [[BSPlayList sharedInstance] savePlaylist];
+            }
+            
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
+            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_DOWNLOAD delegate:nil];
+            break;
+        }
+        case MyTableVIewTypePlayList:
+        {
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
+            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[BSPlayList sharedInstance].listID delegate:nil];
+            break;
+        }
+        case MyTableViewTypeHistory: {
+//            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
+            if (LIST_ID_HISTORY != [BSPlayList sharedInstance].listID) {
+                [[BSPlayList sharedInstance] setPlayList:_items];
+                [[BSPlayList sharedInstance] setListID:LIST_ID_HISTORY];
+                [[BSPlayList sharedInstance] savePlaylist];
+            }
+            
+            BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
+            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_HISTORY delegate:nil];
             break;
         }
         case MyTableViewTypeCartoon:
