@@ -9,7 +9,7 @@
 
 @class BMCartoonListDataModel;
 
-@interface BMVlcVideoPlayViewController : UIViewController{
+@interface BMVlcVideoPlayViewController : BMBaseVC{
     
     UIView* _waitingView;
     CGRect  _tipsRect;

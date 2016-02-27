@@ -34,11 +34,11 @@
     switch (cellType) {
         case MyTableViewTypeMusic:
         case MyTableViewTypeMusicDown:
-        case MyTableViewTypeFavorite:
         case MyTableViewTypeHistory:
         case MyTableVIewTypePlayList:
             return [self initMusicCellWithStyle:UITableViewCellStyleDefault cellType:cellType reuseIdentifier:reuseIdentifier];
             break;
+        case MyTableViewTypeFavorite:
         case MyTableViewTypeCartoon:
         case MyTableViewTypeCartoonDown:
             return [self initCartoonCellWithStyle:UITableViewCellStyleDefault cellType:cellType reuseIdentifier:reuseIdentifier];
@@ -56,10 +56,10 @@
 //        _indexLab.text = [NSString stringWithFormat:@"112"];
         _indexLab.font = [UIFont systemFontOfSize:15];
         _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(42, 10, MAIN_BOUNDS_WIDTH - 42 -10-10-31.5, 15)];
-//        _titleLab.text = @"数鸭子";
+        _titleLab.textColor = RGB(0x1b1b1b, 1.0);
         _titleLab.font = [UIFont systemFontOfSize:15];
         _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(42, 35, 100, 12)];
-//        _detailLab = @"合集  播放25万";
+        _detailLab.textColor = RGB(0xababab, 1.0);
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11.5, 31.5, 31.5)];
         [_downimg.titleLabel setFont:[UIFont systemFontOfSize:13]];
@@ -105,24 +105,30 @@
     if (self) {
         _img = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 90, 50)];
         _img.layer.borderWidth = 1;
-        _img.layer.borderColor = [UIColor blackColor].CGColor;
+        _img.layer.cornerRadius = 3;
+        _img.layer.borderColor = RGB(0xe8e8e8, 1.0).CGColor;
 
         _indexLab = [[UILabel alloc] initWithFrame:CGRectMake(90+20, 12, 32, 15)];
 //        _indexLab.text = [NSString stringWithFormat:@"112"];
         _indexLab.font = [UIFont systemFontOfSize:15];
         _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(90+42, 12,  MAIN_BOUNDS_WIDTH - 90 - 42 -20-10-31.5, 15)];
-//        _titleLab.text = @"数鸭子";
+        _titleLab.textColor = RGB(0x1b1b1b, 1.0);
         _titleLab.font = [UIFont systemFontOfSize:15];
         _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(90+42, 35, 100, 12)];
-//        _detailLab.text = @"合集  播放25万";
+        _detailLab.textColor = RGB(0xababab, 1.0);
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11, 38, 38)];
+        _downimg.hidden = NO;
+        _indexLab.hidden = NO;
         if (MyTableViewTypeCartoon == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
 //            [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
         } else if (MyTableViewTypeCartoonDown == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (MyTableViewTypeFavorite == cellType) {
+            _downimg.hidden = YES;
+            _indexLab.hidden = YES;
         }
         
         [self.contentView addSubview:_img];

@@ -39,6 +39,7 @@
 -(BOOL)addMusicListArr:(NSArray *)arr;
 -(void)updateMusicList:(BMListDataModel *)list;
 -(BOOL)downLoadMusicList:(BMListDataModel *)list;
+-(void)listenMusicListArr:(NSArray *)arr;
 -(void)listenMusicList:(BMListDataModel *)list;
 
 #pragma mark - cartoon

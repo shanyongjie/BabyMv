@@ -13,7 +13,7 @@
 @class BMCollectionDataModel;
 @class BMCartoonCollectionDataModel;
 
-@interface BMMusicListVC : UIViewController
+@interface BMMusicListVC : BMBaseVC
 @property(nonatomic, assign)MyListVCType vcType;
 @property(nonatomic, strong)BMCollectionDataModel* currentCollectionData;
 @property(nonatomic, strong)BMCartoonCollectionDataModel* currentCartoonCollectionData;

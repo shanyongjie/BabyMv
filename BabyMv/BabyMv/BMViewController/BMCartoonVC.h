@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BMCartoonVC : UIViewController
+@interface BMCartoonVC : BMBaseVC
 
 @end

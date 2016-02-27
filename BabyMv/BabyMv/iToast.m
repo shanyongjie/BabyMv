@@ -32,6 +32,11 @@ static iToastSettings *sharedSettings = nil;
 {
     [[[[iToast makeText:showText] setGravity:iToastGravityCenter] setDuration:1300] show];
 }
++ (void)defaultShow:(NSString *)showText duration:(NSInteger ) duration
+{
+    [[[[iToast makeText:showText] setGravity:iToastGravityCenter] setDuration:duration] show];
+}
+
 - (void) show{
 	[self show:iToastTypeNone];
 }

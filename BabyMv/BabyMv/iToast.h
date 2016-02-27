@@ -44,6 +44,7 @@ typedef enum iToastType {
 }
 
 + (void)defaultShow:(NSString *)showText;
++ (void)defaultShow:(NSString *)showText duration:(NSInteger ) duration;
 - (void) show;
 - (void) show:(iToastType) type;
 - (iToast *) setDuration:(NSInteger ) duration;

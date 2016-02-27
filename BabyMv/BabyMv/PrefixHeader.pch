@@ -1,0 +1,21 @@
+//
+//  PrefixHeader.pch
+//  BabyMv
+//
+//  Created by ma on 2/27/16.
+//  Copyright © 2016 chenjingying. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef __OBJC__
+#import "BMBaseVC.h"
+#import "MacroDefinition.h"
+#import "ModalAlert.h"
+#endif
+
+
+#endif /* PrefixHeader_pch */

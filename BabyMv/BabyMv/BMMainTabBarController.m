@@ -24,6 +24,8 @@
 #import "UIImageView+WebCache.h"
 #import "BMDataBaseManager.h"
 
+
+
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 static int imageviewAngle = 0;
@@ -104,13 +106,13 @@ static int imageviewAngle = 0;
     [self.playingVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateNormal];
     
-    self.myVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"我的" normalImage:[UIImage imageNamed:@"tab_fav"] highlightedImage:[UIImage imageNamed:@"tab_fav_selected"] tag:3];
+    self.myVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"我的" normalImage:[UIImage imageNamed:@"wode"] highlightedImage:[UIImage imageNamed:@"wode_selected"] tag:3];
     [self.myVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
     [self.myVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
     
-    self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"tab_download"] highlightedImage:[UIImage imageNamed:@"tab_download_selected"] tag:4];
+    self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"setting"] highlightedImage:[UIImage imageNamed:@"setting_selected"] tag:4];
     [self.settingVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
     [self.settingVC.tabBarItem setTitleTextAttributes:
@@ -122,10 +124,10 @@ static int imageviewAngle = 0;
     [self.cartoonVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_cartoon_selected"]];
     [self.playingVC.tabBarItem setImage:[UIImage imageNamed:@"tab_play1"]];
     [self.playingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_play1_selected"]];
-    [self.myVC.tabBarItem setImage:[UIImage imageNamed:@"tab_fav"]];
-    [self.myVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_fav_selected"]];
-    [self.settingVC.tabBarItem setImage:[UIImage imageNamed:@"tab_download"]];
-    [self.settingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_download_selected"]];
+    [self.myVC.tabBarItem setImage:[UIImage imageNamed:@"wode"]];
+    [self.myVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"wode_selected"]];
+    [self.settingVC.tabBarItem setImage:[UIImage imageNamed:@"setting"]];
+    [self.settingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"setting_selected"]];
     
     self.viewControllers = @[self.musicNAV, self.cartoonNAV, self.playingNAV, self.myNAV, self.settingNAV];
     self.tabBar.backgroundColor = [UIColor yellowColor];
@@ -139,6 +141,8 @@ static int imageviewAngle = 0;
         _midImage.clipsToBounds = YES;
         _midImage.layer.masksToBounds = YES;
         _midImage.layer.cornerRadius = _midImage.frame.size.width / 2;
+        _midImage.layer.borderColor = NavBarYellow.CGColor;
+        _midImage.layer.borderWidth = 2;
         
         if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
             NSString* image_url = ((BMCollectionDataModel*)[[BMDataBaseManager sharedInstance] musicCollectionById:[BSPlayList sharedInstance].currentItem.CollectionId]).Url;

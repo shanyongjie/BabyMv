@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BMMusicVC : UIViewController
+@interface BMMusicVC : BMBaseVC
 
 @end

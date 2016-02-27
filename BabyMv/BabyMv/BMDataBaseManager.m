@@ -545,6 +545,17 @@
     return result;
 }
 
+-(void)listenMusicListArr:(NSArray *)arr {
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        for (BMListDataModel* list in arr) {
+            [db executeUpdate:@"update MusicList set LastListeningTime=? where Rid=?", list.LastListeningTime, list.Rid];
+            if ([db hadError]) {
+                NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+            }
+        }
+    }];
+}
+
 -(void)listenMusicList:(BMListDataModel *)list {
     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:@"update MusicList set LastListeningTime=? where Rid=?", list.LastListeningTime, list.Rid];
@@ -553,7 +564,6 @@
         }
     }];
 }
-
 
 #pragma mark - cartoon分类
 -(NSArray *)getAllCartoonCateIds {

@@ -32,6 +32,10 @@
     [self setExtraCellLineHidden:tableView];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -142,7 +146,8 @@
         [label_version setFont:[UIFont systemFontOfSize:15]];
         [label_version setTextAlignment:NSTextAlignmentLeft];
         [label_version setTextColor:[UIColor grayColor]];
-        [label_version setText:[NSString stringWithFormat:@"版本号: V%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]]];
+        NSString* ver = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        [label_version setText:[NSString stringWithFormat:@"版本号: V%@", ver]];
         [cell.contentView addSubview:label_version];
         
         UILabel* label_title = [[UILabel alloc] initWithFrame:CGRectMake(f_left + 70, 37, 120, 20)];

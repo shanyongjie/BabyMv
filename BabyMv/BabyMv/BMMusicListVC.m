@@ -16,9 +16,10 @@
 @interface BMMusicListVC ()
 @property(nonatomic, strong)BMMusicTableView* tableView;
 @property(nonatomic, strong)NSMutableArray* listData;
-@property(nonatomic, strong)UIView* waitingView;
 @property(nonatomic, strong)UIBarButtonItem* favBarBtn;
 @property(nonatomic, strong)UIButton* favBtn;
+@property(nonatomic, strong)UIButton* delHistoryBtn;
+@property(nonatomic, strong)UIBarButtonItem* delHistoryBarBtn;
 @end
 
 @implementation BMMusicListVC
@@ -68,6 +69,14 @@
         [_favBtn setImage:[UIImage imageNamed:@"shoucang-down"] forState:UIControlStateSelected];
         _favBtn.frame = CGRectMake(0, 0, 32, 32);
         _favBarBtn = [[UIBarButtonItem alloc] initWithCustomView:_favBtn];
+        
+        
+        _delHistoryBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_delHistoryBtn addTarget:self action:@selector(deleteAllHistory:) forControlEvents:UIControlEventTouchUpInside];
+        [_delHistoryBtn setImage:[UIImage imageNamed:@"delete_all"] forState:UIControlStateNormal];
+        [_delHistoryBtn setImage:[UIImage imageNamed:@"delete_all"] forState:UIControlStateSelected];
+        _delHistoryBtn.frame = CGRectMake(0, 0, 32, 32);
+        _delHistoryBarBtn = [[UIBarButtonItem alloc] initWithCustomView:_delHistoryBtn];
     }
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listDataLoadFinished:) name:LOAD_MUSIC_LIST_DATA_FINISHED object:nil];
@@ -78,6 +87,8 @@
 -(void)viewWillAppear:(BOOL)animated {
 #warning some data from cache, other form DB, that's a question
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
+    [super viewWillAppear:animated];
+    [self.tabBarController.tabBar setHidden:YES];
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
@@ -128,16 +139,19 @@
     }
     if (self.vcType == MyListVCTypeHistory) {
         self.navigationItem.title = @"收听历史";
+        self.navigationItem.rightBarButtonItem = self.delHistoryBarBtn;
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getListenMusicList]];
         if (_listData.count) {
             [self.tableView setSongItems:_listData];
             [self.tableView reloadData];
         }
     }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kCNotificationPlayItemStarted object:nil];
+    [self.tabBarController.tabBar setHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -206,39 +220,20 @@
     }
 }
 
-- (void)showLoadingPage:(BOOL)bShow descript:(NSString*)strDescript
-{
-    if (bShow) {
-        if (!_waitingView) {
-            _waitingView=[[UIView alloc] initWithFrame:self.view.frame];
-            [self.view addSubview:_waitingView];
-            
-            CGRect rc=CGRectMake(0, 0, 86, 86);
-            UIView* pBlackFrameView=[[UIView alloc] initWithFrame:rc];
-            pBlackFrameView.center = self.view.center;
-            [pBlackFrameView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-            pBlackFrameView.layer.cornerRadius=10;
-            pBlackFrameView.layer.masksToBounds=YES;
-            [_waitingView addSubview:pBlackFrameView];
-            
-            UIActivityIndicatorView* pActIndView=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(26, 16, 34, 34)];
-            [pActIndView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [pBlackFrameView addSubview:pActIndView];
-            [pActIndView startAnimating];
-            
-            UILabel* text=[[UILabel alloc] initWithFrame:CGRectMake(0, 50, 86, 30)];
-            [text setBackgroundColor:[UIColor clearColor]];
-            [text setTextAlignment:NSTextAlignmentCenter];
-            [text setText:strDescript?strDescript:@"正在加载"];
-            [text setTextColor:[UIColor whiteColor]];
-            [text setFont: [UIFont systemFontOfSize:13]];
-            [pBlackFrameView addSubview:text];
+-(void)deleteAllHistory:(UIButton *)btn {
+    __weak __typeof(self)weafSekf = self;
+    UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:@"确定要删除全部历史纪录？" cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
+        if (clickIndex == 1) {
+            for (BMListDataModel* cur_video in self.listData) {
+                cur_video.LastListeningTime = [NSNumber numberWithInt:NSTimeIntervalSince1970];
+            }
+            [[BMDataBaseManager sharedInstance] listenMusicListArr:self.listData];
+            [self.tableView setSongItems:nil];
+            [weafSekf.tableView reloadData];
+
         }
-        _waitingView.hidden=NO;
-    } else {
-        [_waitingView removeFromSuperview];
-        _waitingView=nil;
-    }
+    }];
+    [blockView show];
 }
 
 #pragma mark - Orientation

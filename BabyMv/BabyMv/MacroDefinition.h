@@ -137,4 +137,7 @@ viewName.tag = TAG;                                         \
 #define UPDATE_TABLEVIEW_OF_CARTOONVC  @"UPDATE_TABLEVIEW_OF_CARTOONVC"
 
 
+#define AppLanguageBundle   [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]]
+#define STRING(__key)       NSLocalizedStringFromTableInBundle((__key), nil, AppLanguageBundle, @"")
+
 #endif /* MacroDefinition_h */

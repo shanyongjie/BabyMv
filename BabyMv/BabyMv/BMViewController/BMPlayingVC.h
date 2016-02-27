@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BMPlayingVC : UIViewController
+@interface BMPlayingVC : BMBaseVC
 @property(nonatomic, strong)UIButton* midButton;
 @property(nonatomic, strong)UIImageView* midImage;
 @end

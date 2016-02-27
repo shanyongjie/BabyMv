@@ -19,6 +19,7 @@
 		0C2A514A1C678C3500837228 /* BMMusicTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A51491C678C3500837228 /* BMMusicTableView.m */; };
 		0C2A514F1C67BAFC00837228 /* BMDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */; };
 		0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */; };
+		0C82987F1C8143DA00DCA1E8 /* ModalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C82987E1C8143DA00DCA1E8 /* ModalAlert.m */; };
 		0C89B9F81C7B55650046C6DC /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C89B9F71C7B55650046C6DC /* iToast.m */; };
 		0C98E3DF1C6D86F900EA39DD /* BMDataCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3DE1C6D86F900EA39DD /* BMDataCacheManager.m */; };
 		0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C98E3E11C6D87E600EA39DD /* BMRequestManager.m */; };
@@ -27,6 +28,7 @@
 		0CAEDCDC1C7DDAB100C93A79 /* UITabBar+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEDCDB1C7DDAB100C93A79 /* UITabBar+Custom.m */; };
 		0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */; };
 		0CBF46871C71FB98006B2ED9 /* UINavigationController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */; };
+		0CD7FE1E1C813886006E4BB3 /* BMBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7FE1D1C813886006E4BB3 /* BMBaseVC.m */; };
 		0CDB40A21C664259009792DE /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40951C664259009792DE /* Toast+UIView.m */; };
 		0CDB40A31C664259009792DE /* UIActionSheet+Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB40971C664259009792DE /* UIActionSheet+Sync.m */; };
 		0CDB40A51C664259009792DE /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDB409B1C664259009792DE /* UIImage+Helper.m */; };
@@ -133,6 +135,8 @@
 		0C2A514E1C67BAFC00837228 /* BMDataBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataBaseManager.m; sourceTree = "<group>"; };
 		0C42D4591C6CE62D00B19DA5 /* BMDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataModel.h; sourceTree = "<group>"; };
 		0C42D45A1C6CE62D00B19DA5 /* BMDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDataModel.m; sourceTree = "<group>"; };
+		0C82987D1C8143DA00DCA1E8 /* ModalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalAlert.h; sourceTree = "<group>"; };
+		0C82987E1C8143DA00DCA1E8 /* ModalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalAlert.m; sourceTree = "<group>"; };
 		0C89B9F61C7B55650046C6DC /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
 		0C89B9F71C7B55650046C6DC /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		0C98E3DD1C6D86F900EA39DD /* BMDataCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDataCacheManager.h; sourceTree = "<group>"; };
@@ -149,6 +153,9 @@
 		0CBF46831C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BMVlcVideoPlayViewController.mm; sourceTree = "<group>"; };
 		0CBF46851C71FB98006B2ED9 /* UINavigationController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Orientation.h"; path = "CustomUI/UINavigationController+Orientation.h"; sourceTree = "<group>"; };
 		0CBF46861C71FB98006B2ED9 /* UINavigationController+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Orientation.m"; path = "CustomUI/UINavigationController+Orientation.m"; sourceTree = "<group>"; };
+		0CD7FE1C1C813886006E4BB3 /* BMBaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMBaseVC.h; sourceTree = "<group>"; };
+		0CD7FE1D1C813886006E4BB3 /* BMBaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMBaseVC.m; sourceTree = "<group>"; };
+		0CD7FE1F1C8139DF006E4BB3 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		0CDB40911C663962009792DE /* BMTopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMTopTabBar.h; path = CustomUI/BMTopTabBar.h; sourceTree = "<group>"; };
 		0CDB40941C664259009792DE /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		0CDB40951C664259009792DE /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
@@ -395,6 +402,8 @@
 				0C0F3DE91C64E0C1008773AC /* BMMYVC.m */,
 				0C0F3DEC1C64E0C1008773AC /* BMSettingVC.h */,
 				0C0F3DED1C64E0C1008773AC /* BMSettingVC.m */,
+				0CD7FE1C1C813886006E4BB3 /* BMBaseVC.h */,
+				0CD7FE1D1C813886006E4BB3 /* BMBaseVC.m */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -402,6 +411,8 @@
 		0CDB40901C663910009792DE /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				0C82987D1C8143DA00DCA1E8 /* ModalAlert.h */,
+				0C82987E1C8143DA00DCA1E8 /* ModalAlert.m */,
 				0CDB40911C663962009792DE /* BMTopTabBar.h */,
 				82CBEA7F1C7DFFFE002EF97D /* BMTopTabBar.mm */,
 				82CBEA781C7DFBB4002EF97D /* PopupMenu */,
@@ -470,6 +481,7 @@
 				0CDB40901C663910009792DE /* CustomUI */,
 				8229C9AD1C63F4CC008C7CB6 /* Supporting Files */,
 				0C13629D1C7DF2AD009AAA1D /* SDK */,
+				0CD7FE1F1C8139DF006E4BB3 /* PrefixHeader.pch */,
 			);
 			path = BabyMv;
 			sourceTree = "<group>";
@@ -877,6 +889,7 @@
 				82EDDA4D1C78BC5D00A73BC5 /* iniReader.cpp in Sources */,
 				0C98E3E21C6D87E600EA39DD /* BMRequestManager.m in Sources */,
 				0CBF46841C719FBE006B2ED9 /* BMVlcVideoPlayViewController.mm in Sources */,
+				0CD7FE1E1C813886006E4BB3 /* BMBaseVC.m in Sources */,
 				0C0F3DF11C64E0C1008773AC /* BMPlayingVC.m in Sources */,
 				0C42D45B1C6CE62D00B19DA5 /* BMDataModel.m in Sources */,
 				82F9CF7A1C76B093000C41FA /* RequestClient.mm in Sources */,
@@ -931,6 +944,7 @@
 				82EDDA541C78BFF100A73BC5 /* DeviceInfo.m in Sources */,
 				82CBEA801C7DFFFE002EF97D /* BMTopTabBar.mm in Sources */,
 				82EDDA4E1C78BC5D00A73BC5 /* RTLocalConfig.mm in Sources */,
+				0C82987F1C8143DA00DCA1E8 /* ModalAlert.m in Sources */,
 				82F9CF821C76B093000C41FA /* CAXException.cpp in Sources */,
 				82EDDA801C78C21F00A73BC5 /* rect.mm in Sources */,
 				82F9CF751C76B093000C41FA /* ActiveObj.mm in Sources */,
@@ -1058,6 +1072,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/BabyMv",
 				);
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BabyMv/PrefixHeader.pch";
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1104,6 +1121,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/BabyMv",
 				);
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/BabyMv/PrefixHeader.pch";
 				INFOPLIST_FILE = BabyMv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

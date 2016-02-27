@@ -84,10 +84,10 @@
             cellReuseId = @"cartoonDownload";
             break;
         case MyTableViewTypeFavorite:
-            cellReuseId = @"favoriteDownload";
+            cellReuseId = @"favoriteCell";
             break;
         case MyTableViewTypeHistory:
-            cellReuseId = @"historyDownload";
+            cellReuseId = @"historyCell";
             break;
         case MyTableVIewTypePlayList:
             cellReuseId = @"musicPlayListCell";
@@ -123,6 +123,7 @@
                 cell.currentPlayingSign.hidden = NO;
                 cell.selectedBGView.hidden = NO;
             }
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         case MyTableViewTypeMusicDown: {
@@ -138,6 +139,7 @@
                 cell.currentPlayingSign.hidden = NO;
                 cell.selectedBGView.hidden = NO;
             }
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         case MyTableViewTypeCartoon: {
@@ -155,7 +157,7 @@
                 [cell.downimg setImage:[UIImage imageNamed:@"downloadsuccess"] forState:UIControlStateNormal];
                 cell.downimg.enabled = NO;
             }
-            
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         case MyTableViewTypeCartoonDown: {
@@ -165,14 +167,19 @@
             cell.detailLab.text = cur_video.Artist;
             [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
             cell.downimg.tag = 3000+indexPath.row;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         case MyTableViewTypeFavorite: {
             BMCollectionDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
-            cell.detailLab.text = cur_video.Artist;
-            cell.downimg.tag = 3000+indexPath.row;
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            cell.detailLab.text = @"儿歌合集";
+            if ([cur_video isKindOfClass:[BMCartoonCollectionDataModel class]]) {
+                cell.detailLab.text = @"动画合集";
+            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             break;
         }
         case MyTableViewTypeHistory: {
@@ -188,6 +195,7 @@
                 cell.currentPlayingSign.hidden = NO;
                 cell.selectedBGView.hidden = NO;
             }
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         case MyTableVIewTypePlayList: {
@@ -207,6 +215,7 @@
                 cell.currentPlayingSign.hidden = NO;
                 cell.selectedBGView.hidden = NO;
             }
+            cell.accessoryType = UITableViewCellAccessoryNone;
             break;
         }
         default:

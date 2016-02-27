@@ -23,7 +23,9 @@
     [self.tabBarController.tabBar setHidden:YES];
     [self.navigationItem setHidesBackButton:YES];
     [_playingTabBar beginUpdates];
+    [super viewWillAppear:animated];
 }
+
 
 -(void)viewWillDisappear:(BOOL)animated {
     [self.tabBarController.tabBar setHidden:NO];

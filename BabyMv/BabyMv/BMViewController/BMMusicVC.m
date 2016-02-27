@@ -7,7 +7,6 @@
 //
 
 #import "BMMusicVC.h"
-#import "MacroDefinition.h"
 #import "BMTopTabBar.h"
 #import "BMMusicTableView.h"
 #import "MYFocusScrollView.h"
@@ -36,7 +35,6 @@
 @property(nonatomic, strong)NSMutableArray* musicListArr;
 @property(nonatomic, strong)NSNumber* selectedCategoryId;
 @property(nonatomic, strong)NSNumber* selectedCollectionId;
-@property(nonatomic, strong)UIView* waitingView;
 @property(nonatomic, strong)BMMusicListVC* musicListVC;
 @end
 
@@ -242,42 +240,6 @@
     NSString* collectionId = userInfo[@"collectionId"];
     if ([self.selectedCollectionId intValue] == [collectionId intValue]) {
         [self LoadListData];
-    }
-}
-
-#pragma mark - 显示加载菊花
-- (void)showLoadingPage:(BOOL)bShow descript:(NSString*)strDescript
-{
-    if (bShow) {
-        if (!_waitingView) {
-            _waitingView=[[UIView alloc] initWithFrame:self.view.frame];
-            [self.view addSubview:_waitingView];
-            
-            CGRect rc=CGRectMake(0, 0, 86, 86);
-            UIView* pBlackFrameView=[[UIView alloc] initWithFrame:rc];
-            pBlackFrameView.center = self.view.center;
-            [pBlackFrameView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-            pBlackFrameView.layer.cornerRadius=10;
-            pBlackFrameView.layer.masksToBounds=YES;
-            [_waitingView addSubview:pBlackFrameView];
-            
-            UIActivityIndicatorView* pActIndView=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(26, 16, 34, 34)];
-            [pActIndView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [pBlackFrameView addSubview:pActIndView];
-            [pActIndView startAnimating];
-            
-            UILabel* text=[[UILabel alloc] initWithFrame:CGRectMake(0, 50, 86, 30)];
-            [text setBackgroundColor:[UIColor clearColor]];
-            [text setTextAlignment:NSTextAlignmentCenter];
-            [text setText:strDescript?strDescript:@"正在加载"];
-            [text setTextColor:[UIColor whiteColor]];
-            [text setFont: [UIFont systemFontOfSize:13]];
-            [pBlackFrameView addSubview:text];
-        }
-        _waitingView.hidden=NO;
-    } else {
-        [_waitingView removeFromSuperview];
-        _waitingView=nil;
     }
 }
 
