@@ -12,6 +12,7 @@
 #import "BMDataBaseManager.h"
 #import "BMDataCacheManager.h"
 #import "BMRequestManager.h"
+#import "AppDelegate.h"
 
 @interface BMMusicListVC ()
 @property(nonatomic, strong)BMMusicTableView* tableView;
@@ -89,6 +90,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:YES];
+    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:NO];
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
@@ -152,6 +154,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kCNotificationPlayItemStarted object:nil];
     [self.tabBarController.tabBar setHidden:NO];
+    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {

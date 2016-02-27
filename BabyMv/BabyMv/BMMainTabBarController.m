@@ -36,6 +36,7 @@ static int imageviewAngle = 0;
 @property(nonatomic, strong) UINavigationController* playingNAV;
 @property(nonatomic, strong) UINavigationController* myNAV;
 @property(nonatomic, strong) UINavigationController* settingNAV;
+@property(nonatomic, weak)   UINavigationController* currentNAV;
 
 @property(nonatomic, strong) BMMusicVC* musicVC;
 @property(nonatomic, strong) BMCartoonVC* cartoonVC;
@@ -46,6 +47,7 @@ static int imageviewAngle = 0;
 @property(nonatomic, strong) CABasicAnimation* rotationAnimation;
 @property(nonatomic, strong) UIImageView*  midImage;
 @property(nonatomic, strong) UIButton* midButton;
+@property(nonatomic, strong) UIButton* returnButton;
 
 @property(nonatomic, strong) NSTimer*  timingTimer;
 
@@ -118,20 +120,21 @@ static int imageviewAngle = 0;
     [self.settingVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
     
-    [self.musicVC.tabBarItem setImage:[UIImage imageNamed:@"tab_song"]];
-    [self.musicVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_song_selected"]];
-    [self.cartoonVC.tabBarItem setImage:[UIImage imageNamed:@"tab_cartoon"]];
-    [self.cartoonVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_cartoon_selected"]];
-    [self.playingVC.tabBarItem setImage:[UIImage imageNamed:@"tab_play1"]];
-    [self.playingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_play1_selected"]];
-    [self.myVC.tabBarItem setImage:[UIImage imageNamed:@"wode"]];
-    [self.myVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"wode_selected"]];
-    [self.settingVC.tabBarItem setImage:[UIImage imageNamed:@"setting"]];
-    [self.settingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"setting_selected"]];
+//    [self.musicVC.tabBarItem setImage:[UIImage imageNamed:@"tab_song"]];
+//    [self.musicVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_song_selected"]];
+//    [self.cartoonVC.tabBarItem setImage:[UIImage imageNamed:@"tab_cartoon"]];
+//    [self.cartoonVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_cartoon_selected"]];
+//    [self.playingVC.tabBarItem setImage:[UIImage imageNamed:@"tab_play1"]];
+//    [self.playingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_play1_selected"]];
+//    [self.myVC.tabBarItem setImage:[UIImage imageNamed:@"wode"]];
+//    [self.myVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"wode_selected"]];
+//    [self.settingVC.tabBarItem setImage:[UIImage imageNamed:@"setting"]];
+//    [self.settingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"setting_selected"]];
     
     self.viewControllers = @[self.musicNAV, self.cartoonNAV, self.playingNAV, self.myNAV, self.settingNAV];
     self.tabBar.backgroundColor = [UIColor yellowColor];
-    
+    self.selectedViewController = self.musicNAV;
+    self.currentNAV = self.selectedViewController;
     {
         int buttonImageWidth = 60;
         int buttonImageHeight = 60;
@@ -165,6 +168,18 @@ static int imageviewAngle = 0;
 //        self.midButton.layer.cornerRadius = self.midButton.frame.size.width / 2;
         
         [self.view addSubview:self.midButton];
+
+        
+        
+        self.returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.returnButton addTarget:self action:@selector(returnBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.returnButton setImage:[UIImage imageNamed:@"btn-back"] forState:UIControlStateNormal];
+        [self.returnButton setBackgroundColor:[UIColor whiteColor]];
+        self.returnButton.frame = CGRectMake(15, [UIScreen mainScreen].bounds.size.height-40, 32, 32);
+        self.returnButton.layer.cornerRadius = 32 / 2;
+        
+        [self.view addSubview:self.returnButton];
+        self.returnButton.hidden = YES;
 
 /*
         _rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -262,6 +277,11 @@ static int imageviewAngle = 0;
 
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    self.currentNAV = nil;
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        self.currentNAV = (UINavigationController *) viewController;
+    }
+
     if ([viewController isEqual:self.musicVC]) {
         
     }
@@ -387,6 +407,17 @@ static int imageviewAngle = 0;
 
             }
         }
+    }
+}
+
+#pragma mark ---全局返回按钮
+- (void)setGlobalReturnBtnHidden:(BOOL)hidden {
+    self.returnButton.hidden = hidden;
+}
+
+-(void)returnBtnClick:(UIButton *)btn {
+    if (self.currentNAV) {
+        [self.currentNAV.topViewController.navigationController popViewControllerAnimated:YES];
     }
 }
 

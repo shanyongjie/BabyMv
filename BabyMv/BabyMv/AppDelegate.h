@@ -21,9 +21,9 @@
 
 + (AppDelegate*)sharedAppDelegate;
 
-+(UINavigationController*) rootNavigationController;
--(UINavigationController*) currentTabNaviatrionController;
-
+//+(UINavigationController*) rootNavigationController;
+//-(UINavigationController*) currentTabNaviatrionController;
+//
 - (void)clearAllCaches;
 
 - (bool)isFirstStart;

@@ -35,14 +35,14 @@
 @implementation AppDelegate
 
 static AppDelegate *s_sharedApplication;
-UINavigationController *rootNavigationController;
+//UINavigationController *rootNavigationController;
 
 static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 inInterruptionState);
 
-+ (UINavigationController *)rootNavigationController
-{
-    return rootNavigationController;
-}
+//+ (UINavigationController *)rootNavigationController
+//{
+//    return rootNavigationController;
+//}
 
 + (AppDelegate*)sharedAppDelegate{
     return (AppDelegate*)[UIApplication sharedApplication].delegate;

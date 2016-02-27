@@ -10,6 +10,7 @@
 
 @interface BMMainTabBarController : UITabBarController
 
+- (void)setGlobalReturnBtnHidden:(BOOL)hidden;
 - (void)startTimingTimer;
 - (void)endTimingTimer;
 
