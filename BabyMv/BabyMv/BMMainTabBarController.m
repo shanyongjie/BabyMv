@@ -24,7 +24,7 @@
 #import "UIImageView+WebCache.h"
 #import "BMDataBaseManager.h"
 
-
+#import <MediaPlayer/MediaPlayer.h>
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -185,6 +185,7 @@ static int imageviewAngle = 0;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AudioPlayFinishedNotification:) name:kCNotificationPlayItemFinished object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlayStateChanged) name:kCNotificationPlayStateChanged object:nil];
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(notifyLockScreenInfo) userInfo:nil repeats:YES];
     }
 }
 
@@ -362,6 +363,31 @@ static int imageviewAngle = 0;
     imageviewAngle+=3;
     
     _midImage.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(imageviewAngle));
+}
+
+
+#pragma mark ----- 后台播放
+- (void)notifyLockScreenInfo{
+    PlayState cur_play_state = [AudioPlayerAdapter sharedPlayerAdapter].playState;
+    if (PlayStatePlaying == cur_play_state) {
+        BMDataModel* cur_ring = [AudioPlayerAdapter sharedPlayerAdapter].nowPlayingItem;
+        if (cur_ring) {
+            if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
+                NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+                [dict setObject:cur_ring.Name forKey:MPMediaItemPropertyTitle];//歌曲名设置
+                if (cur_ring.Artist) {
+                    [dict setObject:cur_ring.Artist forKey:MPMediaItemPropertyArtist];//歌手名设置
+                }
+
+//                [dict setObject:[[MPMediaItemArtwork alloc] initWithImage:self.artwork.image]  forKey:MPMediaItemPropertyArtwork];//专辑图片设置
+                [dict setObject:[NSNumber numberWithDouble:[[AudioPlayerAdapter sharedPlayerAdapter] currentTime]] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime]; //音乐当前已经播放时间
+                [dict setObject:[NSNumber numberWithFloat:1.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];//进度光标的速度 （这个随 自己的播放速率调整，我默认是原速播放）
+                [dict setObject:[NSNumber numberWithDouble:[AudioPlayerAdapter sharedPlayerAdapter].duration] forKey:MPMediaItemPropertyPlaybackDuration];//歌曲总时间设置
+                [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
+
+            }
+        }
+    }
 }
 
 @end
