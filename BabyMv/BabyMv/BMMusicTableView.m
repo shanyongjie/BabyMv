@@ -147,7 +147,7 @@
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
-            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_cartoon"]];
             cell.downimg.tag = 3000+indexPath.row;
             [cell.downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
             [cell.downimg addTarget:cell action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
@@ -165,7 +165,7 @@
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
             cell.detailLab.text = cur_video.Artist;
-            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.PicUrl] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_cartoon"]];
             cell.downimg.tag = 3000+indexPath.row;
             cell.accessoryType = UITableViewCellAccessoryNone;
             break;
@@ -174,7 +174,7 @@
             BMCollectionDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
-            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_cartoon"]];
             cell.detailLab.text = @"儿歌合集";
             if ([cur_video isKindOfClass:[BMCartoonCollectionDataModel class]]) {
                 cell.detailLab.text = @"动画合集";

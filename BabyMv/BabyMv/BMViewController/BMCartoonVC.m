@@ -161,7 +161,7 @@
             for (NSUInteger index = 0; index < _cartoonCollectionArr.count; index++) {
                 BMCartoonCollectionDataModel* cur_mv = [_cartoonCollectionArr objectAtIndex:index];
                 UIButton *btn = (UIButton *)[_focusView viewWithTag:(1000 + index)];
-                [btn sd_setImageWithURL:[NSURL URLWithString:cur_mv.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default"]];
+                [btn sd_setImageWithURL:[NSURL URLWithString:cur_mv.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_collection"]];
                 UILabel *label = (UILabel *)[_focusView viewWithTag:(2000 + index)];
                 label.text = cur_mv.Name;
                 CGSize textSize = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake(label.frame.size.width+30, 11) lineBreakMode:NSLineBreakByTruncatingTail];
