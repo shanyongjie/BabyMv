@@ -85,7 +85,8 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [MobClick startWithAppkey:@"54be6f7cfd98c51f9e00008f"];
-    [UMessage startWithAppkey:@"your appkey" launchOptions:launchOptions];
+    [UMessage startWithAppkey:@"54be6f7cfd98c51f9e00008f" launchOptions:launchOptions];
+    [UMessage setLogEnabled:YES];
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(BIGTHANIOS8)

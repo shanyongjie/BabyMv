@@ -61,7 +61,7 @@
         _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(42, 35, 100, 12)];
         _detailLab.textColor = RGB(0xababab, 1.0);
         _detailLab.font = [UIFont systemFontOfSize:12];
-        _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-38, 11.5, 38, 38)];
+        _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-38, 8.5, 38, 38)];
         [_downimg.titleLabel setFont:[UIFont systemFontOfSize:13]];
         _cellLineView = [[UIView alloc] initWithFrame:CGRectMake(42, 54.5, MAIN_BOUNDS_WIDTH-42, 0.5)];
         _cellLineView.backgroundColor = CellLineColor;
