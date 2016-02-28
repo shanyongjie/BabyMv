@@ -31,7 +31,7 @@
         
         [self setTitleColor:RGB(0x7b4703, 1.0) forState:UIControlStateNormal];
         [self setTitleColor:RGB(0x7b4703, 1.0) forState:UIControlStateSelected];
-        [self setBackgroundImage:[UIImage imageNamed:@"tab1_topButton_bg"] forState:UIControlStateSelected];
+        [self setBackgroundImage:[UIImage createImageWithColor:RGB(0xffec9f, 1.0)] forState:UIControlStateSelected];
         [self setBackgroundImage:[UIImage createImageWithColor:NavBarYellow] forState:UIControlStateNormal];
         
         self.titleLabel.font =[UIFont boldSystemFontOfSize:15];
