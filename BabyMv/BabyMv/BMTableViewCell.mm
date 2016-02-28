@@ -139,6 +139,8 @@
             _detailLab.frame = CGRectMake(50+20, 35, 100, 12);
             _cellLineView.frame = CGRectMake(50+20, 59.5, MAIN_BOUNDS_WIDTH-50-20, 0.5);
             _img.frame = CGRectMake(10, 5, 50, 50);
+            _img.layer.cornerRadius = 25;
+            _img.clipsToBounds = YES;
             _downimg.hidden = YES;
             _indexLab.hidden = YES;
         }
