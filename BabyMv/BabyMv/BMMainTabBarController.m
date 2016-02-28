@@ -36,7 +36,6 @@ static int imageviewAngle = 0;
 @property(nonatomic, strong) UINavigationController* playingNAV;
 @property(nonatomic, strong) UINavigationController* myNAV;
 @property(nonatomic, strong) UINavigationController* settingNAV;
-@property(nonatomic, weak)   UINavigationController* currentNAV;
 
 @property(nonatomic, strong) BMMusicVC* musicVC;
 @property(nonatomic, strong) BMCartoonVC* cartoonVC;

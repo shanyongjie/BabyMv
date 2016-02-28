@@ -140,9 +140,13 @@
 {
 //    [MobClick event:BS_PLAY label:@"audio"];
     
-    [self setNowPlayingItem:item listID:listID delegate:delegate];
-    
-    [self play];
+    if (_nowPlayingItem && (item.Rid == _nowPlayingItem.Rid)) {
+        return;
+    }else {
+        [self setNowPlayingItem:item listID:listID delegate:delegate];
+        
+        [self play];
+    }
 }
 
 - (void)play

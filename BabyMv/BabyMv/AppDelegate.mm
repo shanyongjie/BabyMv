@@ -153,10 +153,6 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
 }
 
 -(void)dealPushNotification:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
-    NSString* str = [NSString stringWithFormat:@"推送消息的launchOptions内容：%@", launchOptions];
-    UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:str cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
-    }];
-    [blockView show];
     if (launchOptions) {
         NSDictionary *pushNotificationDic=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         [self dealPushNotification:application pushedNotification:pushNotificationDic];
@@ -185,19 +181,21 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
             cate_info.Rid = [pushNotificationDic objectForKey:@"id"];
             cate_info.Name = [pushNotificationDic objectForKey:@"name"];
             self.mainTabBarController.selectedViewController = self.mainTabBarController.cartoonNAV;
+            self.mainTabBarController.currentNAV = self.mainTabBarController.cartoonNAV;
             BMMusicListVC* mvlistview = [BMMusicListVC new];
             mvlistview.vcType = MyListVCTypeCartoon;
             mvlistview.currentCartoonCollectionData = cate_info;
-            [self.mainTabBarController.cartoonNAV.navigationController pushViewController:mvlistview animated:YES];
+            [self.mainTabBarController.cartoonNAV.topViewController.navigationController pushViewController:mvlistview animated:YES];
         }else if([type isEqualToString:@"audio"]){
             BMCollectionDataModel* cate_info = [[BMCollectionDataModel alloc] init];
             cate_info.Rid = [pushNotificationDic objectForKey:@"id"];
             cate_info.Name = [pushNotificationDic objectForKey:@"name"];
             self.mainTabBarController.selectedViewController = self.mainTabBarController.musicNAV;
+            self.mainTabBarController.currentNAV = self.mainTabBarController.musicNAV;
             BMMusicListVC* mvlistview = [BMMusicListVC new];
             mvlistview.vcType = MyListVCTypeMusic;
             mvlistview.currentCollectionData = cate_info;
-            [self.mainTabBarController.musicNAV.navigationController pushViewController:mvlistview animated:YES];
+            [self.mainTabBarController.musicNAV.topViewController.navigationController pushViewController:mvlistview animated:YES];
         }else if([type isEqualToString:@"upgrade"]){
             //                NSString* str_title = [pushNotificationDic objectForKey:@"title"];
             //                NSString* str_content = [pushNotificationDic objectForKey:@"content"];

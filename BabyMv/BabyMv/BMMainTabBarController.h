@@ -11,6 +11,7 @@
 @interface BMMainTabBarController : UITabBarController
 @property(nonatomic, readonly) UINavigationController* musicNAV;
 @property(nonatomic, readonly) UINavigationController* cartoonNAV;
+@property(nonatomic, weak)     UINavigationController* currentNAV;
 
 - (void)setGlobalReturnBtnHidden:(BOOL)hidden;
 - (void)startTimingTimer;
