@@ -43,7 +43,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"我的";
+    UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+    titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    titleLabel.textColor = RGB(0x7b4703, 1.0);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.text = @"我的";
+    self.navigationItem.titleView = titleLabel;
     {
         _historyVC = [BMMusicListVC new];
         _historyVC.vcType = MyListVCTypeHistory;

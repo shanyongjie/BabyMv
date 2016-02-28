@@ -55,7 +55,12 @@
     
     _tableView.myType = MyTableVIewTypePlayList;
     [_tableView setSongItems:[BSPlayList sharedInstance].arryPlayList];
-    self.navigationItem.title = @"播放列表";
+    UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+    titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    titleLabel.textColor = RGB(0x7b4703, 1.0);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.text = @"播放列表";
+    self.navigationItem.titleView = titleLabel;
     self.navigationItem.backBarButtonItem = nil;
     self.navigationItem.leftBarButtonItems = nil;
     self.navigationItem.leftItemsSupplementBackButton = NO;

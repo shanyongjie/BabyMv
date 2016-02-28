@@ -94,31 +94,31 @@ static int imageviewAngle = 0;
     
     self.musicVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"儿歌" normalImage:[UIImage imageNamed:@"tab_song"] highlightedImage:[UIImage imageNamed:@"tab_song_selected"] tag:0];
     [self.musicVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+     @{NSForegroundColorAttributeName:NavBarYellow, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateSelected];
     [self.musicVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+     @{NSForegroundColorAttributeName:TabBarGray, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateNormal];
     
     self.cartoonVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"动画" normalImage:[UIImage imageNamed:@"tab_cartoon"] highlightedImage:[UIImage imageNamed:@"tab_cartoon_selected"] tag:1];
     [self.cartoonVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+     @{NSForegroundColorAttributeName:NavBarYellow, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateSelected];
     [self.cartoonVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+     @{NSForegroundColorAttributeName:TabBarGray, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateNormal];
     
     self.playingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"播放" image:nil tag:2];
     [self.playingVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateNormal];
+     @{NSForegroundColorAttributeName:NavBarYellow, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateNormal];
     
     self.myVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"我的" normalImage:[UIImage imageNamed:@"wode"] highlightedImage:[UIImage imageNamed:@"wode_selected"] tag:3];
     [self.myVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+     @{NSForegroundColorAttributeName:NavBarYellow, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateSelected];
     [self.myVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+     @{NSForegroundColorAttributeName:TabBarGray, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateNormal];
     
     self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"shezhi"] highlightedImage:[UIImage imageNamed:@"shezhidown"] tag:4];
     [self.settingVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
+     @{NSForegroundColorAttributeName:NavBarYellow, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateSelected];
     [self.settingVC.tabBarItem setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
+     @{NSForegroundColorAttributeName:TabBarGray, NSFontAttributeName:[UIFont fontWithName:@"Helvetica" size:12.0f]} forState:UIControlStateNormal];
     
 //    [self.musicVC.tabBarItem setImage:[UIImage imageNamed:@"tab_song"]];
 //    [self.musicVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tab_song_selected"]];
@@ -145,7 +145,7 @@ static int imageviewAngle = 0;
         _midImage.layer.masksToBounds = YES;
         _midImage.layer.cornerRadius = _midImage.frame.size.width / 2;
         _midImage.layer.borderColor = NavBarYellow.CGColor;
-        _midImage.layer.borderWidth = 2;
+        _midImage.layer.borderWidth = 3.5;
         
         if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
             NSString* image_url = ((BMCollectionDataModel*)[[BMDataBaseManager sharedInstance] musicCollectionById:[BSPlayList sharedInstance].currentItem.CollectionId]).Url;

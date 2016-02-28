@@ -29,12 +29,12 @@
     self = [super init];
     if (self) {
         
-        [self setTitleColor:RGB(0x7b4802, 1.0) forState:UIControlStateNormal];
-        [self setTitleColor:RGB(0x7b4802, 1.0) forState:UIControlStateSelected];
+        [self setTitleColor:RGB(0x7b4703, 1.0) forState:UIControlStateNormal];
+        [self setTitleColor:RGB(0x7b4703, 1.0) forState:UIControlStateSelected];
         [self setBackgroundImage:[UIImage imageNamed:@"tab1_topButton_bg"] forState:UIControlStateSelected];
         [self setBackgroundImage:[UIImage createImageWithColor:NavBarYellow] forState:UIControlStateNormal];
         
-        self.titleLabel.font =[UIFont systemFontOfSize:14];
+        self.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     }
     return self;
 }
@@ -66,7 +66,7 @@
     self.items = items;
     NSMutableString* hCons = [NSMutableString new];
     NSMutableDictionary* map = [NSMutableDictionary new];
-    [hCons appendString:@"H:|-"];
+    [hCons appendString:@"H:|-(1.5)-"];
     NSString* firstItem;
     for (int index = 0; index < items.count; ++index) {
         UIControl* control = items[index];
@@ -81,7 +81,7 @@
             [hCons appendString:[NSString stringWithFormat:@"[%@]-", key]];
             firstItem = key;
         } else {
-            [hCons appendString:[NSString stringWithFormat:@"[%@(%@)]-", key, firstItem]];
+            [hCons appendString:[NSString stringWithFormat:@"[%@(%@)]-(1.5)-", key, firstItem]];
         }
         
                 NSString* vCons = [NSString stringWithFormat:@"V:|[%@(30)]|", key];

@@ -23,7 +23,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"设置";
+    UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+    titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    titleLabel.textColor = RGB(0x7b4703, 1.0);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.text = @"设置";
+    self.navigationItem.titleView = titleLabel;
+
     UIView* baseView = self.view;
     InitViewX(BMSettingView, tableView, baseView, 0);
     NSDictionary* map = NSDictionaryOfVariableBindings(tableView);

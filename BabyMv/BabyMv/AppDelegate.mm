@@ -291,7 +291,7 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
         if ([[UIDevice currentDevice].systemVersion floatValue] >= 7) {
             [navAppearance setBarTintColor:NavBarYellow];
             [navAppearance setTintColor:[UIColor whiteColor]];
-            [navAppearance setBarStyle:UIBarStyleBlack];
+//            [navAppearance setBarStyle:UIBarStyleBlack];
             [navAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
             [barButtonAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:

@@ -24,8 +24,8 @@
         //        _pageControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         _pageControl.backgroundColor=[UIColor clearColor];
-        _pageControl.pageIndicatorTintColor=[UIColor grayColor];
-        _pageControl.currentPageIndicatorTintColor=[UIColor blackColor];
+        _pageControl.pageIndicatorTintColor = RGB(0xdbdbdb, 1.0);
+        _pageControl.currentPageIndicatorTintColor = RGB(0xffbf50, 1.0);
         //        _pageControl.pageIndicatorTintColor= RGB(0x808080, 1);
         //        _pageControl.currentPageIndicatorTintColor= RGB(0x555555, 1);
         
@@ -151,7 +151,7 @@
             default:
                 break;
         }
-        circleView.layer.borderWidth = 1.5;
+        circleView.layer.borderWidth = 2;
         circleView.layer.borderColor = layerColor.CGColor;
         
         [circleView addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -160,7 +160,7 @@
         
         UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y+43+5, frame.size.width, 11)];
         titleLab.textAlignment = NSTextAlignmentCenter;
-        titleLab.font = [UIFont systemFontOfSize:10];
+        titleLab.font = [UIFont systemFontOfSize:11];
         titleLab.text = @"";
         titleLab.tag = 2000 + itemIndex;
         CGSize textSize = [titleLab.text sizeWithFont:titleLab.font constrainedToSize:CGSizeMake(frame.size.width+30, 11) lineBreakMode:NSLineBreakByTruncatingTail];

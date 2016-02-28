@@ -90,11 +90,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:YES];
+    [self.navigationItem setHidesBackButton:YES];
+    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:NO];
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
         self.navigationItem.rightBarButtonItem = self.favBarBtn;
-        self.navigationItem.title = self.currentCollectionData.Name;
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+        titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        titleLabel.textColor = RGB(0x7b4703, 1.0);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = self.currentCollectionData.Name;
+        self.navigationItem.titleView = titleLabel;
         _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager musicListWithCollectionId:self.currentCollectionData.Rid]];
         if (_listData.count) {
             [self.tableView setSongItems:_listData];
@@ -109,7 +116,12 @@
 
     if (self.vcType == MyListVCTypeCartoon) {
         self.navigationItem.rightBarButtonItem = self.favBarBtn;
-        self.navigationItem.title = self.currentCartoonCollectionData.Name;
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+        titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        titleLabel.textColor = RGB(0x7b4703, 1.0);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = self.currentCartoonCollectionData.Name;
+        self.navigationItem.titleView = titleLabel;
         _listData = [NSMutableArray arrayWithArray:[BMDataCacheManager cartoonListWithCollectionId:self.currentCartoonCollectionData.Rid]];
         if (_listData.count) {
             [self.tableView setSongItems:_listData];
@@ -123,7 +135,12 @@
     }
 
     if (self.vcType == MyListVCTypeMusicDownload) {
-        self.navigationItem.title = @"我下载的儿歌";
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+        titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        titleLabel.textColor = RGB(0x7b4703, 1.0);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = @"我下载的儿歌";
+        self.navigationItem.titleView = titleLabel;
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getDownloadedMusicList]];
         if (_listData.count) {
             [self.tableView setSongItems:_listData];
@@ -131,7 +148,12 @@
         }
     }
     if (self.vcType == MyListVCTypeCartoonDownload) {
-        self.navigationItem.title = @"我下载的动画";
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+        titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        titleLabel.textColor = RGB(0x7b4703, 1.0);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = @"我下载的动画";
+        self.navigationItem.titleView = titleLabel;
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getDownloadedCartoonList]];
         if (_listData.count) {
             [self.tableView setSongItems:_listData];
@@ -139,7 +161,12 @@
         }
     }
     if (self.vcType == MyListVCTypeHistory) {
-        self.navigationItem.title = @"收听历史";
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, VIEW_DEFAULT_WIDTH-160, 35)];
+        titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        titleLabel.textColor = RGB(0x7b4703, 1.0);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.text = @"收听历史";
+        self.navigationItem.titleView = titleLabel;
         self.navigationItem.rightBarButtonItem = self.delHistoryBarBtn;
         _listData = [NSMutableArray arrayWithArray:[[BMDataBaseManager sharedInstance] getListenMusicList]];
         if (_listData.count) {
@@ -153,6 +180,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kCNotificationPlayItemStarted object:nil];
     [self.tabBarController.tabBar setHidden:NO];
+    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -222,6 +250,9 @@
 }
 
 -(void)deleteAllHistory:(UIButton *)btn {
+    if (!self.listData) {
+        return;
+    }
     __weak __typeof(self)weafSekf = self;
     UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:@"确定要删除全部历史纪录？" cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
         if (clickIndex == 1) {
