@@ -263,12 +263,13 @@
             {
                 if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {
                     if ([[BSPlayList sharedInstance] nextItem]) {
-                        int n_cur_index = [[BSPlayList sharedInstance] getCurIndex] + 1;
-                        [[BSPlayList sharedInstance] setCurIndex:n_cur_index];
-                        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                        [[AudioPlayerAdapter sharedPlayerAdapter] playNext];
                     }else {
-                        [[BSPlayList sharedInstance] setCurIndex:0];
-                        [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                        [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+                        });
                     }
                 }
                 

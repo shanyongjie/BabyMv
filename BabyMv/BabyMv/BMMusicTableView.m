@@ -333,8 +333,17 @@
                 [[BSPlayList sharedInstance] savePlaylist];
             }
             
+            if (cur_video.Rid != [AudioPlayerAdapter sharedPlayerAdapter].nowPlayingItem.Rid) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            }
+            
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
-            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[cur_video.CollectionId intValue] delegate:nil];
+            
+            [self reloadData];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[cur_video.CollectionId intValue] delegate:nil];
+            });
             
             break;
         }
@@ -347,19 +356,41 @@
             }
             
             BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            
+            if (cur_video.Rid != [AudioPlayerAdapter sharedPlayerAdapter].nowPlayingItem.Rid) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            }
+            
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
-            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_DOWNLOAD delegate:nil];
+            
+            [self reloadData];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_DOWNLOAD delegate:nil];
+            });
+            
             break;
         }
         case MyTableVIewTypePlayList:
         {
             BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            
+            if (cur_video.Rid != [AudioPlayerAdapter sharedPlayerAdapter].nowPlayingItem.Rid) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            }
+            
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
-            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[BSPlayList sharedInstance].listID delegate:nil];
+            
+            [self reloadData];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:[BSPlayList sharedInstance].listID delegate:nil];
+            });
+            
             break;
         }
         case MyTableViewTypeHistory: {
-//            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
+            //            [BMDataCacheManager setCurrentPlayingList:[NSArray arrayWithArray:self.items]];
             if (LIST_ID_HISTORY != [BSPlayList sharedInstance].listID) {
                 [[BSPlayList sharedInstance] setPlayList:_items];
                 [[BSPlayList sharedInstance] setListID:LIST_ID_HISTORY];
@@ -367,8 +398,20 @@
             }
             
             BMListDataModel* cur_video = [_items objectAtIndex:indexPath.row];
+            
+            if (cur_video.Rid != [AudioPlayerAdapter sharedPlayerAdapter].nowPlayingItem.Rid) {
+                [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            }
+            
             [[BSPlayList sharedInstance] setCurIndex:indexPath.row];
-            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_HISTORY delegate:nil];
+            
+            [self reloadData];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:cur_video inList:LIST_ID_HISTORY delegate:nil];
+            });
+            
+            
             break;
         }
         case MyTableViewTypeCartoon:
