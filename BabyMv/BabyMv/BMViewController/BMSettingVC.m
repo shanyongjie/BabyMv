@@ -9,6 +9,10 @@
 #import "BMSettingVC.h"
 #import "MacroDefinition.h"
 #import "BMTopTabBar.h"
+#import "AppDelegate.h"
+#import "iToast.h"
+
+#import <UMFeedback.h>
 
 @interface BMSettingView : UITableView <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, assign)BOOL         bShowFeedback;
@@ -174,7 +178,7 @@
         label_introduction.textAlignment = NSTextAlignmentLeft;
         label_introduction.numberOfLines = 0;
         [label_introduction setBackgroundColor:[UIColor clearColor]];
-        [label_introduction setText:@"       亲宝动画片是一款针对儿童早期教育和智力开发的软件，是每个妈妈和宝宝的必备神器。亲宝动画拥有海量童话、儿歌、故事、古典文学、数字、英语等各种类型资源，适合0到10岁的宝宝及妈妈使用。亲宝动画片为免费软件，使用过程中产生的流量费用，由运营商收取，使用中遇到的问题可加QQ群：2321362339，或发邮件到qinbaodonghua@126.com。亲宝动画片中所有动画资源均来自网友上传，如有侵权请及时联系我们，并出示版权证明，我们将删除相关资源。"];
+        [label_introduction setText:@"       亲宝动画片是一款针对儿童早期教育和智力开发的软件，是每个妈妈和宝宝的必备神器。亲宝动画拥有海量童话、儿歌、故事、古典文学、数字、英语等各种类型资源，适合0到10岁的宝宝及妈妈使用。亲宝动画片为免费软件，使用过程中产生的流量费用，由运营商收取，使用中遇到的问题可加QQ群：481219204，或发邮件到qinbaodonghua@126.com。亲宝动画片中所有动画资源均来自网友上传，如有侵权请及时联系我们，并出示版权证明，我们将删除相关资源。"];
         label_introduction.lineBreakMode = NSLineBreakByWordWrapping;
         [label_introduction sizeToFit];
         [cell.contentView addSubview:label_introduction];
@@ -247,11 +251,22 @@
     switch (indexPath.row) {
         case 0:
         {
+            NSString* str = @"确定清理缓存？";
+            UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:str cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
+                if (clickIndex == 1) {
+                    [iToast defaultShow:@"缓存清理中。。。" duration:2000];
+                }
+            }];
+            [blockView show];
+            return;
             NSLog(@"清空缓存");
             break;
         }
         case 1:
         {
+            [[AppDelegate sharedAppDelegate].mainTabBarController.currentNAV presentViewController:[UMFeedback feedbackModalViewController] animated:YES completion:^{
+                
+            }];
             NSLog(@"用户反馈");
             break;
         }
