@@ -14,7 +14,7 @@
 #import "BMDataModel.h"
 #import "MacroDefinition.h"
 #import "AudioPlayer/AudioPlayerAdapter.h"
-
+#import "BMMusicListVC.h"
 #import "UIImage+Helper.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -130,9 +130,6 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
     [UMessage setLogEnabled:YES];
 
     
-    
-    
-    
     [self loadCacheData];
     self.mainTabBarController = [[BMMainTabBarController alloc] init];
     [self setDefaultAppearance];
@@ -147,7 +144,103 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = self.mainTabBarController;
     [self.window makeKeyAndVisible];
+    
+    //处理推送的时机，页面有了以后，再处理push
+    [self dealPushNotification:application pushedNotification:launchOptions];
+    
+    
     return YES;
+}
+
+-(void)dealPushNotification:(UIApplication *)application launchOptions:(NSDictionary *)launchOptions {
+    NSString* str = [NSString stringWithFormat:@"推送消息的launchOptions内容：%@", launchOptions];
+    UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:str cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
+    }];
+    [blockView show];
+    if (launchOptions) {
+        NSDictionary *pushNotificationDic=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        [self dealPushNotification:application pushedNotification:pushNotificationDic];
+    }
+}
+
+-(void)dealPushNotification:(UIApplication *)application pushedNotification:(NSDictionary *)pushNotificationDic {
+//    NSString* str = [NSString stringWithFormat:@"推送消息的内容：%@", pushNotificationDic];
+//    UIBlockAlertView* blockView = [[UIBlockAlertView alloc]initWithTitle:str cancelButtonTitle:@"取消" otherButtons:[NSArray arrayWithObjects:@"确定", nil] andDeal:^(UIBlockAlertView *alert, NSInteger clickIndex) {
+//    }];
+//    [blockView show];
+//    return;
+    
+    NSString* type = nil;
+    if (pushNotificationDic) {
+        long n_badge = application.applicationIconBadgeNumber;
+        if (0 < n_badge) {
+            application.applicationIconBadgeNumber = --n_badge;
+            [application cancelAllLocalNotifications];
+        }
+        
+        type=[pushNotificationDic objectForKey:@"type"];
+        
+        if ([type isEqualToString:@"video"]) {
+            BMCartoonCollectionDataModel* cate_info = [[BMCartoonCollectionDataModel alloc] init];
+            cate_info.Rid = [pushNotificationDic objectForKey:@"id"];
+            cate_info.Name = [pushNotificationDic objectForKey:@"name"];
+            self.mainTabBarController.selectedViewController = self.mainTabBarController.cartoonNAV;
+            BMMusicListVC* mvlistview = [BMMusicListVC new];
+            mvlistview.vcType = MyListVCTypeCartoon;
+            mvlistview.currentCartoonCollectionData = cate_info;
+            [self.mainTabBarController.cartoonNAV.navigationController pushViewController:mvlistview animated:YES];
+        }else if([type isEqualToString:@"audio"]){
+            BMCollectionDataModel* cate_info = [[BMCollectionDataModel alloc] init];
+            cate_info.Rid = [pushNotificationDic objectForKey:@"id"];
+            cate_info.Name = [pushNotificationDic objectForKey:@"name"];
+            self.mainTabBarController.selectedViewController = self.mainTabBarController.musicNAV;
+            BMMusicListVC* mvlistview = [BMMusicListVC new];
+            mvlistview.vcType = MyListVCTypeMusic;
+            mvlistview.currentCollectionData = cate_info;
+            [self.mainTabBarController.musicNAV.navigationController pushViewController:mvlistview animated:YES];
+        }else if([type isEqualToString:@"upgrade"]){
+            //                NSString* str_title = [pushNotificationDic objectForKey:@"title"];
+            //                NSString* str_content = [pushNotificationDic objectForKey:@"content"];
+            //                BSAlertView* alert_view = [[BSAlertView alloc] initWithTitle:str_title message:str_content cancelButtonTitle:@"取消" otherButtonTitles:@"马上升级" clickButton:^(NSInteger indexButton) {
+            //                    if (1 == indexButton) {
+            //                        if (NSOrderedAscending == [[UIDevice currentDevice].systemVersion compare:@"7.0"]) {
+            //                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=894495836"]];
+            //                        }else {
+            //                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id894495836"]];
+            //                        }
+            //                    }
+            //                }];
+            //                [alert_view show];
+        }else if([type isEqualToString:@"reco"]){
+            //                NSString* str_title = [pushNotificationDic objectForKey:@"title"];
+            //                NSString* str_content = [pushNotificationDic objectForKey:@"content"];
+            //                NSString* str_app_id = [pushNotificationDic objectForKey:@"id"];
+            //                BSAlertView* alert_view = [[BSAlertView alloc] initWithTitle:str_title message:str_content cancelButtonTitle:@"取消" otherButtonTitles:@"马上安装" clickButton:^(NSInteger indexButton) {
+            //                    if (1 == indexButton) {
+            //                        if (NSOrderedAscending == [[UIDevice currentDevice].systemVersion compare:@"7.0"]) {
+            //                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", str_app_id]]];
+            //                        }else {
+            //                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", str_app_id]]];
+            //                        }
+            //                    }
+            //                }];
+            //                [alert_view show];
+        }else if([type isEqualToString:@"broad"]){
+            NSString* str_title = [pushNotificationDic objectForKey:@"title"];
+            NSString* str_content = [pushNotificationDic objectForKey:@"content"];
+            UIAlertView* alert_view = [[UIAlertView alloc] initWithTitle:str_title message:str_content delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert_view show];
+        }else if([type isEqualToString:@"m_album"]){
+            //                BSCateItem* cate_info = [[BSCateItem alloc] init];
+            //                NSString* str_title = [pushNotificationDic objectForKey:@"title"];
+            //                NSString* str_url = [pushNotificationDic objectForKey:@"url"];
+            //
+            //                CGRect rect_song_list = _mainViewController.view.bounds;
+            //                BSWebViewController* album_view = [[BSWebViewController alloc] initWithTitle:str_title URLString:[NSString stringWithFormat:@"%@&ddsrc=erge_ip&dddid=%@", str_url, [BSKeyChain getUserId]]];
+            //
+            //                [rootNavigationController pushViewController:album_view animated:YES];
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -185,6 +278,7 @@ static void audioSessionInterruptionListenerCallback(void* inUserData, UInt32 in
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [UMessage didReceiveRemoteNotification:userInfo];
+    [self dealPushNotification:application pushedNotification:userInfo];
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event

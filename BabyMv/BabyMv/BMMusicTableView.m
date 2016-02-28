@@ -248,6 +248,9 @@
     switch (self.myType) {
         case MyTableViewTypeMusic:
         case MyTableViewTypeCartoon:
+            if ([self.viewController isKindOfClass:[BMMusicListVC class]]) {
+                return 0.01;
+            }
             return 30;
             break;
         case MyTableViewTypeMusicDown:
@@ -277,7 +280,7 @@
 //
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
-    //    view.backgroundColor = [UIColor darkGrayColor];
+    view.backgroundColor = [UIColor whiteColor];
     UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];
     segview.backgroundColor = RGB(0xeeeeee, 1.0);
     UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 5, 25)];
