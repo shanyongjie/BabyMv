@@ -157,7 +157,7 @@ static int imageviewAngle = 0;
         _midImage.clipsToBounds = YES;
         _midImage.layer.masksToBounds = YES;
         _midImage.layer.cornerRadius = _midImage.frame.size.width / 2;
-        _midImage.layer.borderColor = NavBarYellow.CGColor;
+        _midImage.layer.borderColor = RGB(0xffb400, 1.0).CGColor;
         _midImage.layer.borderWidth = 3.5;
         
         if ([BSPlayList sharedInstance].arryPlayList && [BSPlayList sharedInstance].arryPlayList.count) {

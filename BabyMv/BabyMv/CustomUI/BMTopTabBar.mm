@@ -182,7 +182,7 @@
         
         InitViewX(UILabel, currentTimeLab, self, 0);
         currentTimeLab.font = [UIFont systemFontOfSize:13];
-        currentTimeLab.textColor = [UIColor grayColor];
+        currentTimeLab.textColor = RGB(0xff8434, 1.0);
         currentTimeLab.text = @"00:00";
         InitViewX(UILabel, totalTimeLab, self, 0);
         totalTimeLab.font = [UIFont systemFontOfSize:13];
@@ -191,8 +191,8 @@
         //    NSArray *imgArr = @[@"btn-timing", @[@"btn-repeat-once", @"btn-order", @"btn-all-repeat"], @"btn-next"];
         NSDictionary* map = NSDictionaryOfVariableBindings(processView, currentTimeLab, totalTimeLab, preBtn, timeBtn, playBtn, modeBtn, nextBtn);
         NSDictionary* metrics = @{@"timeLabelWidth":@(42), @"playBtnWidth":@(42), @"btnWidth":@(33), @"processViewHeight":@(2)};
-        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-[currentTimeLab(timeLabelWidth)]-(>=0)-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
-        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-[totalTimeLab(timeLabelWidth)]-(>=0)-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
+        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-(>=0)-[currentTimeLab(timeLabelWidth)]-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
+        ViewAddCons(self, @"H:|-[preBtn(btnWidth)]-(>=0)-[totalTimeLab(timeLabelWidth)]-[timeBtn(btnWidth)]-(25)-[modeBtn(btnWidth)]-(25)-[nextBtn(btnWidth)]-(25)-[playBtn(playBtnWidth)]-|", metrics, map);
         ViewAddCons(self, @"H:|[processView]|", metrics, map);
         ViewAddCons(self, @"V:|[processView(processViewHeight)]-(2)-[playBtn(playBtnWidth)]", metrics, map);
         ViewAddCons(self, @"V:|-[currentTimeLab]-(>=0)-[totalTimeLab]-|", metrics, map);
