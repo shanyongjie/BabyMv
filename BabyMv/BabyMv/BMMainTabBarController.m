@@ -114,7 +114,7 @@ static int imageviewAngle = 0;
     [self.myVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:TabBarGray} forState:UIControlStateNormal];
     
-    self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"setting"] highlightedImage:[UIImage imageNamed:@"setting_selected"] tag:4];
+    self.settingVC.tabBarItem = [[CustomTabBarItem alloc] initWithTitle:@"设置" normalImage:[UIImage imageNamed:@"shezhi"] highlightedImage:[UIImage imageNamed:@"shezhidown"] tag:4];
     [self.settingVC.tabBarItem setTitleTextAttributes:
      @{NSForegroundColorAttributeName:NavBarYellow} forState:UIControlStateSelected];
     [self.settingVC.tabBarItem setTitleTextAttributes:
@@ -419,6 +419,19 @@ static int imageviewAngle = 0;
     if (self.currentNAV) {
         [self.currentNAV.topViewController.navigationController popViewControllerAnimated:YES];
     }
+}
+
+#pragma mark ----- hide status bar & view scape left delegate
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    return (toInterfaceOrientation) == UIInterfaceOrientationPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
+
+- (BOOL) shouldAutorotate{
+    return NO;
 }
 
 @end

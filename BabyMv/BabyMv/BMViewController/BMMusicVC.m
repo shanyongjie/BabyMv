@@ -57,7 +57,7 @@
     // Do any additional setup after loading the view.
     _musicListVC = [BMMusicListVC new];
     {
-        UIView* customTitleView = [[UIView alloc] initWithFrame:CGRectMake(50, 5, VIEW_DEFAULT_WIDTH-100, 35)];
+        UIView* customTitleView = [[UIView alloc] initWithFrame:CGRectMake(25, 5, VIEW_DEFAULT_WIDTH-50, 35)];
         UIView* baseView = customTitleView;
         _Btn1 = [BMTopTabButton NewWithName:@""];
         _Btn2 = [BMTopTabButton NewWithName:@""];
@@ -241,15 +241,6 @@
     if ([self.selectedCollectionId intValue] == [collectionId intValue]) {
         [self LoadListData];
     }
-}
-
-#pragma mark - Orientation
-- (BOOL) shouldAutorotate{
-    return NO;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
 }
 
 @end

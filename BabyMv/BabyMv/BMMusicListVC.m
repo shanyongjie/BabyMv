@@ -90,7 +90,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableViewData) name:kCNotificationPlayItemStarted object:nil];
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden:YES];
-    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:NO];
     _favBtn.selected = NO;
     self.navigationItem.rightBarButtonItem = nil;
     if (self.vcType == MyListVCTypeMusic) {
@@ -154,7 +153,6 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kCNotificationPlayItemStarted object:nil];
     [self.tabBarController.tabBar setHidden:NO];
-    [[AppDelegate sharedAppDelegate].mainTabBarController setGlobalReturnBtnHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -237,15 +235,6 @@
         }
     }];
     [blockView show];
-}
-
-#pragma mark - Orientation
-- (BOOL) shouldAutorotate{
-    return NO;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationPortrait;
 }
 
 @end

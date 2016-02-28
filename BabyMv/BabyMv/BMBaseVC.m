@@ -24,6 +24,19 @@
     }
 }
 
+#pragma mark ----- hide status bar & view scape left delegate
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    return (toInterfaceOrientation) == UIInterfaceOrientationPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
+
+- (BOOL) shouldAutorotate{
+    return NO;
+}
+
 #pragma mark - 显示加载菊花
 - (void)showLoadingPage:(BOOL)bShow descript:(NSString*)strDescript
 {

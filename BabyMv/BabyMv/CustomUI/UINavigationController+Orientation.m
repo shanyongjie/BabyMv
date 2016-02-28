@@ -16,6 +16,7 @@
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return [self.topViewController supportedInterfaceOrientations];    
+    return UIInterfaceOrientationMaskPortrait;
+    return [self.topViewController supportedInterfaceOrientations];
 }
 @end

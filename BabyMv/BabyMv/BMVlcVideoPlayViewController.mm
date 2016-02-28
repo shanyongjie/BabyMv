@@ -11,7 +11,7 @@
 #import "MacroDefinition.h"
 
 
-#define USE_VLC_LIB 0
+#define USE_VLC_LIB 1
 
 #if USE_VLC_LIB
 #import <MobileVLCKit/MobileVLCKit.h>
