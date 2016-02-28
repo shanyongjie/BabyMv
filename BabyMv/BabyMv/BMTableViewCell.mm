@@ -63,6 +63,9 @@
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11.5, 31.5, 31.5)];
         [_downimg.titleLabel setFont:[UIFont systemFontOfSize:13]];
+        _cellLineView = [[UIView alloc] initWithFrame:CGRectMake(42, 54.5, MAIN_BOUNDS_WIDTH-42, 0.5)];
+        _cellLineView.backgroundColor = CellLineColor;
+        
         if (MyTableViewTypeMusic == cellType) {
             [_downimg setImage:[UIImage imageNamed:@"download_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
@@ -94,6 +97,7 @@
         [self.contentView addSubview:_detailLab];
         [self.contentView addSubview:_downimg];
         [self.contentView addSubview:_currentPlayingSign];
+        [self.contentView addSubview:_cellLineView];
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, VIEW_DEFAULT_WIDTH-5, self.frame.size.height)];
         [self.selectedBackgroundView setBackgroundColor:RGB(0xfff8e1, 1.0)];
     }
@@ -111,13 +115,16 @@
         _indexLab = [[UILabel alloc] initWithFrame:CGRectMake(90+20, 12, 32, 15)];
 //        _indexLab.text = [NSString stringWithFormat:@"112"];
         _indexLab.font = [UIFont systemFontOfSize:15];
-        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(90+42, 12,  MAIN_BOUNDS_WIDTH - 90 - 42 -20-10-31.5, 15)];
+        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(90+40, 12,  MAIN_BOUNDS_WIDTH - 90 - 40 -20-10-31.5, 15)];
         _titleLab.textColor = RGB(0x1b1b1b, 1.0);
         _titleLab.font = [UIFont systemFontOfSize:15];
-        _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(90+42, 35, 100, 12)];
+        _detailLab = [[UILabel alloc] initWithFrame:CGRectMake(90+20, 35, 100, 12)];
         _detailLab.textColor = RGB(0xababab, 1.0);
         _detailLab.font = [UIFont systemFontOfSize:12];
         _downimg = [[UIButton alloc] initWithFrame:CGRectMake(MAIN_BOUNDS_WIDTH-10-31.5, 11, 38, 38)];
+        _cellLineView = [[UIView alloc] initWithFrame:CGRectMake(90+20, 59.5, MAIN_BOUNDS_WIDTH-90-20, 0.5)];
+        _cellLineView.backgroundColor = CellLineColor;
+
         _downimg.hidden = NO;
         _indexLab.hidden = NO;
         if (MyTableViewTypeCartoon == cellType) {
@@ -136,6 +143,7 @@
         [self.contentView addSubview:_titleLab];
         [self.contentView addSubview:_detailLab];
         [self.contentView addSubview:_downimg];
+        [self.contentView addSubview:_cellLineView];
     }
     return self;
 }

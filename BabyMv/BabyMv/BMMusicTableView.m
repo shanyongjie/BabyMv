@@ -49,6 +49,7 @@
         _myType = MyTableViewTypeMusic;
         _downloadingItems = [NSMutableSet new];
     }
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
     return self;
 }
 
@@ -226,35 +227,24 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+        case MyTableViewTypeMusicDown:
+        case MyTableViewTypeHistory:
+        case MyTableVIewTypePlayList:
+            return 55;
+            break;
+        case MyTableViewTypeFavorite:
+        case MyTableViewTypeCartoon:
+        case MyTableViewTypeCartoonDown:
+            return 60;
+        default:
+            break;
+    }
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    switch (self.myType) {
-        case MyTableViewTypeMusic:
-            return 30;
-            break;
-        case MyTableViewTypeCartoon:
-            return 30;
-            break;
-        case MyTableViewTypeMusicDown:
-            return 30;
-            break;
-        case MyTableViewTypeCartoonDown:
-            return 30;
-            break;
-        case MyTableViewTypeFavorite:
-            return 30;
-            break;
-        case MyTableViewTypeHistory:
-            return 0;
-            break;
-        case MyTableVIewTypePlayList:
-            return 0;
-        default:
-            break;
-            return 0.01;
-    }
     return 0.01;
 }
 //
@@ -263,6 +253,7 @@
 //}
 //
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return nil;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
     //    view.backgroundColor = [UIColor darkGrayColor];
     UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];

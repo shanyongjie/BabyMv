@@ -147,8 +147,8 @@
         self.backgroundColor = [UIColor whiteColor];
         InitViewX(UIProgressView, processView, self, 0);
         [processView setBackgroundColor:[UIColor clearColor]];
-        processView.trackTintColor = RGB(0x999999, 1.0);
-        processView.progressTintColor = RGB(0xea801a, 1.0);
+        processView.trackTintColor = RGB(0xeeeeee, 1.0);
+        processView.progressTintColor = RGB(0xff8434, 1.0);
         
         InitViewX(UIButton, preBtn, self, 0);
         [preBtn setImage:[UIImage imageNamed:@"btn-back"] forState:UIControlStateNormal];

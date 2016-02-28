@@ -48,6 +48,8 @@ static int imageviewAngle = 0;
 @property(nonatomic, strong) UIImageView*  midImage;
 @property(nonatomic, strong) UIButton* midButton;
 @property(nonatomic, strong) UIButton* returnButton;
+@property(nonatomic, strong) UIView* returnButtonBorderView;
+
 
 @property(nonatomic, strong) NSTimer*  timingTimer;
 
@@ -132,10 +134,21 @@ static int imageviewAngle = 0;
 //    [self.settingVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"setting_selected"]];
     
     self.viewControllers = @[self.musicNAV, self.cartoonNAV, self.playingNAV, self.myNAV, self.settingNAV];
-    self.tabBar.backgroundColor = [UIColor yellowColor];
+    self.tabBar.backgroundColor = [UIColor whiteColor];
     self.selectedViewController = self.musicNAV;
     self.currentNAV = self.selectedViewController;
     {
+        self.returnButtonBorderView = [[UIView alloc] initWithFrame:CGRectMake(0, VIEW_DEFAULT_HEIGHT-49, VIEW_DEFAULT_WIDTH, 49)];
+        [self.returnButtonBorderView setBackgroundColor:[UIColor whiteColor]];
+        self.returnButtonBorderView.alpha = 0.9;
+//        self.returnButtonBorderView.userInteractionEnabled = NO;
+        [self.view addSubview:self.returnButtonBorderView];
+        self.returnButtonBorderView.hidden = YES;
+        UIView* lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, VIEW_DEFAULT_WIDTH, 0.5)];
+        lineView.backgroundColor = RGB(0xe8e8e8, 1.0);
+        [self.returnButtonBorderView addSubview:lineView];
+
+        
         int buttonImageWidth = 60;
         int buttonImageHeight = 60;
         
@@ -177,9 +190,9 @@ static int imageviewAngle = 0;
         [self.returnButton setBackgroundColor:[UIColor whiteColor]];
         self.returnButton.frame = CGRectMake(15, [UIScreen mainScreen].bounds.size.height-40, 32, 32);
         self.returnButton.layer.cornerRadius = 32 / 2;
-        
         [self.view addSubview:self.returnButton];
         self.returnButton.hidden = YES;
+        
 
 /*
         _rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -413,6 +426,7 @@ static int imageviewAngle = 0;
 #pragma mark ---全局返回按钮
 - (void)setGlobalReturnBtnHidden:(BOOL)hidden {
     self.returnButton.hidden = hidden;
+    self.returnButtonBorderView.hidden = hidden;
 }
 
 -(void)returnBtnClick:(UIButton *)btn {
