@@ -175,7 +175,7 @@
             BMCollectionDataModel* cur_video = [_items objectAtIndex:indexPath.row];
             cell.indexLab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             cell.titleLab.text = cur_video.Name;
-            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_cartoon"]];
+            [cell.img sd_setBackgroundImageWithURL:[NSURL URLWithString:cur_video.Url] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default_collection"]];
             cell.detailLab.text = @"儿歌合集";
             if ([cur_video isKindOfClass:[BMCartoonCollectionDataModel class]]) {
                 cell.detailLab.text = @"动画合集";
@@ -245,6 +245,29 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    switch (self.myType) {
+        case MyTableViewTypeMusic:
+        case MyTableViewTypeCartoon:
+            return 30;
+            break;
+        case MyTableViewTypeMusicDown:
+            return 0.01;
+            break;
+        case MyTableViewTypeCartoonDown:
+            return 0.01;
+            break;
+        case MyTableViewTypeFavorite:
+            return 30;
+            break;
+        case MyTableViewTypeHistory:
+            return 0.01;
+            break;
+        case MyTableVIewTypePlayList:
+            return 0.01;
+        default:
+            break;
+            return 0.01;
+    }
     return 0.01;
 }
 //

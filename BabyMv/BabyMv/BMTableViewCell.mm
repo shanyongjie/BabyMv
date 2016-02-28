@@ -108,9 +108,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _img = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 90, 50)];
-        _img.layer.borderWidth = 1;
-        _img.layer.cornerRadius = 3;
-        _img.layer.borderColor = RGB(0xe8e8e8, 1.0).CGColor;
+        _img.userInteractionEnabled = NO;
+//        _img.layer.borderWidth = 1;
+//        _img.layer.cornerRadius = 3;
+//        _img.layer.borderColor = RGB(0xe8e8e8, 1.0).CGColor;
 
         _indexLab = [[UILabel alloc] initWithFrame:CGRectMake(90+20, 12, 32, 15)];
 //        _indexLab.text = [NSString stringWithFormat:@"112"];
@@ -134,6 +135,10 @@
             [_downimg setImage:[UIImage imageNamed:@"delete_cell"] forState:UIControlStateNormal];
             [_downimg addTarget:self action:@selector(deleteMusic:) forControlEvents:UIControlEventTouchUpInside];
         } else if (MyTableViewTypeFavorite == cellType) {
+            _titleLab.frame = CGRectMake(50+20, 12,  MAIN_BOUNDS_WIDTH-50-20-20-10-38, 15);
+            _detailLab.frame = CGRectMake(50+20, 35, 100, 12);
+            _cellLineView.frame = CGRectMake(50+20, 59.5, MAIN_BOUNDS_WIDTH-50-20, 0.5);
+            _img.frame = CGRectMake(10, 5, 50, 50);
             _downimg.hidden = YES;
             _indexLab.hidden = YES;
         }

@@ -145,7 +145,7 @@ static int imageviewAngle = 0;
         [self.view addSubview:self.returnButtonBorderView];
         self.returnButtonBorderView.hidden = YES;
         UIView* lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, VIEW_DEFAULT_WIDTH, 0.5)];
-        lineView.backgroundColor = RGB(0xe8e8e8, 1.0);
+        lineView.backgroundColor = RGB(0xcccccc, 1.0);
         [self.returnButtonBorderView addSubview:lineView];
 
         
