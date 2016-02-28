@@ -253,36 +253,41 @@
 //}
 //
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return nil;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 30)];
     //    view.backgroundColor = [UIColor darkGrayColor];
     UIView *segview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAIN_WIDTH, 5)];
     segview.backgroundColor = RGB(0xeeeeee, 1.0);
+    UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 5, 25)];
+    redview.backgroundColor = RGB(0xfc622c, 1.0);
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, MAIN_WIDTH, 25)];
     titleLab.font = [UIFont systemFontOfSize:11.5];
     titleLab.backgroundColor = [UIColor whiteColor];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, MAIN_WIDTH, 0.5)];
     lineView.backgroundColor = RGB(0xe4e4e4, 1.0);
     [view addSubview:segview];
+    [view addSubview:redview];    
     [view addSubview:titleLab];
     [view addSubview:lineView];
     switch (self.myType) {
         case MyTableViewTypeMusic:
         case MyTableViewTypeCartoon:
+            if ([self.viewController isKindOfClass:[BMMusicListVC class]]) {
+                return nil;
+            }
             titleLab.text = @"最近更新";
             break;
         case MyTableViewTypeMusicDown:
-            titleLab.text = @"我下载的儿歌";
+            return nil;
             break;
         case MyTableViewTypeCartoonDown:
-            titleLab.text = @"我下载的动画";
+            return nil;
             break;
         case MyTableViewTypeFavorite:
             titleLab.frame = CGRectMake(XGAP, 5, MAIN_WIDTH-XGAP, 25);
-            titleLab.text = @"收藏";
+            titleLab.text = @"我的收藏";
             break;
         case MyTableViewTypeHistory:
-            titleLab.text = @"历史";
+            return nil;
             break;
         case MyTableVIewTypePlayList:
             return nil;
