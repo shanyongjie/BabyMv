@@ -13,17 +13,10 @@
 #import "BSPlayList.h"
 #import "Notification.h"
 #import "AppDelegate.h"
-//#import "MobClick.h"
-//#import "BSUmengStatisticElement.h"
-#import "RTLocalConfigElements.h"
-#import "RTLocalConfig.h"
-
-#import "bsbase64.h"
-#import "BMDataBaseManager.h"
 
 @interface AudioPlayerAdapter () <PlayerEventHandlerDelegate>
 {
-    BMDataModel* _nowPlayingItem;
+    BMListDataModel* _nowPlayingItem;
     UIBackgroundTaskIdentifier _bgTaskId;
 }
 
@@ -71,11 +64,11 @@
             id<MediaPlayerProtocol> player = [self.player retain];
             self.player = nil;
             player.playerEventHandler = nil;
-//            dispatch_async(dispatch_get_main_queue(), ^{
-                [player stop];
-                [player release];
-//            });
-//            [self handlerPlayState:PlayStateStopped];
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            [player stop];
+            [player release];
+            //            });
+            //            [self handlerPlayState:PlayStateStopped];
             
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -117,14 +110,14 @@
     {
         [self stop];
     }
-
+    
     _nowPlayingListID = listID;
     if (_nowPlayingItem != item)
     {
         [_nowPlayingItem release];
         _nowPlayingItem = [item copy];
     }
-
+    
     id<AudioPlayerAdapterDelegate> oldDelegate = _delegate;
     _delegate = delegate;
     if (self.delegate != oldDelegate)
@@ -136,9 +129,9 @@
         [self.delegate audioPlayerNowPlayingItemChanged:self];
 }
 
-- (void)playRingtoneItem:(BMDataModel*)item inList:(int)listID delegate:(id<AudioPlayerAdapterDelegate>)delegate
+- (void)playRingtoneItem:(BMListDataModel*)item inList:(int)listID delegate:(id<AudioPlayerAdapterDelegate>)delegate
 {
-//    [MobClick event:BS_PLAY label:@"audio"];
+    //    [MobClick event:BS_PLAY label:@"audio"];
     
     if (_nowPlayingItem && (item.Rid == _nowPlayingItem.Rid)) {
         return;
@@ -151,15 +144,12 @@
 
 - (void)play
 {
-    [self releasePlayer];
+    //    [self releasePlayer];
     
     [self newPlayer];
-
-    self.player.mediaItemInfo = (BMListDataModel*)self.nowPlayingItem;
-    BMListDataModel* cur_video = (BMListDataModel*)self.nowPlayingItem;
-    cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
-    [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
-
+    
+    self.player.mediaItemInfo = self.nowPlayingItem;
+    
     UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
     AudioSessionSetProperty (
                              kAudioSessionProperty_AudioCategory,
@@ -168,7 +158,7 @@
                              );
     GetAppDelegate().interruptionHandlerObject = self;
     AudioSessionSetActive(true);
-
+    
     [self.player play];
 }
 
@@ -203,14 +193,11 @@
     [self.player pause];
 }
 
-- (void)resume{
-    [self.player play];
-}
-
 - (void)stop
 {
     if (GetAppDelegate().interruptionHandlerObject == self)
         GetAppDelegate().interruptionHandlerObject = nil;
+    _nowPlayingItem = nil;
     [self releasePlayer];
 }
 
@@ -226,7 +213,7 @@
     return [self.player duration];
 }
 
-- (BOOL)isNowPlayingItem:(BMDataModel*)item inList:(int)listID
+- (BOOL)isNowPlayingItem:(BMListDataModel*)item inList:(int)listID
 {
     return self.nowPlayingListID == listID && [self.nowPlayingItem isEqual:item];
 }
@@ -246,19 +233,23 @@
 
 - (void)handlerPlayState:(PlayState)ps
 {
+    if (ps == _playState)
+        return;
     _playState = ps;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(audioPlayerPlayStateChanged:)]) {
             [self.delegate audioPlayerPlayStateChanged:self];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:kCNotificationPlayStateChanged object:self userInfo:nil];
     });
-
+    
     if (ps == PlayStateStopped)
     {
         [self stop];
-
+        
+        //        s_b_has_exchange_url = false;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([self.delegate respondsToSelector:@selector(audioPlayerPlayItemFinished:)]) {
                 [self.delegate audioPlayerPlayItemFinished:self];
@@ -281,7 +272,7 @@
 {
     if (player != self.player)
         return;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(audioPlayerScheduleChanged:)]) {
             [self.delegate audioPlayerScheduleChanged:self];
@@ -299,7 +290,7 @@
 {
     if (player != self.player)
         return;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(audioPlayerBufferProgressChanged:)]) {
             [self.delegate audioPlayerBufferProgressChanged:self];
@@ -318,7 +309,7 @@
 {
     if (player != self.player)
         return;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
     });
 }
@@ -326,7 +317,7 @@
 - (void)handleAudioSessionInterruption:(UInt32)interruptionState
 {
     if (/*[self.player isKindOfClass:[KuwoMusicPlayer class]]
-        &&*/ [self.player respondsToSelector:@selector(handleAudioSessionInterruption:)])
+         &&*/ [self.player respondsToSelector:@selector(handleAudioSessionInterruption:)])
     {
         [self.player handleAudioSessionInterruption:interruptionState];
     }

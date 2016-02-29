@@ -336,7 +336,14 @@ static int imageviewAngle = 0;
         }
         case E_MODE_SINGLE:
         {
-            [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+            [[AudioPlayerAdapter sharedPlayerAdapter] stop];
+            
+            double delayInSeconds = 0.5;
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [[AudioPlayerAdapter sharedPlayerAdapter] playRingtoneItem:[BSPlayList sharedInstance].currentItem inList:[BSPlayList sharedInstance].listID delegate:nil];
+            });
+            
             break;
         }
         case E_MODE_RING:
