@@ -13,6 +13,7 @@
 #import "BSPlayList.h"
 #import "Notification.h"
 #import "AppDelegate.h"
+#import "BMDataBaseManager.h"
 
 @interface AudioPlayerAdapter () <PlayerEventHandlerDelegate>
 {
@@ -145,6 +146,10 @@
 - (void)play
 {
     //    [self releasePlayer];
+    self.player.mediaItemInfo = (BMListDataModel*)self.nowPlayingItem;
+    BMListDataModel* cur_video = (BMListDataModel*)self.nowPlayingItem;
+    cur_video.LastListeningTime = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970]];
+    [[BMDataBaseManager sharedInstance] listenMusicList:cur_video];
     
     [self newPlayer];
     
