@@ -249,7 +249,7 @@
                     [_playBtn setImage:[UIImage imageNamed:@"btn-stop"] forState:UIControlStateNormal];
                     [_playBtn setImage:[UIImage imageNamed:@"btn-stop-down"] forState:UIControlStateHighlighted];
                 }else if(PlayStatePaused == [AudioPlayerAdapter sharedPlayerAdapter].playState){
-                    [[AudioPlayerAdapter sharedPlayerAdapter] resume];
+                    [[AudioPlayerAdapter sharedPlayerAdapter] play];
                     [_playBtn setImage:[UIImage imageNamed:@"btn-play"] forState:UIControlStateNormal];
                     [_playBtn setImage:[UIImage imageNamed:@"btn-play-down"] forState:UIControlStateHighlighted];
                 }else {
